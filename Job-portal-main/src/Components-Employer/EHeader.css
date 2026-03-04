@@ -1,0 +1,62 @@
+
+.dashhead{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+ 
+.jobportal{
+    font-weight: bold;
+    font-size: 22px;
+    color: rgb(103, 134, 248);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: #007bff; 
+    letter-spacing: -0.5px;
+    cursor: pointer;
+}
+
+
+.search {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #757575; 
+    border-radius: 8px; 
+    padding: 6px 15px;
+    width: 45%; 
+}
+
+.searchicon {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+}
+
+.input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    color: #666;
+    background: white;
+}
+
+.input::placeholder {
+    color: #999;
+}
+
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+

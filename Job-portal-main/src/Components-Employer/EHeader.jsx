@@ -1,23 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './EHeader.css'
 import search from '../assets/icon_search.png'
 import chat from '../assets/header_message.png'
 import bell from '../assets/header_bell.png'
-import profile from '../assets/header_profile.png'
 import { Link, useLocation } from 'react-router-dom'
 import { ENotification } from './ENotification' 
+import { useJobs } from '../JobContext' // Context import pannu machi
 
 export const EHeader = () => {
-    const [showNotification, setShowNotification] = useState(false);
+    // Local state-ah remove pannitu context use pannu
+    const { showNotification, setShowNotification } = useJobs();
     const location = useLocation(); 
-
-    const notificationsData = [
-        { id: 1, text: "Recruiter viewed your profile", time: "Today, 10:45 am", isRead: false },
-        { id: 2, text: "You have an interview invitation", time: "Yesterday, 4:20 pm", isRead: false }
-    ];
 
     const toggleNotification = (e) => {
         e.preventDefault();
+        e.stopPropagation(); // Indha click mela pogama thadukum
         setShowNotification(!showNotification);
     };
 
@@ -52,20 +49,9 @@ export const EHeader = () => {
                         />
                     </Link>
                     
-                    {/* ENotification pass pannumbodhu safety array kuduthuruken */}
-                    {showNotification && (
-                        <ENotification 
-                            notificationsData={notificationsData || []} 
-                            showNotification={showNotification} 
-                            setShowNotification={setShowNotification} 
-                        />
-                    )}
+                    {/* ENotification kulla ippo context moolama data pogum, props thevai illa */}
+                    {showNotification && <ENotification />}
                 </div>
-
-                {/* Profile Icon */}
-                {/* <Link to="">
-                    <img className='jheader-icons' src={profile} width={40} alt='Profile' />
-                </Link> */}
             </div>
         </header>
     )

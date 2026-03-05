@@ -209,6 +209,7 @@ export const JobProvider = ({ children }) => {
         setEmployerNotifications(prev => [newNotif, ...prev]);
     };
 
+
     const addNotification = (text) => {
         const newNotif = {
             id: Date.now(),
@@ -224,15 +225,25 @@ export const JobProvider = ({ children }) => {
     };
 
     const postJob = (newJobData) => {
-        const newJob = {
-            ...newJobData,
-            id: jobs.length > 0 ? Math.max(...jobs.map(j => j.id)) + 1 : 1,
-            postedDate: getFormattedDate(),
-        };
-        setJobs((prev) => [newJob, ...prev]);
-        alert(`Job "${newJob.title}" posted successfully!`);
+    const newJob = {
+        ...newJobData,
+        id: jobs.length + 1,
+        postedDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
     };
 
+    // 1. Add job to list
+    setJobs(prev => [newJob, ...prev]);
+
+    // 2. Add notification to Employer's list
+    const newNotif = {
+        id: Date.now(),
+        text: `Successfully posted: ${newJob.title} at ${newJob.location}`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isRead: false
+    };
+    
+    setEmployerNotifications(prev => [newNotif, ...prev]);
+};
     const editJob = (jobId, updatedData) => {
         setJobs((prev) =>
             prev.map((job) => (job.id === jobId ? { ...job, ...updatedData } : job))

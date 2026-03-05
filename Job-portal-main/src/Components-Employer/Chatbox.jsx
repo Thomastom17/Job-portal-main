@@ -66,7 +66,7 @@ export const Chatbox = () => {
                 <div key={m.id} className="web-msg-row">
                   <div className={`web-bubble ${m.sender === 'friend' ? 'web-me' : 'web-friend'}`}>
                     {m.text}
-                    <div className="msg-time">{m.time}</div>
+                    {/* <div className="msg-time">{m.time}</div> */}
                   </div>
                 </div>
               ))}

@@ -1,40 +1,23 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
 import { JobList } from './JobList';
 
 const JobContext = createContext();
 
 export const JobProvider = ({ children }) => {
-    // Total JobList
+    // 1. Core States
     const [jobs, setJobs] = useState(JobList);
-
-    // States to Toggle online status in chats
     const [onlineStatus, setOnlineStatus] = useState("yes");
-
-    // Jobs to show when Applied
     const [appliedJobs, setAppliedJobs] = useState([]);
-
-    // Jobs to show when Saved
     const [savedJobs, setSavedJobs] = useState([]);
-
-    // Using Id to Toggle Menu in Notification Window
     const [activeMenuId, setActiveMenuId] = useState(null);
+    const [isChatEnded, setIsChatEnded] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
 
-    // Chats/messages between Employer and Jobseeker 1:1;
+    // 2. Chat & User Data
     const [chats, setChats] = useState([
-        {
-            id: 1,
-            name: "Employer",
-            role: "employer",
-            messages: []
-        },
-        {
-            id: 2,
-            name: "jobseeker",
-            role: "jobseeker",
-            messages: []
-        }
+        { id: 1, name: "Employer", role: "employer", messages: [] },
+        { id: 2, name: "jobseeker", role: "jobseeker", messages: [] }
     ]);
-
     const [Alluser, setAlluser] = useState([
         {
             id: "1",
@@ -185,7 +168,7 @@ export const JobProvider = ({ children }) => {
         preferences: [{ currentCTC: '', expectedCTC: '', jobType: 'Select', role: '', ready: '', relocate: '' }]
     });
 
-    // Notification States
+    // 3. Notification Logic
     const [notificationsData, setNotificationsData] = useState([{
         id: Date.now(),
         text: "Welcome to Job Portal",
@@ -193,12 +176,33 @@ export const JobProvider = ({ children }) => {
         isRead: false,
     }]);
 
-    const [showNotification, setShowNotification] = useState(false);
-
-    // Employer Specific Notifications
     const [employerNotifications, setEmployerNotifications] = useState([]);
+    
+    // ✅ Track panna Ref (Duplicates thavirkka)
+    const notifiedIds = useRef(new Set());
 
-    // Logic to add a notification for Employer
+    // --- 🕵️‍♂️ GLOBAL MESSAGE WATCHER (Main Fix) ---
+    useEffect(() => {
+        const employerChat = chats.find(c => c.role === "employer");
+        const messages = employerChat?.messages || [];
+        const jobseekerName = chats.find(c => c.role === "jobseeker")?.name || "Jobseeker";
+
+        messages.forEach((msg) => {
+            // Check if sender is Jobseeker and not notified yet
+            if (msg.sender !== "friend" && !notifiedIds.current.has(msg.id)) {
+                const newNotif = {
+                    id: msg.id,
+                    text: `New message from ${jobseekerName}: ${msg.text}`,
+                    time: msg.time,
+                    isRead: false
+                };
+
+                setEmployerNotifications(prev => [newNotif, ...prev]);
+                notifiedIds.current.add(msg.id);
+            }
+        });
+    }, [chats]);
+
     const addEmployerNotification = (text) => {
         const newNotif = {
             id: Date.now(),
@@ -208,7 +212,6 @@ export const JobProvider = ({ children }) => {
         };
         setEmployerNotifications(prev => [newNotif, ...prev]);
     };
-
 
     const addNotification = (text) => {
         const newNotif = {
@@ -220,40 +223,19 @@ export const JobProvider = ({ children }) => {
         setNotificationsData(prev => [newNotif, ...prev]);
     };
 
-    const getFormattedDate = () => {
-        return new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-    };
+    // 4. Helper Functions
+    const getFormattedDate = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
     const postJob = (newJobData) => {
-    const newJob = {
-        ...newJobData,
-        id: jobs.length + 1,
-        postedDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+        const newJob = { ...newJobData, id: jobs.length + 1, postedDate: getFormattedDate() };
+        setJobs(prev => [newJob, ...prev]);
+        addEmployerNotification(`Successfully posted: ${newJob.title} at ${newJob.location}`);
     };
 
-    // 1. Add job to list
-    setJobs(prev => [newJob, ...prev]);
-
-    // 2. Add notification to Employer's list
-    const newNotif = {
-        id: Date.now(),
-        text: `Successfully posted: ${newJob.title} at ${newJob.location}`,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        isRead: false
-    };
-    
-    setEmployerNotifications(prev => [newNotif, ...prev]);
-};
     const editJob = (jobId, updatedData) => {
-        setJobs((prev) =>
-            prev.map((job) => (job.id === jobId ? { ...job, ...updatedData } : job))
-        );
-        setSavedJobs((prev) =>
-            prev.map((job) => (job.id === jobId ? { ...job, ...updatedData } : job))
-        );
+        setJobs(prev => prev.map(job => (job.id === jobId ? { ...job, ...updatedData } : job)));
+        setSavedJobs(prev => prev.map(job => (job.id === jobId ? { ...job, ...updatedData } : job)));
     };
-
-    const [isChatEnded, setIsChatEnded] = useState(false);
 
     const isJobSaved = (jobId) => savedJobs.some((j) => j.id === jobId);
 
@@ -263,40 +245,32 @@ export const JobProvider = ({ children }) => {
             appliedDate: `Applied on ${getFormattedDate()}`,
             status: { text: 'Hiring in Progress', type: 'progress' },
             applicationStatus: [
-                { label: 'Application Submitted', sub: "Your profile, resume, and cover letter have successfully entered the company's database, and an acknowledgment has been sent.", status: 'completed' },
-                { label: 'Resume Screening', sub: "Your resume is currently being reviewed...", status: 'pending' },
-                { label: 'Recruiter Review', sub: "A hiring manager manually reviews your specific experience...", status: 'pending' },
-                { label: 'Shortlisted', sub: "You have passed the initial review stages...", status: 'pending' },
-                { label: 'Interview Called', sub: "The hiring team has officially reached out...", status: 'pending' },
+                { label: 'Application Submitted', sub: "Acknowledgment sent.", status: 'completed' },
+                { label: 'Resume Screening', sub: "Review in progress...", status: 'pending' },
+                { label: 'Interview Called', sub: "Waiting for response...", status: 'pending' },
             ]
         };
-        setAppliedJobs((prev) => [...prev, newAppliedJob]);
-        setJobs((prev) => prev.filter((j) => j.id !== originalJob.id));
-        setSavedJobs((prev) => prev.filter((j) => j.id !== originalJob.id));
-        alert(`Successfully applied to ${originalJob.title} at ${originalJob.company}!`);
+        setAppliedJobs(prev => [...prev, newAppliedJob]);
+        setJobs(prev => prev.filter(j => j.id !== originalJob.id));
+        setSavedJobs(prev => prev.filter(j => j.id !== originalJob.id));
+        alert(`Successfully applied to ${originalJob.title}!`);
     };
 
     const toggleSaveJob = (originalJob) => {
         if (isJobSaved(originalJob.id)) {
-            setSavedJobs((prev) => prev.filter((j) => j.id !== originalJob.id));
+            setSavedJobs(prev => prev.filter(j => j.id !== originalJob.id));
         } else {
-            const newSavedJob = {
-                ...originalJob,
-                savedDate: `Saved on ${getFormattedDate()}`
-            };
-            setSavedJobs((prev) => [...prev, newSavedJob]);
+            setSavedJobs(prev => [...prev, { ...originalJob, savedDate: `Saved on ${getFormattedDate()}` }]);
         }
     };
-    const addJob = (newJob) => {
-        setJobs((prevJobs) => [...prevJobs, newJob]);
-    };
+
+    const addJob = (newJob) => setJobs(prev => [...prev, newJob]);
 
     const deleteJob = (jobId) => {
-        setJobs((prev) => prev.filter((j) => j.id !== jobId));
-        setSavedJobs((prev) => prev.filter((j) => j.id !== jobId));
+        setJobs(prev => prev.filter(j => j.id !== jobId));
+        setSavedJobs(prev => prev.filter(j => j.id !== jobId));
         addNotification("Job posting has been successfully deleted.");
     };
-
 
     return (
         <JobContext.Provider value={{

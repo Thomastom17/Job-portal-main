@@ -5,19 +5,11 @@ import bell_dot from '../assets/header_bell_dot.png';
 import { useJobs } from "../JobContext";
 
 export const ENotification = () => {
-    const { 
-        employerNotifications, 
-        setEmployerNotifications, 
-        activeMenuId, 
-        setActiveMenuId, 
-        showNotification, 
-        setShowNotification 
-    } = useJobs();
+    const { employerNotifications, setEmployerNotifications, activeMenuId, setActiveMenuId, showNotification, setShowNotification } = useJobs();
     
     const containerRef = useRef(null);
     const newNotificationsCount = employerNotifications?.filter(n => !n.isRead).length || 0;
 
-    // Actions (Mark as Read, Unread, Delete, Clear All) - Keep your existing functions here
     const handleMarkAsRead = (id) => {
         setEmployerNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
         setActiveMenuId(null);
@@ -29,7 +21,7 @@ export const ENotification = () => {
     };
     
     const handleBoxClick = (e) => {
-    e.stopPropagation(); // Box kulla click panna close aagadhu
+    e.stopPropagation(); 
    };
 
     const handleDelete = (id) => {
@@ -47,12 +39,11 @@ export const ENotification = () => {
         setActiveMenuId(activeMenuId === id ? null : id);
     };
 
-    // --- CLOSE ON OUTSIDE CLICK FIX ---
     useEffect(() => {
         const handleClickOutside = (event) => {
-            // Check if the click is outside the notification box
+        
             if (containerRef.current && !containerRef.current.contains(event.target)) {
-                // Bell icon-a click pannumpodhu close aagama iruka idhu help pannum
+                
                 setShowNotification(false);
                 setActiveMenuId(null);
             }
@@ -64,7 +55,6 @@ export const ENotification = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [showNotification, setShowNotification, setActiveMenuId]);
 
-    // Return logic changed: CSS toggle is better than returning null
     return (
         <div 
             ref={containerRef} 

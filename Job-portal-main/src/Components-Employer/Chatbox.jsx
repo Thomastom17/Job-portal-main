@@ -46,11 +46,10 @@ export const Chatbox = () => {
       <div className="messages-container">
         <div className="EChat-Mainsec">
           <div className="E-chat-name">
-            <div className="web-sidebar">
               <div className="sidebar-item active">
                 <strong>{jobseekerChat?.name || "Jobseeker"}</strong>
               </div>
-            </div>
+            
           </div>
 
           <div className="web-main-chat">

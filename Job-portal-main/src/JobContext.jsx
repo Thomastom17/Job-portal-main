@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext, useEffect, useRef } from 'r
 import { JobList } from './JobList';
 
 const JobContext = createContext();
-
 export const JobProvider = ({ children }) => {
     // 1. Core States
     const [jobs, setJobs] = useState(JobList);
@@ -15,9 +14,10 @@ export const JobProvider = ({ children }) => {
 
     // 2. Chat & User Data
     const [chats, setChats] = useState([
-        { id: 1, name: "Employer", role: "employer", messages: [] },
-        { id: 2, name: "jobseeker", role: "jobseeker", messages: [] }
+        { id: 1, name: "Employer", role: "employer", messages: [], unreadCount: 0 },
+        { id: 2, name: "jobseeker", role: "jobseeker", messages: [], unreadCount: 0 }
     ]);
+
     const [Alluser, setAlluser] = useState([
         {
             id: "1",
@@ -168,37 +168,54 @@ export const JobProvider = ({ children }) => {
         preferences: [{ currentCTC: '', expectedCTC: '', jobType: 'Select', role: '', ready: '', relocate: '' }]
     });
 
-    // 3. Notification Logic
     const [notificationsData, setNotificationsData] = useState([{
-        id: Date.now(),
+        id: "initial",
         text: "Welcome to Job Portal",
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isRead: false,
     }]);
 
-    const [employerNotifications, setEmployerNotifications] = useState([]);
+    const [employerNotifications, setEmployerNotifications] = useState([{
+        id: "emp_initial",
+        text: "Welcome Employer! Start posting jobs to find the best candidates.",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isRead: false,
+    }]);
     
-    // ✅ Track panna Ref (Duplicates thavirkka)
-    const notifiedIds = useRef(new Set());
+    const employerNotifiedIds = useRef(new Set());
+    const jobseekerNotifiedIds = useRef(new Set());
 
-    // --- 🕵️‍♂️ GLOBAL MESSAGE WATCHER (Main Fix) ---
     useEffect(() => {
-        const employerChat = chats.find(c => c.role === "employer");
+        const currentChats = [...chats];
+        const employerChat = currentChats.find(c => c.role === "employer");
+        const jobseekerChat = currentChats.find(c => c.role === "jobseeker");
+
         const messages = employerChat?.messages || [];
-        const jobseekerName = chats.find(c => c.role === "jobseeker")?.name || "Jobseeker";
 
         messages.forEach((msg) => {
-            // Check if sender is Jobseeker and not notified yet
-            if (msg.sender !== "friend" && !notifiedIds.current.has(msg.id)) {
+            
+            if (msg.sender !== "friend" && !employerNotifiedIds.current.has(msg.id)) {
                 const newNotif = {
                     id: msg.id,
-                    text: `New message from ${jobseekerName}: ${msg.text}`,
+                    text: `New message from ${jobseekerChat?.name || "Jobseeker"}: ${msg.text}`,
                     time: msg.time,
                     isRead: false
                 };
-
                 setEmployerNotifications(prev => [newNotif, ...prev]);
-                notifiedIds.current.add(msg.id);
+                employerNotifiedIds.current.add(msg.id);
+            }
+
+            if (msg.sender === "employer" || msg.sender === "friend") {
+                if (!jobseekerNotifiedIds.current.has(msg.id)) {
+                    const newNotif = {
+                        id: msg.id,
+                        text: `New message from Employer: ${msg.text}`,
+                        time: msg.time,
+                        isRead: false
+                    };
+                    setNotificationsData(prev => [newNotif, ...prev]);
+                    jobseekerNotifiedIds.current.add(msg.id);
+                }
             }
         });
     }, [chats]);
@@ -223,7 +240,6 @@ export const JobProvider = ({ children }) => {
         setNotificationsData(prev => [newNotif, ...prev]);
     };
 
-    // 4. Helper Functions
     const getFormattedDate = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
     const postJob = (newJobData) => {
@@ -247,6 +263,7 @@ export const JobProvider = ({ children }) => {
             applicationStatus: [
                 { label: 'Application Submitted', sub: "Acknowledgment sent.", status: 'completed' },
                 { label: 'Resume Screening', sub: "Review in progress...", status: 'pending' },
+                { label: 'Interview Called', sub: "Waiting for response...", status: 'pending' },
                 { label: 'Interview Called', sub: "Waiting for response...", status: 'pending' },
             ]
         };

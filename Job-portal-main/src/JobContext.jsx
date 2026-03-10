@@ -1,22 +1,25 @@
-import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { JobList } from './JobList';
 
 const JobContext = createContext();
-export const JobProvider = ({ children }) => {
-    // 1. Core States
-    const [jobs, setJobs] = useState(JobList);
-    const [onlineStatus, setOnlineStatus] = useState("yes");
-    const [appliedJobs, setAppliedJobs] = useState([]);
-    const [savedJobs, setSavedJobs] = useState([]);
-    const [activeMenuId, setActiveMenuId] = useState(null);
-    const [isChatEnded, setIsChatEnded] = useState(false);
-    const [showNotification, setShowNotification] = useState(false);
 
-    // 2. Chat & User Data
-    const [chats, setChats] = useState([
-        { id: 1, name: "Employer", role: "employer", messages: [], unreadCount: 0 },
-        { id: 2, name: "jobseeker", role: "jobseeker", messages: [], unreadCount: 0 }
-    ]);
+export const JobProvider = ({ children }) => {
+    // Total JobList
+    const [jobs, setJobs] = useState(JobList);
+
+    // States to Toggle online status in chats
+    const [onlineStatus, setOnlineStatus] = useState("yes");
+
+    // Jobs to show when Applied
+    const [appliedJobs, setAppliedJobs] = useState([]);
+
+    // Jobs to show when Saved
+    const [savedJobs, setSavedJobs] = useState([]);
+
+    // Using Id to Toggle Menu in Notification Window
+    const [activeMenuId, setActiveMenuId] = useState(null);
+    
+    const [employeractiveMenuId, setEmployerActiveMenuId] = useState(null);
 
     const [Alluser, setAlluser] = useState([
         {
@@ -151,8 +154,28 @@ export const JobProvider = ({ children }) => {
             preferences: [{ "currentCTC": "6 LPA", "expectedCTC": "9 LPA", "jobType": "Full-Time", "role": "HR Manager", "ready": "Yes", "relocate": "No" }]
         }
     ]
-
     )
+
+    const [currentUser, setCurrentUser] = useState(
+
+        Alluser.find(user => user.id === "2") || Alluser[5]
+
+    );
+
+
+    // Chats/messages between Employer and Jobseeker 1:1;
+    const [chats, setChats] = useState([
+        // Employer
+        { id: 0, name: "Sudhakar", role: "employer", messages: [] },
+
+        ...Alluser.map(user => ({
+            id: parseInt(user.id),
+            name: user.profile.fullName,
+            role: "jobseeker",
+            messages: [],
+            isChatEnded: false
+        }))
+    ]);
 
     // Profile List from my profile
     const [allData, setAllData] = useState({
@@ -168,8 +191,83 @@ export const JobProvider = ({ children }) => {
         preferences: [{ currentCTC: '', expectedCTC: '', jobType: 'Select', role: '', ready: '', relocate: '' }]
     });
 
+    const postJob = (newJobData) => {
+        const newId = jobs.length > 0 ? Math.max(...jobs.map(j => Number(j.id))) + 1 : 1;
+        const postingSource = "Company Jobs";
+
+        const stringId = String(newId);
+        // const postingSource = userType === "employer" ? "Company Jobs" : "Consultant Jobs";
+        const cleanIndustry = newJobData.category;
+        const cleanDept = newJobData.department;
+        const cleanEdu = newJobData.education;
+        const cleanSkills = newJobData.skills;
+        const cleanHighlights = newJobData.jobHighlights;
+        const cleanRes = newJobData.responsibilities;
+        const cleanOpenings = parseInt(newJobData.openings);
+        const cleanTags = [newJobData.jobCategory];
+        const JOB_STATUS = {
+            hiring: { text: 'Hiring in Progress', type: 'progress' },
+            reviewing: { text: 'Reviewing Application', type: 'reviewing' },
+            done: { text: 'Hiring Done', type: 'done' }
+        };
+
+
+        const newJob = {
+            id: stringId,
+            title: newJobData.jobTitle,
+            company: "Infotech",
+            companyId: "INF008",
+            logo: "",
+            posted: new Date().toISOString(),
+            PostedBy: postingSource,
+            IndustryType: cleanIndustry,
+            Department: cleanDept,
+            EducationRequired: cleanEdu,
+            KeySkills: cleanSkills,
+            JobHighlights: cleanHighlights,
+            Responsibilities: cleanRes,
+            WorkType: newJobData.workType,
+            Shift: newJobData.shift,
+            duration: newJobData.workDuration,
+            salary: newJobData.salary,
+            experience: newJobData.experience,
+            location: newJobData.location,
+            openings: cleanOpenings,
+            applicants: newJobData.app,
+            ratings: 4.2,
+            reviewNo: 100,
+            tags: cleanTags,
+            companyOverview: "Infotech Overview",
+            jobDescription: newJobData.jobDescription,
+            status: JOB_STATUS.hiring
+            // status: { text: 'Hiring in Progress', type: 'progress' }
+        };
+        setJobs((prev) => [newJob, ...prev]);
+        alert(`Job "${newJob.title}" posted successfully!`);
+    };
+
+    // 2. Edit status for an Existing Job 
+    const editJob = (jobId, status) => {
+        setJobs((prev) =>
+            prev.map((job) => (job.id === jobId ? { ...job, ...status } : job))
+        );
+
+        // Also update saved jobs if the edited job was saved
+        setSavedJobs((prev) =>
+            prev.map((job) => (job.id === jobId ? { ...job, ...status } : job))
+        );
+
+        setAppliedJobs((prev) =>
+            prev.map((job) => (job.id === jobId ? { ...job, ...status } : job))
+        );
+    };
+
+    // Toggle End Conversation Logic In Employer Chat Window
+    const [isChatEnded, setIsChatEnded] = useState(false);
+
+    // NotificationData previously passed from AfterLoginLanding page
     const [notificationsData, setNotificationsData] = useState([{
-        id: "initial",
+        id: Date.now(),
         text: "Welcome to Job Portal",
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isRead: false,
@@ -181,55 +279,13 @@ export const JobProvider = ({ children }) => {
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isRead: false,
     }]);
-    
-    const employerNotifiedIds = useRef(new Set());
-    const jobseekerNotifiedIds = useRef(new Set());
 
-    useEffect(() => {
-        const currentChats = [...chats];
-        const employerChat = currentChats.find(c => c.role === "employer");
-        const jobseekerChat = currentChats.find(c => c.role === "jobseeker");
+    // New Messages Notification Logic
+    const [showNotification, setShowNotification] = useState(false);
 
-        const messages = employerChat?.messages || [];
+    const [employershowNotification, setEmployerShowNotification] = useState(false);
 
-        messages.forEach((msg) => {
-            
-            if (msg.sender !== "friend" && !employerNotifiedIds.current.has(msg.id)) {
-                const newNotif = {
-                    id: msg.id,
-                    text: `New message from ${jobseekerChat?.name || "Jobseeker"}: ${msg.text}`,
-                    time: msg.time,
-                    isRead: false
-                };
-                setEmployerNotifications(prev => [newNotif, ...prev]);
-                employerNotifiedIds.current.add(msg.id);
-            }
-
-            if (msg.sender === "employer" || msg.sender === "friend") {
-                if (!jobseekerNotifiedIds.current.has(msg.id)) {
-                    const newNotif = {
-                        id: msg.id,
-                        text: `New message from Employer: ${msg.text}`,
-                        time: msg.time,
-                        isRead: false
-                    };
-                    setNotificationsData(prev => [newNotif, ...prev]);
-                    jobseekerNotifiedIds.current.add(msg.id);
-                }
-            }
-        });
-    }, [chats]);
-
-    const addEmployerNotification = (text) => {
-        const newNotif = {
-            id: Date.now(),
-            text: text,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isRead: false
-        };
-        setEmployerNotifications(prev => [newNotif, ...prev]);
-    };
-
+    // to add NewNotification in NotificationData 
     const addNotification = (text) => {
         const newNotif = {
             id: Date.now(),
@@ -240,63 +296,145 @@ export const JobProvider = ({ children }) => {
         setNotificationsData(prev => [newNotif, ...prev]);
     };
 
-    const getFormattedDate = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-
-    const postJob = (newJobData) => {
-        const newJob = { ...newJobData, id: jobs.length + 1, postedDate: getFormattedDate() };
-        setJobs(prev => [newJob, ...prev]);
-        addEmployerNotification(`Successfully posted: ${newJob.title} at ${newJob.location}`);
+    const addEmployerNotification = (text) => {
+        const newNotif = {
+            id: msg.id,
+            text: text,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isRead: false
+        };
+        setEmployerNotifications(prev => [newNotif, ...prev]);
     };
 
-    const editJob = (jobId, updatedData) => {
-        setJobs(prev => prev.map(job => (job.id === jobId ? { ...job, ...updatedData } : job)));
-        setSavedJobs(prev => prev.map(job => (job.id === jobId ? { ...job, ...updatedData } : job)));
+
+    const getFormattedDate = () => {
+        return new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     };
 
     const isJobSaved = (jobId) => savedJobs.some((j) => j.id === jobId);
+    const isJobApplied = (jobId) => appliedJobs.some((j) => j.id === jobId);
 
     const applyForJob = (originalJob) => {
+        setAlluser((prevUsers) =>
+            prevUsers.map((user) => {
+                // "2" is Ajeeth's ID
+                if (user.id === "2") {
+                    const isAlreadyApplied = user.appliedJobs?.some(aj => aj.id === originalJob.id);
+
+                    if (!isAlreadyApplied) {
+                        return {
+                            ...user,
+                            appliedJobs: [
+                                ...(user.appliedJobs || []),
+                                {
+                                    id: originalJob.id,
+                                    status: "Application Submitted",
+                                    appliedDate: getFormattedDate()
+                                }
+                            ]
+                        };
+                    }
+                }
+                return user;
+            })
+        );
+
+        setJobs((prevJobs) =>
+            prevJobs.map((job) =>
+                job.id === originalJob.id
+                    ? { ...job, applicants: (job.applicants || 0) + 1 }
+                    : job
+            )
+        );
+
+        // 3. User side tracking
         const newAppliedJob = {
             ...originalJob,
             appliedDate: `Applied on ${getFormattedDate()}`,
             status: { text: 'Hiring in Progress', type: 'progress' },
             applicationStatus: [
-                { label: 'Application Submitted', sub: "Acknowledgment sent.", status: 'completed' },
-                { label: 'Resume Screening', sub: "Review in progress...", status: 'pending' },
-                { label: 'Interview Called', sub: "Waiting for response...", status: 'pending' },
-                { label: 'Interview Called', sub: "Waiting for response...", status: 'pending' },
+                { label: 'Application Submitted', sub: "Your profile, resume, and cover letter have successfully entered the company's database, and an acknowledgment has been sent.", status: 'completed' },
+                { label: 'Resume Screening', sub: "Your resume is currently being reviewed (either by an automated system or a screener) to ensure your skills and qualifications match the core job requirements.", status: 'pending' },
+                { label: 'Recruiter Review', sub: "A hiring manager manually reviews your specific experience, portfolio, and background to determine potential fit for the role.", status: 'pending' },
+                { label: 'Shortlisted', sub: "You have passed the initial review stages and have been flagged as a top contender among the applicant pool.", status: 'pending' },
+                { label: 'Interview Called', sub: "The hiring team has officially reached out to schedule a meeting, moving your status from 'Review' to active 'Engagement.", status: 'pending' },
             ]
         };
-        setAppliedJobs(prev => [...prev, newAppliedJob]);
-        setJobs(prev => prev.filter(j => j.id !== originalJob.id));
-        setSavedJobs(prev => prev.filter(j => j.id !== originalJob.id));
-        alert(`Successfully applied to ${originalJob.title}!`);
+
+        setAppliedJobs((prev) => {
+            const alreadyInList = prev.some(aj => aj.id === originalJob.id);
+            return alreadyInList ? prev : [...prev, newAppliedJob];
+        });
+
+        alert(`Successfully applied to ${originalJob.jobTitle} at ${originalJob.company}!`);
     };
 
     const toggleSaveJob = (originalJob) => {
         if (isJobSaved(originalJob.id)) {
-            setSavedJobs(prev => prev.filter(j => j.id !== originalJob.id));
+            setSavedJobs((prev) => prev.filter((j) => j.id !== originalJob.id));
         } else {
-            setSavedJobs(prev => [...prev, { ...originalJob, savedDate: `Saved on ${getFormattedDate()}` }]);
+            const newSavedJob = {
+                ...originalJob,
+                savedDate: `Saved on ${getFormattedDate()}`
+            };
+            setSavedJobs((prev) => [...prev, newSavedJob]);
+        }
+    };
+    const addJob = (newJob) => {
+        setJobs((prevJobs) => [...prevJobs, newJob]);
+    };
+
+    const deleteJob = (jobId) => {
+        setJobs((prev) => prev.filter((j) => j.id !== jobId));
+        setSavedJobs((prev) => prev.filter((j) => j.id !== jobId));
+        addNotification("Job posting has been successfully deleted.");
+    };
+
+    const [activeSidebarUsers, setActiveSidebarUsers] = useState([]);
+
+    const addChatToSidebar = (userId) => {
+        if (!activeSidebarUsers.includes(parseInt(userId))) {
+            setActiveSidebarUsers(prev => [...prev, parseInt(userId)]);
         }
     };
 
-    const addJob = (newJob) => setJobs(prev => [...prev, newJob]);
-
-    const deleteJob = (jobId) => {
-        setJobs(prev => prev.filter(j => j.id !== jobId));
-        setSavedJobs(prev => prev.filter(j => j.id !== jobId));
-        addNotification("Job posting has been successfully deleted.");
+    const updateApplicantStatus = (userId, jobId, newStatus) => {
+        setAlluser(prev => prev.map(user => {
+            if (user.id === userId) {
+                const updatedAppliedJobs = user.appliedJobs?.map(job =>
+                    job.id === jobId ? { ...job, status: newStatus } : job
+                );
+                return { ...user, appliedJobs: updatedAppliedJobs };
+            }
+            return user;
+        }));
     };
+
+
+
+    const withdrawJobFromUser = (userId, jobId) => {
+        setAlluser(prevUsers =>
+            prevUsers.map(user => {
+                if (user.id === userId) {
+                    return {
+                        ...user,
+                        appliedJobs: user.appliedJobs.filter(aj => aj.id !== jobId)
+                    };
+                }
+                return user;
+            })
+        );
+    };
+
 
     return (
         <JobContext.Provider value={{
             jobs, appliedJobs, setAppliedJobs, savedJobs, chats, setChats, setJobs,
             onlineStatus, setOnlineStatus, isJobSaved, isChatEnded, setIsChatEnded,
-            setNotificationsData, addNotification, toggleSaveJob, applyForJob, notificationsData, 
-            showNotification, setShowNotification, activeMenuId, setActiveMenuId, addJob, 
-            deleteJob, allData, setAllData, postJob, editJob, Alluser,
-            employerNotifications, setEmployerNotifications, addEmployerNotification 
+            setNotificationsData, addNotification, toggleSaveJob, applyForJob, notificationsData, showNotification, setShowNotification,
+            activeMenuId, setActiveMenuId, addJob, deleteJob, allData, setAllData, postJob, editJob, Alluser, setAlluser, activeSidebarUsers,
+            addChatToSidebar, currentUser, setCurrentUser, withdrawJobFromUser, updateApplicantStatus, isJobApplied, addEmployerNotification, 
+            employerNotifications, employershowNotification, setEmployerShowNotification, employeractiveMenuId, setEmployerActiveMenuId
         }}>
             {children}
         </JobContext.Provider>

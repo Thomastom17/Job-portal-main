@@ -5,7 +5,7 @@ import { useJobs } from "../JobContext";
 
 
 export const EMessenger = () => {
-  const { chats, setChats,isChatEnded, setIsChatEnded,addNotification } = useJobs();
+  const { chats, setChats,isChatEnded, setIsChatEnded,addNotification, } = useJobs();
   const [input, setInput] = useState("");
   
    
@@ -20,7 +20,7 @@ export const EMessenger = () => {
 
   const handleSend = (e) => {
     e.preventDefault();
-    if (!input.trim() || isChatEnded) return; 
+    if (!input.trim()) return; 
 
     const employerReply = {
       id: Date.now(),

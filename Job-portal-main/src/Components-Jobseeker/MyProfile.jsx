@@ -6,6 +6,8 @@ import uploadIcon from '../assets/UploadIcon.png'
 import deleteIcon from '../assets/DeleteIcon.png'
 import resumeIcon from '../assets/resume_icon.png'
 import { Header } from '../Components-LandingPage/Header'
+import { useJobs } from '../JobContext'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 // --- REUSABLE COMPONENTS ---
 
@@ -445,7 +447,7 @@ const EducationDetails = ({ data, onUpdateSSLC, onUpdateHSC, onUpdateGrad, onAdd
     const toggleSection = (id) => setOpenSection(openSection === id ? null : id);
     const today = new Date().toISOString().split('T')[0];
     const percentageReg = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)%?$/
-
+    const AlphaOnlyreg = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
 
     const [errors, setErrors] = useState({});
 
@@ -993,8 +995,10 @@ const Certifications = ({ certs, onAdd, onUpdate, onDelete, onReset, onNext }) =
 
 // --- FINAL SUBMIT BUTTON SECTION ---
 const Preferences = ({ data, onChange, onReset, onSubmitFinal }) => {
+    const {Alluser,setAlluser,allData}=useJobs()
     const NumRegix = /[^0-9]/;
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
     const handleSubmit = (e) => {
 
         const newErrors = {};
@@ -1009,10 +1013,30 @@ const Preferences = ({ data, onChange, onReset, onSubmitFinal }) => {
 
 
         setErrors(newErrors);
-        if (Object.keys(newErrors).length === 0) {
-            onSubmitFinal()
+       if (Object.keys(newErrors).length === 0) {
+    onSubmitFinal();
+
+    setAlluser((prevUsers) => {
+        const nextId = (prevUsers.length + 1).toString();
+
+        const newUser = {
+            id: nextId,
+            ...allData,
+            appliedJobs: allData.appliedJobs || [], 
+            savedJobs: allData.savedJobs || []
+        };
+        console.log(newUser)
+
+        console.log("New User Created with appliedJobs key:", newUser);
+        return [...prevUsers, newUser];
+    });
+        console.log(newUser)
         }
-    };
+        alert("Profile Created and Added to User List!");
+        navigate ('/Job-portal/jobseeker')
+    }
+
+
 
     return (
         <form className="content-card" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
@@ -1067,7 +1091,7 @@ const Preferences = ({ data, onChange, onReset, onSubmitFinal }) => {
 export const MyProfile = () => {
     const [openDropdown, setOpenDropdown] = useState('Basic Details');
     const [activeItem, setActiveItem] = useState('Profile');
-
+    const {allData,setAllData,Alluser,setAlluser} = useJobs();
     // ORDER of Steps for Navigation
     const steps = [
         'Profile',
@@ -1082,20 +1106,21 @@ export const MyProfile = () => {
         'Preferences / Career Details'
     ];
 
-    const [allData, setAllData] = useState({
-        profile: { fullName: '', gender: 'Select', dob: '', maritalStatus: 'Select', nationality: '' },
-        currentDetails: { jobTitle: '', company: '', experience: '', currentLocation: '', prefLocation: '' },
-        contact: { mobile: '', altMobile: '', email: '', altEmail: '', address: '', street: '', city: '', state: '', pincode: '', country: '' },
-        resume: { size: '', portfolio: '' },
-        education: { highestQual: 'Select', sslc: { institution: '', percentage: '', location: '', year: '' }, hsc: { stream: 'Select', institution: '', location: '', year: '', percentage: '' }, graduations: [{ id: 1, degree: '', status: 'Select', dept: '', percentage: '', startYear: '', endYear: '', college: '', city: '', state: '', country: '' }] },
-        experience: { status: 'Fresher', hasExperience: 'No', entries: [{ id: 1, title: '', company: '', startDate: '', endDate: '', industry: 'Select', jobType: 'Select', location: '', responsibilities: '' }] },
-        skills: ["User Research", "Problem solving", "Figma"],
-        languages: [{ name: "English", proficiency: "Fluent" }, { name: "Tamil", proficiency: "Native" }],
-        certs: [{ name: "Full-Stack Development", file: "cert1.pdf" }, { name: "UI/UX Design", file: "cert2.pdf" }],
-        preferences: [{ currentCTC: '', expectedCTC: '', jobType: 'Select', role: '', ready: '', relocate: '' }]
-    });
+    // const [allData, setAllData] = useState({
+    //     profile: { fullName: '', gender: 'Select', dob: '', maritalStatus: 'Select', nationality: '' },
+    //     currentDetails: { jobTitle: '', company: '', experience: '', currentLocation: '', prefLocation: '' },
+    //     contact: { mobile: '', altMobile: '', email: '', altEmail: '', address: '', street: '', city: '', state: '', pincode: '', country: '' },
+    //     resume: { size: '', portfolio: '' },
+    //     education: { highestQual: 'Select', sslc: { institution: '', percentage: '', location: '', year: '' }, hsc: { stream: 'Select', institution: '', location: '', year: '', percentage: '' }, graduations: [{ id: 1, degree: '', status: 'Select', dept: '', percentage: '', startYear: '', endYear: '', college: '', city: '', state: '', country: '' }] },
+    //     experience: { status: 'Fresher', hasExperience: 'No', entries: [{ id: 1, title: '', company: '', startDate: '', endDate: '', industry: 'Select', jobType: 'Select', location: '', responsibilities: '' }] },
+    //     skills: ["User Research", "Problem solving", "Figma"],
+    //     languages: [{ name: "English", proficiency: "Fluent" }, { name: "Tamil", proficiency: "Native" }],
+    //     certs: [{ name: "Full-Stack Development", file: "cert1.pdf" }, { name: "UI/UX Design", file: "cert2.pdf" }],
+    //     preferences: [{ currentCTC: '', expectedCTC: '', jobType: 'Select', role: '', ready: '', relocate: '' }]
+    // });
 
     // --- NAVIGATION LOGIC ---
+    
     const handleNextStep = () => {
         const currentIndex = steps.indexOf(activeItem);
         if (currentIndex < steps.length - 1) {
@@ -1270,6 +1295,7 @@ export const MyProfile = () => {
         setAllData(prev => ({ ...prev, [section]: defaults[section] }));
 
     };
+    console.log(allData)
 
     const handleDropdownClick = (title) => setOpenDropdown(openDropdown === title ? null : title);
     const handleItemClick = (title, parent = null) => { setActiveItem(title); if (parent) setOpenDropdown(parent); };

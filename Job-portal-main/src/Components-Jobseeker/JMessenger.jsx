@@ -4,12 +4,10 @@ import { useJobs } from '../JobContext';
 
 
 export const JMessenger = () => {
-    const { chats, setChats, isChatEnded} = useJobs();
+    const { chats, setChats, isChatEnded, addEmployerNotification, currentUser} = useJobs();
     const [input, setInput] = useState("");
     const scrollRef = useRef(null);
-    
-
-    
+     
     const employerChat = chats.find(c => c.role === "employer");
 
     useEffect(() => {
@@ -30,6 +28,8 @@ export const JMessenger = () => {
         setChats(prev => prev.map(chat => 
             chat.id === employerChat.id ? { ...chat, messages: [...chat.messages, newMsg] } : chat
         ));
+
+        addEmployerNotification(`New message from ${currentUser.profile["fullName"]}: ${input}`);
         setInput("");
     };
 

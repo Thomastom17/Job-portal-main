@@ -4,8 +4,10 @@ import './Esignup.css'
 import workTime from '../assets/WorkTime.png'
 import eye from '../assets/show_password.png'
 import eyeHide from '../assets/eye-hide.png'
+import { useNavigate } from "react-router-dom";
 
 export const Esignup = () => {
+  const navigate = useNavigate();
   const [passwordShow, setPasswordShow] = useState(true)
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(true)
 
@@ -90,7 +92,7 @@ export const Esignup = () => {
     if (!validateForm()) {
       return false // stops form submit if errors
     }
-    console.log("Signed up successfully") // This Code is removed after backend integration
+    navigate('/Job-portal/Employer/about-your-company')
   }
 
   return (

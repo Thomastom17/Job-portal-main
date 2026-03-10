@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { EHeader } from "./EHeader";
 import { Footer } from "../Components-LandingPage/Footer";
 import "./AboutYourCompany.css";
 import fileIcon from "../assets/Employer/fileIcon.png"
 import { useNavigate } from "react-router-dom";
 import { useJobs } from "../JobContext";
+
+
 
 export const AboutYourCompany = () => {
 
@@ -73,7 +76,7 @@ export const AboutYourCompany = () => {
 
     return (
         <div>
-            <JHeader />
+            <EHeader />
 
             <div className="aboutcompany-container">
                 <h2 className="aboutcompany-title">About Your Company</h2>

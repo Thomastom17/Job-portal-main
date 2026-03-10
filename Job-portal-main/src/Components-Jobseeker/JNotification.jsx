@@ -2,28 +2,25 @@ import React, { useState, useEffect, useRef } from "react";
 import './JNotification.css'
 import bell from '../assets/header_bell.png'
 import bell_dot from '../assets/header_bell_dot.png'
-import { useJobs } from "../JobContext";
 import { useNavigate } from "react-router-dom";
+import { useJobs } from "../JobContext";
 
 
-
-export const JNotification = ({  }) => {
-    
-    
-    const {notificationsData,setNotificationsData,showNotification, setShowNotification,activeMenuId,setActiveMenuId}   = useJobs()
-
+export const JNotification = () => {
+  const { notificationsData, setNotificationsData, activeMenuId, setActiveMenuId, showNotification, setShowNotification } = useJobs();
+ 
     // const [notifications, setNotifications] = useState(notificationsData);
     const navigate = useNavigate();
     const containerRef = useRef(null);
-
+ 
     const newNotificationsCount = notificationsData.filter(n => !n.isRead).length;
-
+ 
     // Toggle 3-dot menu
     const toggleMenu = (id, event) => {
         event.stopPropagation();
         setActiveMenuId(activeMenuId === id ? null : id);
     };
-
+ 
     // MARK AS READ
     const handleMarkAsRead = (id) => {
         setNotificationsData(prev =>
@@ -33,7 +30,7 @@ export const JNotification = ({  }) => {
         );
         setActiveMenuId(null);
     };
-
+ 
     // MARK AS UNREAD
     const handleMarkAsUnread = (id) => {
         setNotificationsData(prev =>
@@ -43,19 +40,19 @@ export const JNotification = ({  }) => {
         );
         setActiveMenuId(null);
     };
-
+ 
     // DELETE ONE
     const handleDelete = (id) => {
         setNotificationsData(prev => prev.filter(n => n.id !== id));
         setActiveMenuId(null);
     };
-
+ 
     // CLEAR ALL
     const handleClearAll = () => {
         setNotificationsData([]);
         setActiveMenuId(null);
     };
-
+ 
     // CLOSE ON OUTSIDE CLICK
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -66,17 +63,17 @@ export const JNotification = ({  }) => {
                 setShowNotification(false);
             }
         };
-
+ 
         if (showNotification) {
             document.addEventListener("mousedown", handleClickOutside);
         }
-
+ 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [showNotification, setShowNotification]);
-
-
+ 
+ 
     return (
         <div
             ref={containerRef}
@@ -96,7 +93,7 @@ export const JNotification = ({  }) => {
                     &times;
                 </button>
             </div>
-
+ 
             {/* SUBHEADER */}
             <div className="notifications-subheader">
                 <div>
@@ -107,17 +104,17 @@ export const JNotification = ({  }) => {
                         </span>
                     )}
                 </div>
-
+ 
                 <button className="clear-all-btn" onClick={handleClearAll}>
                     Clear all
                 </button>
             </div>
-
+ 
             {/* NOTIFICATION LIST */}
             <div className="notifications-list">
                 {notificationsData.map((notification) => (
                     <div
-                        
+                       
                         key={notification.id}
                         className={notification.isRead ? "notification-old-item" : "notification-new-item"}
                     >
@@ -125,7 +122,7 @@ export const JNotification = ({  }) => {
                             <p className="notification-text">{notification.text}</p>
                             <p className="notification-time">{notification.time}</p>
                         </div>
-
+ 
                         <div className="more-options-wrapper">
                             <button
                                 className="more-options-btn"
@@ -133,7 +130,7 @@ export const JNotification = ({  }) => {
                             >
                                 ⋮
                             </button>
-
+ 
                             {activeMenuId === notification.id && (
                                 <div className="overflow-menu">
                                     {notification.isRead ? (
@@ -151,7 +148,7 @@ export const JNotification = ({  }) => {
                                             Mark as read
                                         </button>
                                     )}
-
+ 
                                     <button
                                         onClick={() => handleDelete(notification.id)}
                                         className="menu-item delete-item"
@@ -163,7 +160,7 @@ export const JNotification = ({  }) => {
                         </div>
                     </div>
                 ))}
-
+ 
                 {notificationsData.length === 0 && (
                     <p style={{ padding: "20px", textAlign: "center", color: "#777" }}>
                         No notifications for you

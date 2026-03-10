@@ -22,7 +22,7 @@ export const OpportunityOverview = () => {
   const { jobs, appliedJobs, toggleSaveJob, isJobSaved } = useJobs();
 
   const job = jobs.find(singleJob => singleJob.id === id) || appliedJobs.find(singleJob => singleJob.id === id);
-
+  console.log(job)
   const isSaved = job ? isJobSaved(job.id) : false;
   const isApplied = appliedJobs.some(j => j.id === id);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import  React from 'react';
 import './Blogpage.css';
 import { useNavigate } from 'react-router-dom';
 import { Footer } from '../Components-LandingPage/Footer';

@@ -158,7 +158,7 @@ export const JobProvider = ({ children }) => {
 
     const [currentUser, setCurrentUser] = useState(
 
-        Alluser.find(user => user.id === "2") || Alluser[5]
+        Alluser.find(user => user.id === "2") || Alluser[0]
 
     );
 

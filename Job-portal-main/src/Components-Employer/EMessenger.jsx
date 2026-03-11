@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./EMessenger.css";
-import { EHeader } from "./EHeader";
 import { useJobs } from "../JobContext";
 
 

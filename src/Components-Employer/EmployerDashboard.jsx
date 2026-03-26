@@ -1,0 +1,334 @@
+import React, { useState, useEffect, useMemo } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import './EmployerDashboard.css'
+import DashboardIC from '../assets/Employer/DashboardIC.png'
+import PostJobs from '../assets/Employer/PostJob.png'
+import Mypost from '../assets/Employer/JOBPOST.png'
+import Analytics from '../assets/Employer/AnalyticsInA.png'
+import Billing from '../assets/Employer/Billing.png'
+import Logout from '../assets/Employer/Elogout.png'
+import Profile from '../assets/Employer/Esettings.png'
+import { EHeader } from './EHeader'
+import { Footer } from '../Components-LandingPage/Footer'
+import Shortlist from '../assets/Employer/EShortlist.png'
+import InterviewS from '../assets/Employer/EInterviewS.png'
+import ActiveJobs from '../assets/Employer/EActiveJobs.png'
+import TotalAPP from '../assets/Employer/ETotalAPP.png'
+import Close from '../assets/Employer/close.png'
+import ClockImage from '../assets/Employer/ClockImage.gif'
+import jobpost from '../assets/Employer/JOBPOST.png'
+import { PostedJobs } from './PostedJobs'
+import { ViewApplicants } from './ViewApplicants'
+import { useJobs } from '../JobContext'
+import { FindTalent } from './FindTalent'
+import { PostJobForm } from './PostJobForm'
+import Dashboard from '../assets/Employer/Dashboard_Inactive.png'
+import PostJobsAct from '../assets/Employer/JonPost_Active.png'
+import MypostAct from '../assets/Employer/MyJobPost_Active.png'
+import LogoutAct from '../assets/Employer/LogOut.png'
+import BillingAct from '../assets/Employer/Billing_Alt.png'
+import AnalyticsAct from '../assets/Employer/Analytics_Active.png'
+import ProfileAct from '../assets/Employer/Eprofile.png'
+import Findtalent from '../assets/Employer/FindTalent.png'
+import FindTalentAct from '../assets/Employer/FindTalent_Active.png'
+import { AboutYourCompany } from './AboutYourCompany'
+import place from '../assets/opportunity_location.png'
+import { LogoutModal } from '../Components-Jobseeker/LogoutModal'
+import { AnalyticsPage } from './AnalyticsPage'
+
+export const EmployerDashboard = () => {
+    const { currentEmployer, getJobStats } = useJobs();
+
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+    const PostedJob = currentEmployer.jobPosted;
+
+    const jobStats = useMemo(() => {
+        return currentEmployer?.jobPosted?.reduce((acc, job) => {
+            const stats = getJobStats(job.id)
+            acc.totalApps += (stats.total || 0);
+            acc.totalShortlisted += (stats.screening || 0);
+            acc.totalInterview += (stats.interview || 0);
+            return acc;
+        }, { totalApps: 0, totalShortlisted: 0, totalInterview: 0 });
+    }, [currentEmployer?.jobPosted, getJobStats]);
+
+
+    const activeJobsCount = currentEmployer.jobPosted.length;
+
+    const navigate = useNavigate();
+
+    const [activeMenu, setActiveMenu] = useState(null);
+    const initialLetter = currentEmployer?.hrName.charAt(0).toUpperCase();
+
+    const handleLogoutConfirm = () => {
+        setShowLogoutModal(false);
+        navigate('/Job-portal');
+    };
+
+    const [activetab, setActiveTab] = useState('Dashboard');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [selectedJob, setSelectedJob] = useState(null);
+
+    const toggleMenu = (id) => {
+        setActiveMenu(activeMenu === id ? null : id);
+    };
+
+    const location = useLocation();
+    const fromVerify = location.state?.fromVerify || false;
+    const [isVerifying, setIsVerifying] = useState(fromVerify);
+
+    useEffect(() => {
+        if (fromVerify) {
+            const timer = setTimeout(() => {
+                setIsVerifying(false);
+            }, 2500);
+            return () => clearTimeout(timer);
+        }
+    }, [fromVerify]);
+
+    const ToggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    }
+
+    const handleViewApplicants = (job) => {
+        setSelectedJob(job);
+        setActiveTab('ViewApplicants');
+    };
+    return (
+        <>
+            <EHeader />
+            <div className='container1'>
+                {isSidebarOpen ? (
+                    <div className='EAside'>
+                        <div>
+                            <div style={{ display: "flex", justifyContent: "space-between", textAlign: "center", alignItems: "center", marginTop: "35px", marginBottom: "35px" }}>
+                                <h3 style={{ color: "snow", margin: "25px", fontWeight: "900" }}>{currentEmployer.hrName}</h3>
+                                <img src={Close} width={10} style={{ backgroundColor: "white", padding: '5px', margin: "25px", borderRadius: "30px" }} onClick={() => ToggleSidebar()} />
+                            </div>
+                            <h3 className='Aside-Title'>Overview</h3>
+                            <div className='ENavbar'>
+                                <div onClick={() => !isVerifying && setActiveTab('Dashboard')} className={activetab === 'Dashboard' ? "Active" : 'Navbox'} >
+                                    {activetab === 'Dashboard' ? <img src={DashboardIC} height={15} width={15} alt="Dashboard" /> : <img src={Dashboard} height={20} width={20} alt="Dashboard" />}
+
+
+                                    <div className='Enav-item'>Dashboard</div>
+                                </div>
+                                <div
+                                    onClick={() => !isVerifying && (
+                                        setActiveTab('Post a Job')
+                                    )}
+                                    className={activetab === 'Post a Job' ? "Active" : 'Navbox'}
+                                >
+                                    {activetab === 'Post a Job' ? <img src={PostJobsAct} height={25} width={25} alt="Post a Job" /> : <img src={PostJobs} height={20} width={20} alt="Post a Job" />}
+                                    <div className='Enav-item'>Post a Job</div>
+                                </div>
+
+                                <div onClick={() => !isVerifying && setActiveTab('My job post')} className={activetab === 'My job post' ? "Active" : 'Navbox'} >
+                                    {activetab === 'My job post' ? <img src={MypostAct} height={35} width={20} alt="My Job Post" /> : <img src={Mypost} height={15} width={20} alt="My Job Post" />}
+                                    <div className='Enav-item'>My Job Post</div>
+                                </div>
+                                <div onClick={() => !isVerifying && setActiveTab('Find a Talent')} className={activetab === 'Find a Talent' ? "Active" : 'Navbox'} >
+                                    {activetab === 'Find a Talent' ? <img src={FindTalentAct} height={20} width={20} alt="My Job Post" /> : <img src={Findtalent} height={20} width={20} alt="My Job Post" />}
+                                    <div className='Enav-item'>Find a Talent</div>
+                                </div>
+                                <div onClick={() => !isVerifying && setActiveTab('Analytics')} className={activetab === 'Analytics' ? "Active" : 'Navbox'} >
+                                    {activetab === 'Analytics' ? <img src={AnalyticsAct} height={20} width={20} alt="Analytics" /> : <img src={Analytics} height={20} width={20} alt="Analytics" />}
+                                    <div className='Enav-item'>Analytics</div>
+                                </div>
+                                <div onClick={() => !isVerifying && setActiveTab('Billing')} className={activetab === 'Billing' ? "Active" : 'Navbox'} >
+                                    {activetab === 'Billing' ? <img src={BillingAct} height={15} width={15} alt="Billing" /> : <img src={Billing} height={18} width={20} alt="Billing" />}
+                                    <div className='Enav-item'>Billing</div>
+                                </div>
+                            </div>
+                            <h3 className='Aside-Title'>Settings</h3>
+                            <div className='ENavbar'>
+                                <div onClick={() => !isVerifying && setActiveTab('My Profile')} className={activetab === 'My Profile' ? "Active" : 'Navbox'} >
+                                    {activetab === 'My Profile' ? <img src={ProfileAct} height={15} width={15} alt="My Profile" /> : <img src={Profile} height={15} width={15} alt="My Profile" />}
+                                    <div className='Enav-item'>My Profile</div>
+                                </div>
+                                <div onClick={() => !isVerifying && setShowLogoutModal(true)} className={activetab === 'Logout' ? "Active" : 'Navbox'}>
+                                    {activetab === 'Logout' ? <img src={LogoutAct} height={15} width={15} alt="Logout" /> : <img src={Logout} height={15} width={15} alt="Logout" />}
+                                    <div className='Enav-item'>Logout</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>)
+                    : (
+                        <div className='EAside2'>
+                            <div>
+                                <div style={{ display: "flex", flexDirection: "column-reverse", justifyContent: "space-between", alignItems: "center", textAlign: "center", marginTop: "15px", padding: "5px" }}>
+                                    <div className='EE-Name'><h3 style={{ margin: "15px", fontSize: "22px" }}>{initialLetter}</h3></div>
+                                    <img src={jobpost} width={30} style={{ padding: '5px' }} onClick={() => ToggleSidebar()} />
+                                </div>
+
+                                <div className='ENavbar1' style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                    <div onClick={() => !isVerifying && setActiveTab('Dashboard')} className={activetab === 'Dashboard' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'Dashboard' ? <img src={DashboardIC} height={20} width={20} alt="Dashboard" /> : <img src={Dashboard} height={18} width={18} alt="Dashboard" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && (
+                                        setActiveTab('Post a Job')
+                                    )} className={activetab === 'Post a Job' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'Post a Job' ? <img src={PostJobsAct} height={20} width={20} alt="Post a Job" /> : <img src={PostJobs} height={15} width={15} alt="Post a Job" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setActiveTab('My job post')} className={activetab === 'My job post' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'My job post' ? <img src={MypostAct} height={20} width={20} alt="My Job Post" /> : <img src={Mypost} height={15} width={15} alt="My Job Post" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setActiveTab('Find a Talent')} className={activetab === 'Find a Talent' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'Find a Talent' ? <img src={FindTalentAct} height={15} width={15} alt="My Job Post" /> : <img src={Findtalent} height={15} width={15} alt="My Job Post" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setActiveTab('Analytics')} className={activetab === 'Analytics' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'Analytics' ? <img src={AnalyticsAct} height={15} width={15} alt="Analytics" /> : <img src={Analytics} height={15} width={15} alt="Analytics" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setActiveTab('Billing')} className={activetab === 'Billing' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'Billing' ? <img src={BillingAct} height={15} width={15} alt="Billing" /> : <img src={Billing} height={15} width={15} alt="Billing" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setActiveTab('My Profile')} className={activetab === 'My Profile' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'My Profile' ? <img src={ProfileAct} height={15} width={15} alt="My Profile" /> : <img src={Profile} height={15} width={15} alt="My Profile" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setShowLogoutModal(true)} className={activetab === 'Logout' ? "Active1" : 'Navbox1'} style={{ cursor: 'pointer' }}>
+                                        {activetab === 'Logout' ? <img src={LogoutAct} height={15} width={15} alt="Logout" /> : <img src={Logout} height={15} width={15} alt="Logout" />}
+                                    </div>
+                                </div>
+                                <div className='ENavbar'>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                <div className={isSidebarOpen ? 'Emainsec' : 'Emainsec2'}>
+                    {activetab === 'Dashboard' && (
+                        <>
+                            {isVerifying ? (
+                                <div className="pending-main-section">
+                                    <div className='Welcome-Note'>
+                                        <div>
+                                            <h2>Hi {currentEmployer.hrName},</h2>
+                                            <p style={{ fontWeight: "600" }}>Here's, What's Going on... </p>
+                                        </div>
+                                    </div>
+                                    <div className="pending-section">
+                                        <img src={ClockImage} alt="pending" className="pending-icon" />
+                                        <h2>Pending Verification</h2>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className='Welcome-Note'>
+                                        <div>
+                                            <h2>Hi {currentEmployer?.hrName},</h2>
+                                            <p style={{ fontWeight: "600" }}>Here's, What's Going on... </p>
+                                        </div>
+                                        <button className='post-job-btn' onClick={() => { setActiveTab('Post a Job') }}>+ Post a Job</button>
+                                    </div>
+
+                                    <div className='E-DashB-Over-View'>
+                                        <h2 style={{ marginLeft: "40px" }}>Overview</h2>
+                                        <div className='EDashB-Application-Counts'>
+                                            <div className='E-DashB-No-Counts'>
+                                                <div><img src={ActiveJobs} width={40} alt="" /></div>
+                                                <div><p>{activeJobsCount}</p><p className='E-job-status'>Active Jobs</p></div>
+                                            </div>
+                                            <div className='E-DashB-No-Counts'>
+                                                <div><img src={TotalAPP} width={40} alt="" /></div>
+                                                <div><p>{jobStats?.totalApps}</p><p className='E-job-status'>Total Applicants</p></div>
+                                            </div>
+                                            <div className='E-DashB-No-Counts'>
+                                                <div><img src={Shortlist} width={40} alt="" /></div>
+                                                <div><p>{jobStats?.totalShortlisted}</p><p className='E-job-status'>ShortListed</p></div>
+                                            </div>
+                                            <div className='E-DashB-No-Counts'>
+                                                <div><img src={InterviewS} width={40} alt="" /></div>
+                                                <div><p>{jobStats?.totalInterview}</p><p className='E-job-status'>Interview Schedules</p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Recently posted jobs */}
+                                    <div>
+                                        <div className='ERecent-Post-Cont'>
+                                            <h3 style={{ marginleft: "40px" }}>Recently Posted Jobs</h3>
+                                            <div className='ERecent-Post-Table-Container'>
+                                                {PostedJob.length > 0 ? <>
+                                                    <div className="postedjobs-grid-layout postedjobs-table-header">
+                                                        <div />
+                                                        <span className="postedjobs-label">Applicants</span>
+                                                        <span className="postedjobs-label">New</span>
+                                                        <span className="postedjobs-label">Shortlisted</span>
+                                                        <span className="postedjobs-label">Interview</span>
+                                                        <span className="postedjobs-label">Rejected</span>
+                                                        <div />
+                                                    </div>
+
+                                                    <div className="postedjobs-list">
+                                                        {PostedJob.slice(0, 5).map((job) => {
+                                                            const stats = getJobStats(job.id)
+
+                                                            return (
+                                                                <div key={job.id} className="postedjobs-grid-layout postedjobs-card">
+                                                                    <div className="postedjobs-info">
+                                                                        <h3>{job.jobTitle || job.title}</h3>
+                                                                        <p className="postedjobs-loc flex items-center gap-2">
+                                                                            <img src={place} alt="location" className="post-job-locationicon" />
+                                                                            {Array.isArray(job.location)
+                                                                                ? job.location.join(", ")
+                                                                                : job.location || "N/A"}
+                                                                        </p>
+                                                                        <small>Created on: {job.postedDate || job.posted}</small>
+                                                                    </div>
+                                                                    <span className="postedjobs-badge">{stats.total}</span>
+                                                                    <span className="postedjobs-badge">{stats.new}</span>
+                                                                    <span className="postedjobs-badge">{stats.screening}</span>
+                                                                    <span className="postedjobs-badge">{stats.interview}</span>
+                                                                    <span className="postedjobs-badge">{stats.rejected}</span>
+
+                                                                    <div className="postedjobs-actions">
+                                                                        <button className="postedjobs-view-btn" onClick={() => handleViewApplicants(job)}>
+                                                                            View applicants </button>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </>
+                                                    :
+                                                    <>
+                                                        <h2 style={{ display: "flex", justifyContent: "center", alignItems: "center", height: '50vh' }}>No Jobs posted by you</h2>
+                                                    </>
+                                                }
+                                                {currentEmployer.jobPosted.length > 0 && (
+                                                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                                                        <button className="view-more-link" onClick={() => setActiveTab('My job post')}>
+                                                            View more...</button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </>
+                    )}
+
+                    {activetab === 'Post a Job' && (<PostJobForm />)}
+
+                    {activetab === 'My job post' && (<PostedJobs onViewApplicants={(job) => { setSelectedJob(job); setActiveTab('ViewApplicants'); }} />)}
+
+                    {activetab === 'ViewApplicants' && (<ViewApplicants job={selectedJob} onBack={() => setActiveTab('My job post')} />)}
+
+                    {activetab === 'Find a Talent' && (<FindTalent />)}
+
+                    {activetab === 'Analytics' && (<AnalyticsPage />)}
+
+                    {activetab === 'Billing' && (<h1>Billing Section</h1>)}
+
+                    {activetab === 'My Profile' && (<AboutYourCompany hideNavigation={true} setActiveTab={setActiveTab} />)}
+
+                </div>
+
+            </div>
+            <LogoutModal show={showLogoutModal} onClose={() => setShowLogoutModal(false)} onConfirm={handleLogoutConfirm} />
+            <Footer />
+        </>
+    );
+};

@@ -1,4 +1,4 @@
-
+/* --- GLOBAL STYLES --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,209 +11,20 @@ body {
   color: #1e293b;
 }
 
-.dashboard-root {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* --- SIDEBAR --- */
-.sidebar-container {
-  width: 260px;
-  background: white;
-  border-right: 1px solid 260px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
-
-.sidebar-logo {
-  padding: 30px 25px;
-  color: #4A76FD;
-  font-weight: 800;
-  font-size: 1.4rem;
-  letter-spacing: -0.5px;
-}
-
-.sidebar-nav {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 0 15px;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 15px;
-  text-decoration: none;
-  color: #64748b;
-  font-weight: 500;
-  font-size: 0.95rem;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-.sidebar-link:hover {
-  background: #f1f5f9;
-  color: #1e293b;
-}
-
-.sidebar-link.active {
-  background: #f0f5ff;
-  color: #4A76FD;
-  font-weight: 600;
-}
-
-/* --- MAIN VIEWPORT --- */
-.main-viewport {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.header-navbar {
-  padding: 15px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  border-bottom: 1px solid #eef2f6;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.welcome-banner h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.welcome-banner p {
-  margin: 2px 0 0;
-  color: #64748b;
-  font-size: 0.85rem;
-}
-
-.navbar-controls {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.search-box {
-  background: #f1f5f9;
-  padding: 8px 15px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 250px;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  font-size: 0.9rem;
-}
-
-.profile-pill {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f8fafc;
-  padding: 5px 12px;
-  border-radius: 50px;
-  border: 1px solid #eef2f6;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.avatar {
-  width: 30px;
-  height: 30px;
-  background: #ffffff;
-  color: white;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 0.75rem;
-}
 
 /* --- DASHBOARD CONTENT --- */
-.dashboard-content {
+.admin-dashboard-content {
   padding: 30px 40px;
 }
 
-
-.main-stat-card {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-.main-stat-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.icon-box {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-}
-
-.bg-blue { background: #eef2ff; color: #4A76FD; }
-.bg-cyan { background: #ecfeff; color: #0891b2; }
-.bg-purple { background: #f5f3ff; color: #7c3aed; }
-
-.main-stat-value {
-  display: block;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.main-stat-label {
-  color: #64748b;
-  font-size: 0.8rem;
-  margin-top: 2px;
-}
-
-.growth-wrapper {
-  color: #10b981;
-  background: #f0fdf4;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 /* --- CONTENT GRID --- */
-.content-grid {
+.admin-content-grid {
   display: grid;
   grid-template-columns: 1fr 360px;
   gap: 25px;
 }
 
-.content-card {
+.admin-content-card {
   background: #ffffff;
   padding: 24px;
   border-radius: 16px;
@@ -222,36 +33,36 @@ body {
 }
 
 /* Experience Card */
-.experience-card h3 {
+.admin-experience-card h3 {
   font-size: 1.1rem;
   font-weight: 700;
 }
 
-.sub-text {
+.admin-sub-text {
   color: #64748b;
   font-size: 0.8rem;
   margin: 4px 0 25px;
 }
 
-.experience-list {
+.admin-experience-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.exp-item {
+.admin-exp-item {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.exp-label {
+.admin-exp-label {
   font-size: 0.85rem;
   font-weight: 600;
   color: #475569;
 }
 
-.exp-bar-bg {
+.admin-exp-bar-bg {
   width: 100%;
   height: 10px;
   background: #f1f5f9;
@@ -259,35 +70,42 @@ body {
   overflow: hidden;
 }
 
-.exp-bar-fill {
+.admin-exp-bar-fill {
   height: 100%;
   border-radius: 10px;
   transition: width 0.6s ease;
 }
 
 /* --- CALENDAR CARD --- */
-.calendar-card {
+.admin-calendar-card {
   height: fit-content;
 }
 
-.calendar-header {
+.admin-calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
 }
 
-.month-selector {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #1e293b;
+.admin-selectors {
   display: flex;
   align-items: center;
-  gap: 6px;
-  cursor: pointer;
+  gap: 10px;
 }
 
-.nav-btn {
+.admin-date-select {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+  color: #1e293b;
+}
+
+.admin-nav-btn {
   background: #f1f5f9;
   border: none;
   width: 32px;
@@ -300,25 +118,25 @@ body {
   transition: background 0.2s;
 }
 
-.nav-btn:hover {
+.admin-nav-btn:hover {
   background: #e2e8f0;
 }
 
-.calendar-grid {
+.admin-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
   text-align: center;
 }
 
-.weekday {
+.admin-weekday {
   font-size: 0.75rem;
   font-weight: 700;
   color: #64748b;
   padding-bottom: 12px;
 }
 
-.day {
+.admin-day {
   font-size: 0.85rem;
   padding: 10px 0;
   border-radius: 10px;
@@ -329,23 +147,23 @@ body {
   transition: all 0.2s;
 }
 
-.day:hover:not(.prev):not(.active) {
+.admin-day:hover:not(.admin-prev):not(.admin-active) {
   background: #f8fafc;
 }
 
-.day.prev {
+.admin-day.admin-prev {
   color: #cbd5e1;
   cursor: default;
 }
 
-.day.active {
+.admin-day.admin-active {
   background: #4A76FD;
   color: white;
   font-weight: 700;
   box-shadow: 0 4px 10px rgba(74, 118, 253, 0.3);
 }
 
-.blue-dot {
+.admin-blue-dot {
   width: 4px;
   height: 4px;
   background: #4A76FD;
@@ -356,17 +174,6 @@ body {
   transform: translateX(-50%);
 }
 
-.day.active .blue-dot {
+.admin-day.admin-active .admin-blue-dot {
   background: white;
-}
-
-/* Dropdown styling for Calendar Year/Month */
-.date-select {
-  border: none;
-  background: transparent;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  outline: none;
 }

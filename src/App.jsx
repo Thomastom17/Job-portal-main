@@ -60,6 +60,8 @@ import { OtpVerification } from './Components-JobseekerSignup/OtpVerification'
 import { AdminLogin } from './Admin/AdminLogin'
 import { AdminDashboard } from './Admin/AdminDashboard'
 import { AdminAfterLogin } from './Admin/AdminAfterlogin'
+import { AdminExperience } from './Admin/AdminExperience'
+import { AdminCalendar } from './Admin/AdminCalendar'
 
 const router = createBrowserRouter([{
   path: '/Job-portal',
@@ -305,6 +307,14 @@ const router = createBrowserRouter([{
 {
   path: 'Job-portal/admin/admindashboard',
   element: <AdminDashboard />
+}
+,{
+  path: 'Job-portal/admin/adminexperience',
+  element: <AdminExperience />
+},
+{
+  path:'Job-portal/admin/admincalendar',
+  element: <AdminCalendar />
 }
 
 ])

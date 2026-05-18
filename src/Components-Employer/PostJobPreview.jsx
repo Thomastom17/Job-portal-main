@@ -157,7 +157,7 @@ export const PostJobPreview = () => {
                   <div className="Opportunities-job-details">
                     <p className='Opportunities-detail-line'><img src={time} className='card-icons' alt="time" />{job.duration}<span className="Opportunities-divider">|</span>₹ {job.salary} Lpa</p>
                     <p className='Opportunities-detail-line'><img src={experience} className='card-icons' alt="exp" />{job.experience} years of experience</p>
-                    <p className='Opportunities-detail-line'><img src={place} className='card-icons' alt="loc" />{job.location?.join(", ")}</p>
+                    <p className='Opportunities-detail-line'><img src={place} className='card-icons' alt="loc" />{job.location}</p>
                   </div>
 
                   <div className='Opportunities-details-bottom'>
@@ -232,7 +232,7 @@ export const PostJobPreview = () => {
                   <p><strong>Department:</strong> {formatDisplay(state.department)}</p>
                   <p><strong>Job Type:</strong> {formatDisplay(job.WorkType)}</p>
                   <p><strong>Experience level:</strong> {job.experience} years</p>
-                  <p><strong>Location:</strong> {job.location?.join(", ")}</p>
+                  <p><strong>Location:</strong> {job.location}</p>
                   <p><strong>Shift:</strong> {job.shift}</p>
                 </div>
 

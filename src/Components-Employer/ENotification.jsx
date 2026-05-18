@@ -54,6 +54,14 @@ export const ENotification = ({  }) => {
         setEmployerActiveMenuId(null);
     };
 
+    const handleNotificationClick = (notification) => {
+        if (!notification.isRead) {
+            handleMarkAsRead(notification.id);
+        }
+        setEmployerShowNotification(false);
+        navigate("/Job-portal/Employer/Chat");
+    };
+
     // CLOSE ON OUTSIDE CLICK
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -117,6 +125,7 @@ export const ENotification = ({  }) => {
                     <div
                         
                         key={notification.id}
+                        onClick={() => handleNotificationClick(notification)}
                         className={notification.isRead ? "notification-old-item" : "notification-new-item"}
                     >
                         <div className="notification-content">
@@ -144,14 +153,17 @@ export const ENotification = ({  }) => {
                                     ) : (
                                         <button
                                             className="menu-item"
-                                            onClick={() => handleMarkAsRead(notification.id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleMarkAsRead(notification.id);
+                                            }}
                                         >
                                             Mark as read
                                         </button>
                                     )}
 
                                     <button
-                                        onClick={() => handleDelete(notification.id)}
+                                        onClick={() => handleDelete(notification.id)}  
                                         className="menu-item delete-item"
                                     >
                                         Delete

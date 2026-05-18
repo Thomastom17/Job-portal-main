@@ -27,7 +27,7 @@ export const PostJobForm = () => {
     workDuration: '',
     salary: '',
     experience: '',
-    location: [''],
+    location: '',
     openings: Number(''),
     jobCategory: [],
     keySkills: [''],
@@ -39,7 +39,6 @@ export const PostJobForm = () => {
   console.log(formData)
 
   const [skillsList, setSkillsList] = useState([]);
-  const [locationList, setLocationList] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -58,7 +57,7 @@ export const PostJobForm = () => {
     if (!formData.workDuration.trim()) newErrors.workDuration = "Work duration is required";
     if (!formData.salary.trim()) newErrors.salary = "Salary is required";
     if (!formData.experience.trim()) newErrors.experience = "Experience is required";
-    if (locationList.length === 0) newErrors.location = "At least one Location is required";
+    if (!formData.location.trim()) newErrors.location = "Location is required";
     if (!formData.openings.trim()) newErrors.openings = "Openings are required";
     if (!formData.jobCategory) newErrors.jobCategory = "Job category is required";
     if (formData.education.length === 0) newErrors.education = "Education is required";
@@ -109,7 +108,7 @@ export const PostJobForm = () => {
       const newSkill = formData.keySkills.trim();
       if (newSkill && !skillsList.includes(newSkill)) {
         setSkillsList([...skillsList, newSkill]);
-        setFormData({ ...formData, keySkills: '' });
+         setFormData({ ...formData, keySkills: '' });
         setErrors({ ...errors, keySkills: "" });
       }
       
@@ -119,24 +118,6 @@ export const PostJobForm = () => {
   const removeSkill = (skillToRemove) => {
     setSkillsList(skillsList.filter(skill => skill !== skillToRemove));
   };
-
-  /////
-  const handleLocationKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const newLocation = formData.location.trim();
-      if (newLocation && !locationList.includes(newLocation)) {
-        setLocationList([...locationList, newLocation]);
-        setFormData({ ...formData, location: '' });
-        setErrors({ ...errors, location: "" });
-      }
-    }
-  };
-
-  const removeLocation = (locationToRemove) => {
-    setLocationList(locationList.filter(location => location !== locationToRemove));
-  };
-  ////
 
   const handleHighlightChange = (index, value) => {
     const newHighlights = [...formData.jobHighlights];
@@ -173,8 +154,7 @@ export const PostJobForm = () => {
     }
     const submissionData = {
       ...formData,
-      skills: skillsList,
-      location: locationList
+      skills: skillsList
     };
     navigate('/Job-portal/Employer/PostJobpreview', { state: submissionData });
   };
@@ -322,33 +302,13 @@ export const PostJobForm = () => {
               </div>
             </div>
 
-   {/* //////////////// */}
             <div className="jobpost-form-row">
               <label className="jobpost-label">Location</label>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div className={`jobpost-skills-titile ${errors.location ? "input-error" : ""}`}>
-                  <input
-                    className="jobpost-input skills-input"
-                    style={errors.location ? { borderColor: '#d93025' } : {}}
-                    type="text"
-                    name="location"
-                    placeholder="City name (e.g., Bengaluru)"
-                    value={formData.location}
-                    onChange={handleChange}
-                    onKeyDown={handleLocationKeyDown}
-                  />
-                  <div className="jobpost-tags-area" style={errors.keySkills ? { borderColor: '#d93025' } : {}}>
-                    {locationList.map((location, index) => (
-                      <span key={index} className="jobpost-tag">
-                        {location} <button type="button" onClick={() => removeLocation(location)}>×</button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <input className={`jobpost-input ${errors.location ? "input-error" : ""}`} type="text" name="location" placeholder="City name (e.g., Bengaluru)" value={formData.location} onChange={handleChange} />
                 {errors.location && <span className="error-msg">{errors.location}</span>}
               </div>
             </div>
-  {/* //////////////// */}
 
             <div className="jobpost-form-row">
               <label className="jobpost-label">Openings</label>

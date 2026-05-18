@@ -31,7 +31,8 @@ export const Joblist = [
     openings: 8,
     applicants: 65,
     tags: ["Full-time"],
-
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["B.Tech/B.E.", "M.Tech", "MCA", "MS/M.Sc (Science)", "Any Graduate"],
     KeySkills: ["Python", "Go", "SQL", "Microservices", "AWS", "Distributed Systems"],
@@ -1968,6 +1969,8 @@ export const Joblist = [
     openings: 1,
     applicants: 40,
     tags: ["Full-Time"],
+    isHighlighted:true,
+    highlightOn: "10 may 2026",
 
     EducationRequired: ["Medical-MS/MD", "MS/M.Sc (Science)", "B.Sc", "Other Post Graduate", "Any Postgraduate"],
     KeySkills: ["SQL", "SAS/R", "Healthcare Data (EHR/Claims)", "Statistical Modeling", "Data Governance", "Domain Knowledge"],
@@ -2193,6 +2196,8 @@ export const Joblist = [
     openings: 1,
     applicants: 30,
     tags: ["Full-Time"],
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["MBA/PGDM", "Any Graduate", "Diploma", "B.Com", "B.B.A/ B.M.S"],
     KeySkills: ["Event Management", "Lead Generation", "Sales Alignment", "Partnership Marketing", "Budget Tracking", "Regional Strategy"],
@@ -2283,6 +2288,8 @@ export const Joblist = [
     openings: 3,
     applicants: 78,
     tags: ["Full-Time"],
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["B.Tech/B.E.", "MCA", "BCA", "Any Graduate", "M.Tech"],
     KeySkills: ["React.js", "TypeScript", "JavaScript (ES6+)", "State Management (Redux/Zustand)", "HTML/CSS/SASS", "Web Performance", "Testing"],
@@ -2373,6 +2380,8 @@ export const Joblist = [
     openings: 2,
     applicants: 55,
     tags: ["Internship"],
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["B.Tech/B.E.", "MCA", "BCA", "M.Tech", "Any Graduate"],
     KeySkills: ["Swift", "iOS SDK", "SwiftUI/UIKit", "Combine/RxSwift", "Unit Testing", "APIs/Networking", "Clean Architecture"],
@@ -2418,6 +2427,8 @@ export const Joblist = [
     openings: 4,
     applicants: 60,
     tags: ["Internship"],
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["B.Tech/B.E.", "M.Tech", "MCA", "B.Sc", "Any Graduate"],
     KeySkills: ["AWS/GCP/Azure", "Kubernetes", "Terraform/Ansible", "CI/CD (Jenkins/GitLab)", "Prometheus/Grafana", "Linux", "Networking"],
@@ -2454,6 +2465,8 @@ export const Joblist = [
     WorkType: "Hybrid",
     Shift: "General",
     duration: "Permanent",
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     ratings: 3.75,
     reviewNo: 698,
@@ -2598,6 +2611,8 @@ export const Joblist = [
     openings: 2,
     applicants: 55,
     tags: ["Full-Time"],
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["B.Des", "B.Tech/B.E.", "BCA", "Any Graduate", "Diploma"],
     KeySkills: ["Interaction Design", "Mobile UX (iOS/Android)", "Prototyping (Principle/Figma)", "User Flows", "Wireframing", "Animation/Motion"],
@@ -2643,6 +2658,8 @@ export const Joblist = [
     openings: 3,
     applicants: 120,
     tags: ["Internship"],
+    isHighlighted:true,
+    highlightOn: "14 may 2026",
 
     EducationRequired: ["B.Des", "Diploma", "B.Tech/B.E.", "Any Graduate", "BFA"],
     KeySkills: ["Figma/Sketch", "Visual Design", "Wireframing", "Prototyping (Basic)", "eCommerce UX", "Design Principles"],
@@ -2688,6 +2705,8 @@ export const Joblist = [
     openings: 4,
     applicants: 310,
     tags: ["Full-Time"],
+    isHighlighted:true,
+    highlightOn: "14 feb 2026",
 
     EducationRequired: ["B.Tech/B.E.", "MCA", "BCA", "B.Sc", "Any Graduate"],
     KeySkills: ["React", "HTML", "CSS", "JavaScript", "UI/UX"],
@@ -2778,6 +2797,8 @@ export const Joblist = [
     openings: 5,
     applicants: 180,
     tags: ["Internship"],
+    isHighlighted:true,
+    highlightOn: "1 apr 2026",
 
     EducationRequired: ["Diploma", "B.Des", "Any Graduate", "BFA", "B.Sc"],
     KeySkills: ["Figma", "Wireframing", "Prototyping", "User Research"],
@@ -4592,4 +4613,3 @@ export const Joblist = [
     // jobStatus: { text: 'Hiring Done', type: 'done' },
   }
 ];
-

@@ -1,0 +1,503 @@
+/* ==========================================================================
+   1. Core Layout & Container Setup
+   ========================================================================== */
+.aljobpg-Full-Page-Wrapper { 
+    min-height: 100vh; 
+    padding-bottom: 80px; 
+    font-family: 'Inter', sans-serif; 
+    background-color: white;
+}
+
+.aljobpg-Main-Content,
+.aljobpg-Job-Detail-View-Layout { 
+    max-width: 1600px; 
+    margin: 110px auto 0 auto; 
+    padding: 0 10px; 
+}
+
+/* ==========================================================================
+   2. Glass Navigation Header Headers
+   ========================================================================== */
+.aljobpg-Detail-Nav-Bar,
+.aljobpg-Glass-Header {
+    background: white; 
+    padding: 25px 35px; 
+    border-radius: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); 
+    margin-bottom: 30px; 
+    border: 1px solid #f1f5f9;
+}
+
+.aljobpg-Detailed-Text_context{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Navigation Outline Buttons */
+.aljobpg-back-btn-outline {
+    background: white; 
+    border: 1.5px solid #e2e8f0; 
+    padding: 10px 20px;
+    border-radius: 12px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+
+.aljobpg-back-btn-outline:hover { 
+    background: #3a2dbb; 
+    border-color: #3a2dbb;
+    color: white;
+}
+
+/* ==========================================================================
+   3. Job Dashboard List - Cards Layout 
+   ========================================================================== */
+.aljobpg-Job-Bar-Card {
+    display: flex;
+    align-items: center; 
+    gap: 20px; 
+    padding: 16px;
+    margin-bottom: 12px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.aljobpg-Job-Bar-Card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e1;
+}
+
+/* Job Dashboard Images Wrapper */
+.aljobpg-Job-Logo-Wrapper {
+    width: 55px; 
+    height: 55px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8fafc; 
+    border: 1px solid #f1f5f9;
+    border-radius: 10px; 
+    padding: 6px; 
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.aljobpg-Job-Logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+}
+
+/* Typography elements for dashboard card item lists */
+.aljobpg-Job-Main-Info {
+    flex: 1; 
+}
+
+.aljobpg-Job-Main-Info h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.15rem;
+    color: #1e293b;
+}
+
+.aljobpg-Job-Main-Info .company-name {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #475569;
+    font-weight: 500;
+}
+
+.aljobpg-Job-Main-Info .job-location {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+/* Total Applied Counter elements row block layout */
+.aljobpg-Job-Applicants-Straight { 
+    display: flex; 
+    align-items: center;  
+    justify-content: center; 
+    gap: 8px; 
+    flex: 1; 
+}
+
+.aljobpg-app-num { 
+    font-size: 20px; 
+    font-weight: 800; 
+    color: #2d3748; 
+    line-height: 1;      
+}
+
+.aljobpg-app-text { 
+    font-size: 15px; 
+    font-weight: 500; 
+    color: #94a3b8; 
+    line-height: 1;         
+}
+
+/* List Primary interactive trigger handler buttons */
+.aljobpg-view-details-btn {
+    background: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    padding: 10px 22px;
+    border-radius: 10px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+    color: #4a5568; 
+    flex-shrink: 0;
+}
+
+.aljobpg-view-details-btn:hover { 
+    background: #4A3AFF; 
+    color: white; 
+    border-color: #4A3AFF; 
+}
+
+
+/* --- SKILLS GRID FLEXBOX WRAPPER --- */
+.aljobpg-Skills-List {
+    display: flex;
+    flex-wrap: wrap;        
+    gap: 14px 16px;         
+    margin-top: 16px;       
+    width: 100%;
+}
+
+/* --- THE NEW EXACT MATCH CHIP BOX --- */
+.aljobpg-skill-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;         
+    background-color: #ffffff;  
+    color: #1e293b;           
+    font-size: 0.95rem;
+    font-weight: 500;         
+    border-radius: 14px;       
+    border: 1px solid #cbd5e1;  
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+
+.aljobpg-skill-chip:hover {
+    border-color: #4A3AFF;    
+    color: #4A3AFF;
+    background-color: #f8fafc;
+    transform: translateY(-1px);
+}
+
+
+.aljobpg-no-skills {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* --- EDUCATION GRID FLEXBOX WRAPPER --- */
+.aljobpg-Education-List {
+    display: flex;
+    flex-wrap: wrap;        
+    gap: 14px 16px;       
+    margin-top: 16px;       
+    width: 100%;
+}
+
+.aljobpg-edu-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;        
+    background-color: #ffffff; 
+    color: #1e293b;            
+    font-size: 0.95rem;
+    font-weight: 500;          
+    border-radius: 14px;        
+    border: 1px solid #cbd5e1; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+
+.aljobpg-edu-chip:hover {
+    border-color: #4A3AFF;     
+    color: #4A3AFF;
+    background-color: #f8fafc;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   4. Job Deep Dive View Components Layout
+   ========================================================================== */
+.aljobpg-Detailed-Info-Card {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 45px;
+    border: 1px solid #edf2f7;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 32px; 
+    margin-top: 10px;
+}
+
+/* Flex layout component header bar row setup */
+.aljobpg-Detail-Header-Top {
+    display: flex;
+    align-items: center;          
+    justify-content: space-between; 
+    width: 100%;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 24px;
+}
+
+/* Content Left elements styling templates */
+.aljobpg-Detail-Text-Content {
+    /* flex: 1;  */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.aljobpg-detail-title {
+    margin: 0;
+    font-size: 2.2rem;
+    color: #0f172a;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.aljobpg-detail-company {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #475569;
+    font-weight: 500;
+}
+
+/* Content Center alignment logic wrapper template block */
+.aljobpg-Status-Center-Wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center; 
+}
+
+.aljobpg-status-pill {
+    padding: 6px 16px;
+    align-items: center;
+    background-color: #dcfce7; 
+    color: #16a34a;            
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    width: fit-content;
+}
+
+/* Content Right image box wrappers configuration specifications */
+.aljobpg-Detail-Logo-Wrapper {
+    /* flex: 1; */
+    display: flex;
+    justify-content: flex-end; 
+    flex-shrink: 0;
+}
+
+.aljobpg-Detail-Logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   5. Key performance indicators / Parameter specs grid panel
+   ========================================================================== */
+.aljobpg-Data-Metrics-Grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 16px;
+    background-color: #f8fafc;
+    padding: 25px;
+    border-radius: 12px;
+    border-top: 1px solid #f1f5f9; 
+    border-bottom: 1px solid #f1f5f9; 
+    margin: 10px 0;
+}
+
+.aljobpg-Data-Box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.aljobpg-Data-Box label {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.aljobpg-Data-Box p {
+    margin: 8px 0 0 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Functional high level value tags markup rules */
+.aljobpg-salary-highlight { 
+    color: #10b981 !important; 
+}
+
+/* ==========================================================================
+   6. Extended Rich Text Sections Config
+   ========================================================================== */
+.aljobpg-Job-Full-Description-Area {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.aljobpg-sec-title {
+    margin: 0 0 8px 0;
+    font-size: 1.15rem;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.aljobpg-Info-Section p {
+    margin: 0;
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   7. Form/Card Primary Call-To-Action Footers Control Buttons 
+   ========================================================================== */
+.aljobpg-Detail-Footer-Actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.aljobpg-primary-action-btn {
+    background: #4A3AFF; 
+    color: white; 
+    border: 1.5px solid #4A3AFF; 
+    padding: 10px 24px;
+    border-radius: 10px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+
+.aljobpg-primary-action-btn:hover { 
+    background: #3a2dbb; 
+    border-color: #3a2dbb; 
+}
+
+.aljobpg-secondary-action-btn {
+    background: #f8fafc; 
+    border: 1.5px solid #e2e8f0; 
+    padding: 10px 24px;
+    border-radius: 10px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+    color: #4a5568; 
+}
+
+.aljobpg-secondary-action-btn:hover { 
+    background: #e2e8f0; 
+    border-color: #e2e8f0; 
+    color: #1e293b;
+}
+
+.aljobpg-back-to-list-btn {
+    background: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    padding: 10px 22px;
+    border-radius: 10px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+    color: #4a5568; 
+    flex-shrink: 0;
+}
+
+.aljobpg-back-to-list-btn:hover { 
+    background: #4A3AFF; 
+    color: white; 
+    border-color: #4A3AFF; 
+}    
+
+/* ==========================================================================
+   8. Pagination Dynamic Grid Control Configurations
+   ========================================================================== */
+.aljobpg-Modern-Pagination { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 15px; 
+    margin-top: 40px; 
+}
+
+.aljobpg-p-nav-btn { 
+    padding: 8px 18px; 
+    border: 1.5px solid #4A3AFF; 
+    background: white; 
+    color: #4A3AFF; 
+    border-radius: 10px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+
+.aljobpg-p-nav-btn:hover { 
+    background: #3a2dbb; 
+    color: white; 
+    border-color: #3a2dbb; 
+}
+
+.aljobpg-p-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none; 
+}
+
+.aljobpg-Page-Numbers-Wrapper {
+    display: flex; 
+    gap: 20px;
+}
+
+.aljobpg-p-num-btn { 
+    width: 38px; 
+    height: 38px; 
+    border: 1px solid #e2e8f0; 
+    background: white; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-weight: 700; 
+    transition: 0.2s;
+}
+
+.aljobpg-p-num-btn.active { 
+    background: #4A3AFF; 
+    color: white; 
+    border-color: #4A3AFF; 
+}

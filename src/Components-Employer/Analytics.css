@@ -16,9 +16,8 @@
  
 .page-title {
   margin: 0;
-  font-size: 50px;
+  font-size: 1.8rem;
   color: #0b0b0b;
-  font-weight: 500;
 }
  
 .analytics-content {
@@ -125,5 +124,5 @@
   margin: 0;
   font-weight: 700;
   color: #1a2b4b;
-  font-size: 22px;
+  font-size: 1.1rem;
 }

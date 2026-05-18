@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Chatbox.css";
-import { useJobs } from "../JobContext";
 import home from "../assets/home_icon.png"
-import { Link } from 'react-router-dom';
+import { useJobs } from "../JobContext";
+import { Link } from "react-router-dom";
+
 
 //***EMessenger//
 
@@ -39,10 +40,10 @@ const { chats, setChats, Alluser, currentEmployer, addNotification, activeSideba
   const handleSend = (e) => {
     e.preventDefault();
     if (!input.trim() || activeChat?.isChatEnded || !selectedId) return;
-
+    const messageText = input.trim();
     const employerReply = {
       id: Date.now(),
-      text: input.trim(),
+      text: messageText,
       sender: currentEmployer.role, // "employer" - dynamic from context
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
@@ -52,8 +53,8 @@ const { chats, setChats, Alluser, currentEmployer, addNotification, activeSideba
         ? { ...chat, messages: [...chat.messages, employerReply] } 
         : chat
     ));
-
-    addNotification?.(`New message from ${currentEmployer.hrName}`, selectedId);
+    const notificationMsg = `${currentEmployer.hrName}: ${messageText}`
+    addNotification?.(`New message from ${notificationMsg}`, selectedId, `/Job-portal/jobseeker/Chat/${selectedId}`);
     setInput("");
   };
 

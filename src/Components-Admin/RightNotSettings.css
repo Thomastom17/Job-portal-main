@@ -1,0 +1,245 @@
+/* Container padding and max-width */
+.rightnot-container {
+  max-width: 600px;
+  margin: 20px auto;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  padding: 10px;
+}
+
+/* Titles and Subtitles */
+.rightnot-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  color: #111;
+}
+
+.rightnot-subtitle {
+  font-size: 14px;
+  color: #7a7a7a;
+  margin: 4px 0 16px 0;
+}
+
+/* SECTION 1: Header Div */
+.rightnot-section-header-div {
+  margin-bottom: 5px;
+}
+
+/* SECTION 2: Channels Bordered Box */
+.rightnot-channels-bordered-div {
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  padding: 10px 24px;
+  margin-bottom: 40px;
+  background-color: #fff;
+}
+
+.rightnot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+}
+
+.rightnot-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Icon Box Styles */
+.rightnot-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.rightnot-channel-icon-img {
+  width: 30px;
+  height: 30px;
+}
+
+.rightnot-text h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+}
+
+.rightnot-text p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #777;
+}
+
+
+.rightnot-switch {
+  position: relative;
+  width: 50px;
+  height: 26px;
+}
+
+.rightnot-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.rightnot-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #e2e2e2;
+  border-radius: 34px;
+  transition: 0.3s;
+}
+
+.rightnot-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .rightnot-slider {
+  background-color: #4f46e5;
+}
+
+input:checked + .rightnot-slider:before {
+  transform: translateX(24px);
+}
+
+/* SECTION 3: Quiet Hours */
+.rightnot-quiet-hours-div {
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  padding: 10px 24px;
+  margin-bottom: 40px;
+  background-color: #fff;
+}
+
+.rightnot-time-inputs-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.rightnot-time-group {
+  flex: 1;
+}
+
+.rightnot-time-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Shadowed Box for Selects */
+.rightnot-select-shadow-box {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  height: 44px;
+  cursor: pointer;
+  overflow: hidden; 
+}
+
+.rightnot-select-shadow-box:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-color: #d1d1d1;
+}
+
+.rightnot-select-shadow-box select:focus {
+  outline: none; 
+  border: none;
+}
+
+.rightnot-select-shadow-box select {
+  width: 100%;
+  height: 100%;
+  padding: 0 40px;
+  border: none;
+  background: transparent;
+  appearance: none; 
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  position: relative;
+  z-index: 2; 
+}
+
+.rightnot-input-icon {
+  position: absolute;
+  left: 12px;
+  width: 18px;
+  opacity: 0.6;
+  z-index: 1; 
+  pointer-events: none; 
+}
+
+.rightnot-arrow-icon {
+  position: absolute;
+  right: 12px;
+  width: 12px;
+  opacity: 0.4;
+  z-index: 1;
+  pointer-events: none; 
+}
+
+.rightnot-select-shadow-box select option {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+}
+
+/* Days Selection */
+.rightnot-days-row {
+  position: relative;
+  z-index: 10; 
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.rightnot-day-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rightnot-day-btn.rightnot-active {
+  background: #4f46e5 ; 
+  color: #fff ;
+  font-weight: 600;
+}
+.rightnot-full-width {
+  width: 100%;
+  margin-top: 10px;
+}
+.rightnot-day-btn:focus {
+  outline: none; 
+}

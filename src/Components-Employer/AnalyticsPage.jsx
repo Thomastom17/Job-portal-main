@@ -13,7 +13,6 @@ export const AnalyticsPage = () => {
   const months = [];
   const getRecentMonths = () => {
     const date = new Date();
-
     for (let i = 2; i >= 0; i--) {
       const d = new Date(date.getFullYear(), date.getMonth() - i, 1);
 

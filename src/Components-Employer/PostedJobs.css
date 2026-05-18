@@ -101,18 +101,20 @@
 
 .postedjobs-dropdown {
     position: absolute;
-    right: 0;
+    /* right: 20px; */
     top: 30px;
+    left: -40px;
     background: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     z-index: 100;
     overflow: hidden;
+    width: 200px;
 }
 
 .postedjobs-dropdown button {
     display: block;
-    width: 110px;
+    width: fit-content;
     padding: 12px 15px;
     border: none;
     background: none;

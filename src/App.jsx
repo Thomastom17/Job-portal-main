@@ -57,11 +57,13 @@ import { PostedJobs } from './Components-Employer/PostedJobs'
 import { EditJob } from './Components-Employer/EditJob'
 import { JsProfileOverview } from './Components-Employer/JsProfileOverview'
 import { OtpVerification } from './Components-JobseekerSignup/OtpVerification'
-import { AdminLogin } from './Admin/AdminLogin'
-import { AdminDashboard } from './Admin/AdminDashboard'
-import { AdminAfterLogin } from './Admin/AdminAfterlogin'
-import { AdminExperience } from './Admin/AdminExperience'
-import { AdminCalendar } from './Admin/AdminCalendar'
+import { AdminLogin } from './Components-Admin/AdminLogin'
+import { AdminDashboard } from './Components-Admin/AdminDashboard'
+import { AllJobsPage } from './Components-Admin/AllJobsPage'
+
+
+
+
 
 const router = createBrowserRouter([{
   path: '/Job-portal',
@@ -296,26 +298,18 @@ const router = createBrowserRouter([{
   element: <CompanyVerify/>
 },
 {
-  path: 'Job-portal/admin/adminlogin', 
+  path: '/Job-portal/Admin/login',
   element: <AdminLogin />,
 },
 {
-  path: 'Job-portal/admin/adminafterlogin',
-  element: <AdminAfterLogin />
+  path: '/Job-portal/Admin/Dashboard',
+  element: <AdminDashboard />,
 },
+{
+  path: '/Job-portal/admin/all-jobs',
+  element: <AllJobsPage />,
+}
 
-{
-  path: 'Job-portal/admin/admindashboard',
-  element: <AdminDashboard />
-}
-,{
-  path: 'Job-portal/admin/adminexperience',
-  element: <AdminExperience />
-},
-{
-  path:'Job-portal/admin/admincalendar',
-  element: <AdminCalendar />
-}
 
 ])
 

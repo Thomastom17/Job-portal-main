@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './PostedJobs.css';
 import place from '../assets/opportunity_location.png'
+import Highlight from '../assets/Employer/HighLight-Active.png'
 import { useNavigate } from 'react-router-dom';
 import { useJobs } from '../JobContext';
 
 export const PostedJobs = ({ onViewApplicants }) => {
   const navigate = useNavigate();
 
-  const { jobs, setJobs, getJobStats, currentEmployer, deleteJob, setCurrentEmployer, setAlluser } = useJobs();
+  const { jobs, setJobs, getJobStats, currentEmployer,deleteJob, setCurrentEmployer ,setAlluser,getFeaturesForPlan,toggleHighlight} = useJobs();
 
   const [activeMenu, setActiveMenu] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -31,12 +32,12 @@ export const PostedJobs = ({ onViewApplicants }) => {
     setActiveMenu(null);
     setJobs(jobs.filter(job => job.id !== selectedJobId));
     setAlluser((prevUsers) =>
-      prevUsers.map((user) => ({
-        ...user,
-        savedJobs: user.savedJobs.filter((job) => job.id !== job),
-        appliedJobs: user.appliedJobs.filter((job) => job.id !== job),
-      }))
-    );
+            prevUsers.map((user) => ({
+                ...user,
+                savedJobs: user.savedJobs.filter((job) => job.id !== job),
+                appliedJobs: user.appliedJobs.filter((job) => job.id !== job),
+            }))
+        );
     setCurrentEmployer(prev => ({
       ...prev,
       jobPosted: prev.jobPosted.filter(job => job.id !== selectedJobId)
@@ -49,6 +50,10 @@ export const PostedJobs = ({ onViewApplicants }) => {
     setTimeout(() => setShowSuccessToast(false), 3000);
   };
 
+  const canHighlightFeature = currentEmployer.membership.active && 
+    getFeaturesForPlan(currentEmployer.membership.planLevel)
+    .find(f => f.text === 'Highlight Your Job Listing')?.isIncluded;
+    console.log("Can Highlight:", canHighlightFeature)
   return (
 
     <div className="postedjobs-container">
@@ -71,12 +76,14 @@ export const PostedJobs = ({ onViewApplicants }) => {
             return (
               <div key={job.id} className="postedjobs-grid-layout postedjobs-card">
                 <div className="postedjobs-info">
+                  <div style={{display:'flex',alignItems:"center",gap:"15px"}}>
                   <h3>{job.jobTitle || job.title}</h3>
+                  {job.isHighlighted ? <img src={Highlight} width={20} alt="" />: <></>}
+                  
+                  </div>
                   <p className="postedjobs-loc flex items-center gap-2">
                     <img src={place} alt="location" className="post-job-locationicon" />
-                    {Array.isArray(job.location)
-                      ? job.location.join(", ")
-                      : job.location || "N/A"}
+                    {job.location}
                   </p>
                   <small>Created on: {job.postedDate || job.posted}</small>
                 </div>
@@ -89,6 +96,7 @@ export const PostedJobs = ({ onViewApplicants }) => {
                 <span className="postedjobs-badge">{stats.rejected}</span>
 
                 <div className="postedjobs-actions">
+                  
                   <button
                     className="postedjobs-view-btn"
                     onClick={() => onViewApplicants(job)}
@@ -100,6 +108,14 @@ export const PostedJobs = ({ onViewApplicants }) => {
                     {activeMenu === job.id && (
                       <div className="postedjobs-dropdown">
                         <button onClick={() => handleEditClick(job)}>Edit Status</button>
+                        {canHighlightFeature && (
+                    <button 
+                        className={`highlight-btn ${job.isHighlighted ? 'active' : ''}`}
+                        onClick={() => toggleHighlight(job.id)}
+                    >
+                        {job.isHighlighted ? "Remove from Highlight" : "Highlight this Job"}
+                    </button>
+                )}
                         <button onClick={() => handleDeleteClick(job.id)} className="delete-opt">Delete</button>
                       </div>
                     )}

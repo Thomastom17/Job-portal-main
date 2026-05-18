@@ -33,21 +33,23 @@ import Findtalent from '../assets/Employer/FindTalent.png'
 import FindTalentAct from '../assets/Employer/FindTalent_Active.png'
 import { AboutYourCompany } from './AboutYourCompany'
 import place from '../assets/opportunity_location.png'
-import { LogoutModal } from '../Components-Jobseeker/LogoutModal'
 import { AnalyticsPage } from './AnalyticsPage'
+import { LogoutModal } from '../Components-JobseekerSignup/LogoutModal'
+import { BillingSec } from './BillingSec'
+import { PlansBilling } from './PlansBilling'
+
+
 
 export const EmployerDashboard = () => {
     const { currentEmployer, getJobStats } = useJobs();
-
     const [showLogoutModal, setShowLogoutModal] = useState(false);
-
     const PostedJob = currentEmployer.jobPosted;
 
     const jobStats = useMemo(() => {
         return currentEmployer?.jobPosted?.reduce((acc, job) => {
             const stats = getJobStats(job.id)
             acc.totalApps += (stats.total || 0);
-            acc.totalShortlisted += (stats.screening || 0);
+            acc.totalShortlisted += (stats.shortlisted || 0);
             acc.totalInterview += (stats.interview || 0);
             return acc;
         }, { totalApps: 0, totalShortlisted: 0, totalInterview: 0 });
@@ -56,15 +58,14 @@ export const EmployerDashboard = () => {
 
     const activeJobsCount = currentEmployer.jobPosted.length;
 
-    const navigate = useNavigate();
-
-    const [activeMenu, setActiveMenu] = useState(null);
-    const initialLetter = currentEmployer?.hrName.charAt(0).toUpperCase();
-
     const handleLogoutConfirm = () => {
         setShowLogoutModal(false);
         navigate('/Job-portal');
     };
+    const navigate = useNavigate();
+
+    const [activeMenu, setActiveMenu] = useState(null);
+    const initialLetter = currentEmployer?.hrName.charAt(0).toUpperCase();
 
     const [activetab, setActiveTab] = useState('Dashboard');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -147,6 +148,7 @@ export const EmployerDashboard = () => {
                                     {activetab === 'My Profile' ? <img src={ProfileAct} height={15} width={15} alt="My Profile" /> : <img src={Profile} height={15} width={15} alt="My Profile" />}
                                     <div className='Enav-item'>My Profile</div>
                                 </div>
+
                                 <div onClick={() => !isVerifying && setShowLogoutModal(true)} className={activetab === 'Logout' ? "Active" : 'Navbox'}>
                                     {activetab === 'Logout' ? <img src={LogoutAct} height={15} width={15} alt="Logout" /> : <img src={Logout} height={15} width={15} alt="Logout" />}
                                     <div className='Enav-item'>Logout</div>
@@ -270,9 +272,7 @@ export const EmployerDashboard = () => {
                                                                         <h3>{job.jobTitle || job.title}</h3>
                                                                         <p className="postedjobs-loc flex items-center gap-2">
                                                                             <img src={place} alt="location" className="post-job-locationicon" />
-                                                                            {Array.isArray(job.location)
-                                                                                ? job.location.join(", ")
-                                                                                : job.location || "N/A"}
+                                                                            {job.location}
                                                                         </p>
                                                                         <small>Created on: {job.postedDate || job.posted}</small>
                                                                     </div>
@@ -320,15 +320,18 @@ export const EmployerDashboard = () => {
 
                     {activetab === 'Analytics' && (<AnalyticsPage />)}
 
-                    {activetab === 'Billing' && (<h1>Billing Section</h1>)}
+                    {activetab === 'Billing' && ( <PlansBilling/>)}
+                    {/* {activetab === 'Billing' && ( <BillingSec/>)}     */}
+                    
 
                     {activetab === 'My Profile' && (<AboutYourCompany hideNavigation={true} setActiveTab={setActiveTab} />)}
 
                 </div>
 
             </div>
-            <LogoutModal show={showLogoutModal} onClose={() => setShowLogoutModal(false)} onConfirm={handleLogoutConfirm} />
-            <Footer />
+            <LogoutModal show={showLogoutModal} onClose={() => setShowLogoutModal(false)} onConfirm={handleLogoutConfirm}
+            />
+            {/* <Footer /> */}
         </>
     );
 };

@@ -67,4 +67,3 @@ export const ProfileCard = ({ user, showActions = false }) => {
     </div>
   );
 };
-

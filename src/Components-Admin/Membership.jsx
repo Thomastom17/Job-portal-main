@@ -3,57 +3,72 @@ import './Membership.css';
 import { Tier1plan } from './Tier1Plan'; 
 import { Tier2plan } from './Tier2Plan';
 import { Tier3plan } from './Tier3Plan';
+import { MembershipPlanSchema } from '../Components-Admin/MembershipPlanSchema'; 
 
 export const Membership = () => {
-  const [activeTab, setActiveTab] = useState("Tier1Plan");
+  const [activeTab, setActiveTab] = useState("Home");
+  const [selectedPlanData, setSelectedPlanData] = useState(null);
+
+  const handlePlanSelect = (tierName) => {
+    setActiveTab(tierName);
+    
+    const matchedData = MembershipPlanSchema.find(plan => plan.tierType === tierName);
+    setSelectedPlanData(matchedData);
+  };
+
+  const goBackToMembership = () => {
+    setActiveTab("Home");
+    setSelectedPlanData(null);
+  };
 
   const renderPlanPage = () => {
+    if (!selectedPlanData) {
+      return (
+        <div className="error-container">
+          <p>Machi, data fetch aagula! Enna aachunu check pannu.</p>
+          <button className="back-to-membership-btn" onClick={goBackToMembership}>Go Back</button>
+        </div>
+      );
+    }
+
     switch (activeTab) {
       case "Tier1Plan": 
-        return <Tier1plan />;
+        return <Tier1plan onBack={goBackToMembership} initialData={selectedPlanData} />;
       case "Tier2Plan": 
-        return <Tier2plan />;
+        return <Tier2plan onBack={goBackToMembership} initialData={selectedPlanData} />;
       case "Tier3Plan": 
-        return <Tier3plan />;
+        return <Tier3plan onBack={goBackToMembership} initialData={selectedPlanData} />;
       default: 
-        return <div className="membership-no-plan">Please select a membership plan.</div>;
+        return null;
     }
   };
 
   return (
-    
     <div className="membership-main-wrapper">
-      
-      
-      <div className="membership-sidebar-grid">
-        <h2 className="membership-sidebar-title">Membership Tiers</h2>
-        
-        {/* Tier 1 Box */}
-        <div className={`membership-plan-card ${activeTab === "Tier1Plan" ? "active-card" : ""}`}>
-          <button className="membership-select-btn" onClick={() => setActiveTab("Tier1Plan")}>
-            Tier 1 Plan
-          </button>
+      {activeTab === "Home" ? (
+        <div className="membership-selection-container">
+          <h2 className="membership-title">Membership Tiers</h2>
+          <div className="membership-grid-layouts">
+            
+            <div className="membership-plan-card" onClick={() => handlePlanSelect("Tier1Plan")}>
+              <span className="membership-card-text">Tier 1 Plan</span>
+            </div>
+
+            <div className="membership-plan-card" onClick={() => handlePlanSelect("Tier2Plan")}>
+              <span className="membership-card-text">Tier 2 Plan</span>
+            </div>
+
+            <div className="membership-plan-card" onClick={() => handlePlanSelect("Tier3Plan")}>
+              <span className="membership-card-text">Tier 3 Plan</span>
+            </div>
+
+          </div>
         </div>
-
-        {/* Tier 2 Box */}
-        <div className={`membership-plan-card ${activeTab === "Tier2Plan" ? "active-card" : ""}`}>
-          <button className="membership-select-btn" onClick={() => setActiveTab("Tier2Plan")}>
-            Tier 2 Plan
-          </button>
+      ) : (
+        <div className="membership-form-content">
+          {renderPlanPage()}
         </div>
-
-        {/* Tier 3 Box */}
-        <div className={`membership-plan-card ${activeTab === "Tier3Plan" ? "active-card" : ""}`}>
-          <button className="membership-select-btn" onClick={() => setActiveTab("Tier3Plan")}>
-            Tier 3 Plan
-          </button>
-        </div>
-      </div>
-
-      <div className="membership-form-content">
-        {renderPlanPage()}
-      </div>
-
+      )}
     </div>
   );
 };

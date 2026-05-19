@@ -92,3 +92,351 @@
   border-color: #94a3b8;
   transform: translateX(-3px); 
 }
+
+/* ==========================================================================
+   2. DYNAMIC FORM & SIDEBAR LAYOUT (FLEX)
+   ========================================================================== */
+.membership-layout-flex {
+  display: flex;
+  gap: 30px;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Left side forms width */
+.form-left-sections {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Card containers inside form */
+.section-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.section-card h3 {
+  font-size: 1.15rem;
+  color: #0f172a;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.section-number {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   3. FORM GRID & INPUT ELEMENTS
+   ========================================================================== */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #334155;
+  background-color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Dynamic Badge Amount Display */
+.total-payable-badge {
+  background-color: #f0fdf4;
+  border: 1px dashed #22c55e;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-align: center;
+  height: fit-content;
+}
+
+.payable-amount {
+  font-size: 1.4rem;
+  color: #16a34a;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   4. DYNAMIC FEATURES TABLE LIST
+   ========================================================================== */
+.features-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.features-table th {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.features-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 14px;
+}
+
+.table-input-val {
+  width: 70px;
+  padding: 6px;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+}
+
+.table-input-val:focus {
+  border-color: #3b82f6;
+}
+
+/* Toggle Switch Slider Styling */
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider-round {
+  background-color: #22c55e;
+}
+
+input:checked + .slider-round:before {
+  transform: translateX(20px);
+}
+
+/* Action Buttons Wrapper */
+.form-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.membership-cr-btn-preview {
+  background-color: #ffffff;
+  color: #2563eb;
+  border: 1px solid #2563eb;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.membership-cr-btn-save {
+  background-color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.membership-cr-btn-save:hover {
+  background-color: #1d4ed8;
+}
+
+.membership-cr-btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ==========================================================================
+   5. RIGHT SIDEBAR CARD PREVIEW STRUCTURE
+   ========================================================================== */
+.preview-right-sidebar {
+  width: 360px;
+  position: sticky;
+  top: 30px;
+}
+
+.preview-card-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+
+.preview-card-banner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+
+.preview-card-banner h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.preview-card-body {
+  padding: 30px 24px;
+  text-align: center;
+}
+
+.preview-type {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.preview-price {
+  font-size: 2.25rem;
+  color: #0f172a;
+  margin: 15px 0;
+  font-weight: 700;
+}
+
+.preview-price span {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.preview-divider {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 25px 0;
+}
+
+.preview-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.preview-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.btn-get-started {
+  width: 100%;
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-get-started:hover {
+  background-color: #1e293b;
+}
+
+
+.error-container {
+  text-align: center;
+  padding: 40px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #fee2e2;
+  max-width: 500px;
+  margin: 40px auto;
+}
+.error-container p {
+  color: #ef4444;
+  font-weight: 500;
+  margin-bottom: 20px;
+}

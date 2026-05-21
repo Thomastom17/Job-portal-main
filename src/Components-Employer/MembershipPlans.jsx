@@ -4,79 +4,95 @@ import { useJobs } from '../JobContext';
 
 export const MembershipPlans = ({ onSelectPlan }) => {
     const [activeTab, setActiveTab] = useState('Monthly');
-    const{getFeaturesForPlan}=useJobs()
+    const { allPlans, currentEmployer } = useJobs(); 
 
+const getCalculatedTabPlans = () => {
+    return (allPlans).map((masterPlan) => {
+        const originalPrice = parseFloat(masterPlan.price) || 0;
+        if (originalPrice === 0) {
+            return {
+                ...masterPlan,
+                currentBillingCycle: activeTab,
+                displayPrice: 0,
+                effectiveDiscount: 0,
+                monthsMultiplier: 1,
+                calculatedDuration: masterPlan.duration || 30,
+                totalCalculatedAmount: 0 
+            };
+        }
 
-    const pricingData = {
-        Monthly: [
-            { name: 'STARTER PLAN', price: 'Free', subtitle: 'Limited Access', color: 'blue', level: 1 },
-            { name: 'BUSINESS PLAN', price: '₹ 499', subtitle: 'Basic Plan', color: 'orange', level: 2 },
-            { name: 'ENTERPRISE PLAN', price: ' ₹ 999 ', subtitle: 'Professional Plan', color: 'purple', level: 3 },
-        ],
-        '6 Months': [
-            { name: 'BUSINESS PLAN', price: '₹ 449 ', perMonth: true, subtitle: 'Basic Plan', color: 'orange', level: 2 },
-            { name: 'ENTERPRISE PLAN', price: '₹ 949 ', perMonth: true, subtitle: 'Professional Plan', color: 'purple', level: 3 },
-        ],
-        Yearly: [
-            { name: 'BUSINESS PLAN', price: '₹ 399 ', perMonth: true, subtitle: 'Basic Plan', color: 'orange', level: 2 },
-            { name: 'ENTERPRISE PLAN', price: '₹ 899 ', perMonth: true, subtitle: 'Professional Plan', color: 'purple', level: 3 },
-        ],
-    };
+        let discountPercentage = 0;
+        let monthsMultiplier = 1;
+        let calculatedDuration = 30;
 
-    const getCalculatedPrice = (priceStr, billingCycle) => {
-        const price = parseInt(priceStr.replace(/[^0-9]/g, ''));
-        if (isNaN(price)) return 0;
+        if (activeTab === '6 Months') {
+            discountPercentage = 10; 
+            monthsMultiplier = 6;
+            calculatedDuration = 180;
+        } else if (activeTab === 'Yearly') {
+            discountPercentage = 15; 
+            monthsMultiplier = 12;
+            calculatedDuration = 365;
+        } else if (activeTab === 'Monthly') {
+            discountPercentage = 0; 
+            monthsMultiplier = 1;
+            calculatedDuration = 30;
+        }
 
-        if (billingCycle === '6 Months') return price * 6;
-        if (billingCycle === 'Yearly') return price * 12;
-        return price;
-    };
+        const discountedPricePerMonth = originalPrice - (originalPrice * (discountPercentage / 100));
+        const totalCalculatedAmount = Math.round(discountedPricePerMonth) * monthsMultiplier;
 
+        return {
+            ...masterPlan,
+            currentBillingCycle: activeTab,
+            displayPrice: Math.round(discountedPricePerMonth),
+            effectiveDiscount: discountPercentage,
+            monthsMultiplier: monthsMultiplier,
+            calculatedDuration: calculatedDuration,
+            totalCalculatedAmount: totalCalculatedAmount 
+        };
+    });
+};
 
-    // const getFeaturesForPlan = (planLevel) => {
-    //     if (planLevel === 1) { // Starter
-    //         return [
-    //             { text: '3 Jobs Posting', isIncluded: true },
-    //             { text: 'Basic Employer Profile', isIncluded: true },
-    //             { text: 'Standard Support', isIncluded: true },
-    //             { text: 'Account Manager', isIncluded: false },
-    //             { text: 'Analytics', isIncluded: false },
-    //             { text: 'Candidate Search', isIncluded: false },
-    //             { text: 'Highlight Your Job Listing', isIncluded: false },
-    //         ];
-    //     }
-    //     if (planLevel === 2) { // Business
-    //         return [
-    //             { text: '30 Jobs Posting', isIncluded: true },
-    //             { text: 'Featured Employer Profile', isIncluded: true },
-    //             { text: 'Resume Database Access', isIncluded: true },
-    //             { text: 'Priority Support', isIncluded: true },
-    //             { text: 'Basic Account Manager', isIncluded: true },
-    //             { text: 'Basic Analytics', isIncluded: true },
-    //             { text: 'Limited Candidate Search', isIncluded: true },
-    //             { text: 'Highlight Your Job Listing', isIncluded: false },
-    //         ];
-    //     }
-    //     // Enterprise 
-    //     return [
-    //         { text: 'Unlimited Jobs Posting', isIncluded: true },
-    //         { text: 'Premium Employer Profile', isIncluded: true },
-    //         { text: 'Full Resume Database Access', isIncluded: true },
-    //         { text: 'Priority Support', isIncluded: true },
-    //         { text: 'Dedicated Account Manager', isIncluded: true },
-    //         { text: 'Advanced Analytics', isIncluded: true },
-    //         { text: 'Unlimited Candidate Search', isIncluded: true },
-    //         { text: 'Highlight Your Job Listing', isIncluded: true },
-    //     ];
-    // };
+const handlePlanSelection = (computedPlan) => {
+    const subtotal = computedPlan.totalCalculatedAmount;
+
+    const taxRate = (computedPlan.tax || 18) / 100;
+    const cgst = (subtotal * taxRate) / 2;
+    const sgst = (subtotal * taxRate) / 2;
+    const totalWithTax = subtotal + cgst + sgst;
+
+    onSelectPlan({
+        ...computedPlan,
+        name: computedPlan.PlanName, 
+        subtitle: computedPlan.badge,
+        billingCycle: computedPlan.currentBillingCycle,
+        duration: computedPlan.calculatedDuration,
+        discount: computedPlan.effectiveDiscount,
+        subtotal: parseFloat(subtotal.toFixed(2)),
+        cgst: parseFloat(cgst.toFixed(2)),
+        sgst: parseFloat(sgst.toFixed(2)),
+        totalWithTax: parseFloat(totalWithTax.toFixed(2)),
+        status: 'active'
+    });
+};
+
+const dynamicPlansToRender = getCalculatedTabPlans();
 
     return (
         <div className="MembershipPlans">
             <div className="MembershipPlans-header-box">
                 <h2>Employer Membership Plan</h2>
                 <p>Find the best plan to attract top talent</p>
+                
+                {currentEmployer?.membership?.active && (
+                    <div className="current-user-status-strip">
+                        Your Current Plan: <strong>{currentEmployer.membership.planName}</strong>
+                    </div>
+                )}
             </div>
 
+            {/* Toggle Billing Tabs */}
             <div className="MembershipPlans-tabs-bar">
                 {['Monthly', '6 Months', 'Yearly'].map((tab) => (
                     <button
@@ -89,63 +105,68 @@ export const MembershipPlans = ({ onSelectPlan }) => {
                 ))}
             </div>
 
-            <div className={`MembershipPlans-grid ${pricingData[activeTab].length === 2 ? 'two-cols' : ''}`}>
-                {pricingData[activeTab].map((plan, index) => (
-                    <div key={index} className="MembershipPlans-card">
-                        <div className={`MembershipPlans-banner ${plan.color}`}>
-                            {plan.name}
-                        </div>
-                        <div className="MembershipPlans-content">
-                            <div className="MembershipPlans-price-box">
-                                <span className="MembershipPlans-amount">
-                                    {plan.price}{plan.perMonth && <small>/month</small>}
-                                </span>
-                                <span className="MembershipPlans-subtitle">{plan.subtitle}</span>
-                            </div>
-                            <hr className="MembershipPlans-divider" />
+            {/* Grid display */}
+            <div className={`MembershipPlans-grid ${dynamicPlansToRender.length === 2 ? 'two-cols' : ''}`}>
+                {dynamicPlansToRender.map((plan) => {
+                    const isUserCurrentPlan = 
+                        currentEmployer?.membership?.active && 
+                        currentEmployer?.membership?.planLevel === plan.planLevel;
 
-                            <ul className="MembershipPlans-features-list">
-                                {getFeaturesForPlan(plan.level).map((feat, i) => (
-                                    <li key={i} className={feat.isIncluded ? 'included' : 'excluded'}>
-                                        <span className="MembershipPlans-icon">
-                                            {feat.isIncluded ? '✔' : '✘'}
-                                        </span>
-                                        {feat.text}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <button
-                                className={`MembershipPlans-btn-start ${plan.color}`}
-                                onClick={() => {
-                                    const baseMonthly = parseFloat(plan.price.replace(/[^0-9]/g, '')) || 0;
-                                    let multiplier = 1;
-                                    let monthsToAdd = 1;
-
-                                    if (activeTab === '6 Months') multiplier = 6;monthsToAdd = 6;
-                                    if (activeTab === 'Yearly') multiplier = 12;monthsToAdd = 12;
-
-                                    const subtotal = baseMonthly * multiplier;
-                                    const cgst = subtotal * 0.09; // 9% CGST
-                                    const sgst = subtotal * 0.09; // 9% SGST
-                                    const totalWithTax = subtotal + cgst + sgst;
-
-                                    onSelectPlan({
-                                        ...plan,
-                                        subtotal,
-                                        totalWithTax,
-                                        cgst,
-                                        sgst,
-                                        billingCycle: activeTab,
-                                        status: 'active'
-                                    });
-                                }}
+                    return (
+                        <div key={plan.id} className={`MembershipPlans-card ${isUserCurrentPlan ? 'is-active-plan' : ''}`}>
+                            <div 
+                                className="MembershipPlans-banner" 
+                                style={{ backgroundColor: plan.color || '#1e90ff' }}
                             >
-                                Get started
-                            </button>
+                                {plan.PlanName}
+                                {plan.effectiveDiscount > 0 && (
+                                    <span className="discount-tag-badge"> ({plan.effectiveDiscount}% OFF)</span>
+                                )}
+                            </div>
+                            
+                            <div className="MembershipPlans-content">
+                                <div className="MembershipPlans-price-box">
+                                    <div className="MembershipPlans-amount-container">
+                                        {plan.displayPrice === 0 ? (
+                                            <span className="MembershipPlans-amount">Free</span>
+                                        ) : (
+                                            <>
+                                                {plan.effectiveDiscount > 0 && (
+                                                    <span className="original-strike-price">₹{plan.price}</span>
+                                                )}
+                                                <span className="MembershipPlans-amount">₹ {plan.displayPrice}</span>
+                                                <small className="per-month-text">/month</small>
+                                            </>
+                                        )}
+                                    </div>
+                                    <span className="MembershipPlans-subtitle">{plan.badge}</span>
+                                </div>
+                                <hr className="MembershipPlans-divider" />
+
+                                {/* Features List */}
+                                <ul className="MembershipPlans-features-list">
+                                    {(plan.features || []).map((feat, i) => (
+                                        <li key={i} className={feat.isInclude ? 'included' : 'excluded'}>
+                                            <span className="MembershipPlans-icon">
+                                                {feat.isInclude ? '✔' : '✘'}
+                                            </span>
+                                            {feat.text}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button
+                                    className={`MembershipPlans-btn-start ${isUserCurrentPlan ? 'btn-disabled' : ''}`}
+                                    style={{ backgroundColor: isUserCurrentPlan ? '#cccccc' : (plan.color || '#1e90ff'), color: isUserCurrentPlan ? '#666666' : '#ffffff' }}
+                                    onClick={() => !isUserCurrentPlan && handlePlanSelection(plan)}
+                                    disabled={isUserCurrentPlan}
+                                >
+                                    {isUserCurrentPlan ? 'Your Current Plan' : (plan.displayPrice === 0 ? 'Get started' : 'Subscribe Now')}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import './ReportAJob.css';
 import { Header } from '../Components-LandingPage/Header';
 import { Footer } from '../Components-LandingPage/Footer';
+import { useJobs } from '../JobContext';
 
 // Named export to match your App.jsx import
 export const ReportAJob = () => {
     const navigate = useNavigate();
+    const {setReports}=useJobs();
     const initialValues = {
         firstName: "",
         lastName: "",
@@ -21,7 +23,7 @@ export const ReportAJob = () => {
 
 
     const validate = () => {
-        let newErrors = {};
+        const newErrors = {};
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!formValues.email) {
@@ -50,7 +52,6 @@ export const ReportAJob = () => {
         const { name, value } = e.target;
 
         if (name === "mobile") {
-            // Only allow numbers and restrict to 10 digits
             const onlyNums = value.replace(/[^0-9]/g, "");
             if (onlyNums.length <= 10) {
                 setFormValues({ ...formValues, [name]: onlyNums });
@@ -62,9 +63,33 @@ export const ReportAJob = () => {
         if (errors[name]) setErrors({ ...errors, [name]: "" });
     };
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (validate()) {
+    //         alert("Report submitted successfully!");
+    //         setFormValues(initialValues);
+    //         navigate("/Job-portal/jobseeker");
+    //     }
+    // };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
+            const newReport = {
+                id: `#ES${Date.now().toString().slice(-6)}`,
+                firstName: formValues.firstName,
+                lastName: formValues.lastName,
+                mobile: formValues.mobile,
+                email: formValues.email,
+                reason: formValues.reason,
+                explanation: formValues.explanation,
+                status: "Pending",
+                priority: "High",
+                date: new Date().toLocaleDateString('en-GB')
+            };
+ 
+            setReports((prevReports) => [...prevReports, newReport]);
+ 
             alert("Report submitted successfully!");
             setFormValues(initialValues);
             navigate("/Job-portal/jobseeker");

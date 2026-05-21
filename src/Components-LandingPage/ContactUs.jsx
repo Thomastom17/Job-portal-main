@@ -3,8 +3,10 @@ import { Footer } from '../Components-LandingPage/Footer'
 import ContactImage from '../assets/Contactus.png'
 import './ContactUs.css'
 import { FHeader } from '../Components-LandingPage/FHeader'
+import { useJobs } from '../JobContext'
 
 export const ContactUs = () => {
+  const {setEnquiries}=useJobs()
   const initialValues = { name: "", email: "", contact: "", message: "" }
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
@@ -37,15 +39,32 @@ export const ContactUs = () => {
     return Object.keys(newErrors).length === 0
   }
 
-  function handleSubmit(formData) {
-    if (!validateForm()) {
-      return false 
-    }
-    console.log("Submitted successfully", formValues)
-  }
+  // function handleSubmit(formData) {
+  //   if (!validateForm()) {
+  //     return false 
+  //   }
+  //   console.log("Submitted successfully", formValues)
+  // }
 
+  const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!validateForm()) return;
+
+  const newEnquiry = {
+    id: `#ENQ${Date.now()}`,
+    name: formValues.name,
+    email: formValues.email,
+    contact: formValues.contact,
+    message: formValues.message,
+    status: "Pending",
+    date: new Date().toLocaleDateString()
+  };
+
+  setEnquiries((prevEnquiries) => [...prevEnquiries, newEnquiry]);
+  alert("Message sent successfully!");
+  setFormValues(initialValues);
+};
   return (
-    <>
     <div className="contact-page">
      <FHeader/>
 
@@ -61,7 +80,7 @@ export const ContactUs = () => {
             Do you have a question? or need any help
           </p>
 
-          <form action={handleSubmit} className="contact-form">
+          <form onSubmit={(e) => handleSubmit(e)} className="contact-form">
             <div className="contact-form-group">
               <label>Name</label>
               <input 
@@ -127,6 +146,5 @@ export const ContactUs = () => {
       </div>
       <Footer />
     </div>
-    </>
   )
 }

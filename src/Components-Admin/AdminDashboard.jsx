@@ -32,8 +32,6 @@ import { UserManagement } from './UserManagement'
 import { ActivityMonitor } from './ActivityMonitor'
 import { AdminReports } from './AdminReports'
 import { JobMonitoring } from './JobMonitoring'
-// import { RolePermission } from './RolePermission'
-// import { RoleManagement } from './RoleManagement'
 import { Membership } from './Membership'
 import { AdminSettings } from './AdminSettings'
 import { useNavigate } from 'react-router-dom'
@@ -50,6 +48,8 @@ import {LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XA
 import { display } from '@mui/system'
 import { AdminHeader } from './AdminHeader'
 import { HighligtedJobs } from './HighligtedJobs'
+import { PublishedPlans } from './PublishedPlans'
+import { SupportHub } from './SupportHub'
 
 export const AdminDashboard = () => {
     const { jobs, Alluser, currentEmployer } = useJobs();
@@ -185,9 +185,9 @@ export const AdminDashboard = () => {
                                 <div className='Enav-item'>Membership</div>
                             </div>
                         </div>
-                        <div onClick={() => setActiveTab('Tickets')} className={activetab === "Tickets" ? "Admin-Active" : 'Admin-Navbar'}>
+                        <div onClick={() => setActiveTab('SupportHub')} className={activetab === "SupportHub" ? "Admin-Active" : 'Admin-Navbar'}>
                             <div className='Admin-Navbox'>
-                                {activetab === "Tickets" ? <img src={TicketsACT} width={15} height={15} alt="dashboard" />
+                                {activetab === "SupportHub" ? <img src={TicketsACT} width={15} height={15} alt="dashboard" />
                                     : <img src={Tickets} width={15} height={15} alt="Tickets" />}
                                 <div className='Enav-item'>Support Hub</div>
                             </div>
@@ -516,8 +516,9 @@ export const AdminDashboard = () => {
                     {activetab === 'Activity Monitoring' && (<ActivityMonitor initialTab={subTab} />)}
                     {activetab === 'User Management' && (<UserManagement />)}
                     {/* {activetab === 'Role Management' && (<RoleManagement />)} */}
-                    {activetab === 'Membership' && (<Membership />)}
-                    {activetab === 'Tickets' && (<h3>Tickets</h3>)}
+                    {/* {activetab === 'Membership' && (<Membership />)} */}
+                    {activetab === 'Membership'&& ( <PublishedPlans/> )}
+                    {activetab === 'SupportHub' && (<SupportHub/> )}
                     {/* {activetab === 'Reports' && (<AdminReports />)} */}
                     {activetab === 'settings' && (<AdminSettings />)}
                     {activetab === 'Highlighted Jobs' && (<HighligtedJobs />)}

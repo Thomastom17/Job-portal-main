@@ -67,7 +67,7 @@ export const AdminHeader = ({ setActiveTab }) => {
                             </div>
  
                             <div className="Admin-dropdown-item Admin-logout"
-                                onClick={() => navigate('/Job-portal/Admin/login')}
+                                onClick={() => navigate('/Job-portal/employer/dashboard')}
                             >
                                 <img src={AdminLogout} alt="Logout"/>
                                 <span>Logout</span>

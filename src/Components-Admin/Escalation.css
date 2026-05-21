@@ -1,0 +1,126 @@
+.Escalation-container{
+    width: 100%;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    box-sizing: border-box;
+}
+ 
+.Escalation-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+ 
+.Escalation-header h2{
+    font-size: 28px;
+    color: #111827;
+    margin-bottom: 6px;
+}
+ 
+.Escalation-header p{
+    font-size: 15px;
+    color: #6b7280;
+}
+ 
+.Escalation-table-wrapper{
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+}
+ 
+.Escalation-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+ 
+.Escalation-table thead{
+    background: #f9fafb;
+}
+ 
+.Escalation-table th{
+    padding: 16px;
+    text-align: left;
+    font-size: 13px;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+ 
+.Escalation-table td{
+    padding: 16px;
+    font-size: 14px;
+    color: #111827;
+    border-bottom: 1px solid #f3f4f6;
+}
+ 
+.Escalation-status{
+    padding: 8px 14px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 70px;
+}
+.Escalation-status.Medium{
+    background: #fef3c7;
+    color: #92400e;
+    width: 130px;
+}
+ 
+.Escalation-status.Pending{
+    background: #fef3c7;
+    color: #92400e;
+    width: 100px;
+}
+ 
+.Escalation-status.InProgress{
+    background: #dbeafe;
+    color: #1d4ed8;
+    width: 100px;
+}
+ 
+.Escalation-status.Resolved{
+    background: #dcfce7;
+    color: #166534;
+    width: 100px;
+}
+ 
+.Escalation-priority{
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    border: none;
+}
+ 
+.Escalation-priority.High{
+    background: #fee2e2;
+    color: #b91c1c;
+}
+ 
+.Escalation-priority.Medium{
+    background: #fef3c7;
+    color: #92400e;
+}
+ 
+.Escalation-priority.Low{
+    background: #dcfce7;
+    color: #166534;
+}
+ 
+.Escalation-status option{
+    background: #ffffff;
+    color: #1e3a8a;
+}
+ 

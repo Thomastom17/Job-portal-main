@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './SupportHub.css'
 import { AdminTickets } from './AdminTickets'
-import { Escalation } from './Escalation'
 import { Enquiries } from './Enquiries'
+import { AdminReportAJob } from './AdminReportAJob'
 // import { Tickets } from './AdminTickets'
 // import { Escalation } from './Escalation'
 // import { Enquiries } from './Enquiries'
@@ -19,10 +19,10 @@ export const SupportHub = () => {
                     Tickets
                 </button>
                
-                <button className={`Ad-Settings-select ${activeTab === "Escalation" ? "Ad-Settings-active": ""}`}
-                    onClick={() => setActiveTab("Escalation") }
+                <button className={`Ad-Settings-select ${activeTab === "ReportAJob" ? "Ad-Settings-active": ""}`}
+                    onClick={() => setActiveTab("ReportAJob") }
                 >
-                    Escalation         {/* Escalation,Fraud Reports,Complaints,Flagged jobs, */}
+                    Report A Job        {/* Escalation,Fraud Reports,Complaints,Flagged jobs, */}
                 </button>
  
                 <button className={`Ad-Settings-select ${activeTab === "Enquiries" ? "Ad-Settings-active": ""}`}
@@ -34,7 +34,7 @@ export const SupportHub = () => {
  
             <div className="SupportHub-content">
                 {activeTab === "Tickets" && ( <AdminTickets/> )}
-                {activeTab === "Escalation" && (<Escalation/>)}
+                {activeTab === "ReportAJob" && ( <AdminReportAJob/>)}
                 {activeTab === "Enquiries" && ( <Enquiries/>)} 
             </div>
         </div>

@@ -1,416 +1,401 @@
-.RepAJob-container, 
-.RepAJob-detail-container {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  padding: 24px;
-  background-color: white;
-  color: #0f172a;
-  height: 100%;
 
+.RepAJob-container {
+  width: 95%;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
 }
 
-/* ----------------------------------
-   1. MAIN TABLE SCREEN CSS
-------------------------------------- */
+.RepAJob-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .RepAJob-header h2 {
-  font-size: 26px;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0 0 6px 0;
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: #111827;
 }
 
 .RepAJob-header p {
-  font-size: 14px;
-  color: #64748b;
-  margin: 0 0 20px 0;
+  font-size: 15px;
+  color: #6b7280;
 }
 
 .RepAJob-table-wrapper {
-
-  border-radius: 8px;
-  overflow: hidden;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
 }
 
 .RepAJob-table {
   width: 100%;
-  text-align: center;
-  font-size: 14px;
   border-collapse: collapse;
 }
 
+.RepAJob-table thead {
+  background: #f9fafb;
+}
+
 .RepAJob-table th {
-  background-color: #ffffff;
-  color: #1e293b;
-  font-weight: 800;
-  font-size: 12px;
-  padding: 16px 20px;
-  border-bottom: 2px solid black;
-  border-top: 2px solid black;
-
-}
-
-.RepAJob-table tbody tr {
-  border-bottom: 2px solid #94a3b8;
-  
-} 
-
-.RepAJob-table tbody tr:last-child {
-  border-bottom: 2px solid #94a3b8;
-}
-.RepAJob-table tbody tr:hover {
-  background-color: #f8fafc;
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .RepAJob-table td {
-  padding: 18px 20px;
-  vertical-align: middle;
-  color: #000000;
-  background-color: #ffffff;
+  padding: 16px; 
   font-size: 14px;
+  color: #111827;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+  font-weight: 400;
 }
 
-.bold-id {
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.subject-cell {
-  font-weight: 500;
-}
-
-.user-name-cell {
-  font-weight: 500;
-  color: #334155;
-}
-
-/* Priority Badge styles mapped using direct values */
-.RepAJob-priority-badge {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 12px;
-  text-align: center;
-  min-width: 70px;
-}
-
-.RepAJob-priority-badge[data-priority="high"] {
-  background-color: #ffe4e6;
-  color: #ef4444;
-}
-
-.RepAJob-priority-badge[data-priority="medium"] {
-  background-color: #fef3c7;
-  color: #f59e0b;
-}
-
-.RepAJob-priority-badge[data-priority="low"] {
-  background-color: #dcfce7;
-  color: #22c55e;
-}
-
-.date-cell {
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.time-subtext {
-  color: #64748b;
-  font-size: 11px;
-}
-
-/* Action View Button layout */
-.RepAJob-btn-view {
-  display: inline-flex;
-  align-items: center;
+/* Priority Badges inside Table */
+.Escalation-priority {
+  display: flex;
   justify-content: center;
-  background: #ffffff;
-  border: 2px solid black;
-  padding: 6px 14px;
+  align-items: center;
+  padding: 6px 20px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  width: 100px;
+  box-sizing: border-box;
+}
+
+.Escalation-priority.High {
+  background: #fee2e2;
+  color: #b91c1c;
+  width: 90px;
+}
+
+.Escalation-priority.Medium {
+  background: #fef3c7;
+  color: #92400e;
+  width: 90px;
+}
+
+.Escalation-priority.Low {
+  background: #dcfce7;
+  color: #166534;
+  width: 90px;
+}
+
+
+.RepAJob-detail-container {
+  padding: 40px;
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #334155;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  background: #ffffff;
 }
 
-.RepAJob-btn-view:hover {
-  background-color: #f1f5f9;
-  border-color: #94a3b8;
-}
-
-.view-btn-icon {
-  width: 14px;
-  height: 14px;
-  margin-right: 6px;
-}
-
-/* ----------------------------------
-   2. DETAIL SCREEN DESIGN CSS
-------------------------------------- */
 .RepAJob-main-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  /* text-decoration: underline; */
-  /* text-underline-offset: 6px; */
-  text-decoration-color: #0284c7;
+  font-size: 22px;
+  color: #1a1a1a;
 }
 
 .RepAJob-detail-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
 .RepAJob-btn-back {
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+  transition: background 0.2s;
+}
+
+.RepAJob-btn-back:hover {
+  background: #f9fafb;
+}
+
+/* Top Actions Group */
+.RepAJob-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.RepAJob-btn-action {
   display: inline-flex;
   align-items: center;
   background: #ffffff;
-  border: 1px solid #cbd5e1;
-  padding: 8px 14px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #1e293b;
-  cursor: pointer;
-}
-
-.RepAJob-action-group {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: nowrap;
-}
-
-/* Top Action Status pill layout */
-.RepAJob-status-pill {
-  display: flex;
-  align-items: center;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #dcdcdc;
   padding: 8px 16px;
   border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  background: #ffffff;
-  white-space: nowrap;
-  min-width: max-content;
-}
-
-.status-pill-icon {
-  width: 14px;
-  height: 14px;
-  margin-right: 8px;
-  flex-shrink: 0;
-  filter: invert(58%) sepia(82%) saturate(1915%) hue-rotate(1deg) brightness(103%) contrast(104%); 
-}
-
-.RepAJob-status-dropdown-select {
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: 1px solid #cbd5e1;
-  font-size: 13px;
-  outline: none;
-  min-width: 130px;
-}
-
-.RepAJob-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  padding: 7px 14px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #1e293b;
   cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s ease;
 }
 
-.RepAJob-btn-secondary:hover {
-  background-color: #f8fafc;
+.RepAJob-btn-action:hover {
+  background: #f9fafb;
 }
 
-.btn-icon-img {
-  width: 13px;
-  height: 13px;
-  margin-right: 6px;
+.RepAJob-btn-delete {
+  color: #333;
 }
 
-/* Card Body Section Wrapper */
+.RepAJob-btn-icon-img {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+/* Header Info Card Panel */
 .RepAJob-detail-card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  /* border: 1px solid #e2e8f0; */
-  border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 32px;
-  background-color: #ffffff;
+  align-items: flex-start;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 40px 15px;
+  margin-bottom: 25px;
+  background: #ffffff;
 }
 
 .RepAJob-card-left {
   display: flex;
+  gap: 15px;
   align-items: center;
-  gap: 20px;
 }
 
 .RepAJob-doc-icon-box {
-  background-color: #f0fdf4;
-  border-radius: 8px;
-  padding: 14px;
+  font-size: 40px;
+  background: #fff3e0;
+  padding: 10px;
+  border-radius: 12px;
+  line-height: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .RepAJob-svg-icon {
-  width: 36px;
-  height: 36px;
-  filter: invert(41%) sepia(85%) saturate(1518%) hue-rotate(189deg) brightness(98%) contrast(98%);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .RepAJob-ticket-header h3 {
   font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 6px 0;
-  color: #0f172a;
+  margin: 0 0 8px 0;
+  color: #1a1a1a;
 }
 
 .RepAJob-ticket-id {
-  font-size: 12px;
-  color: #3b82f6;
-  font-weight: 600;
   display: block;
-  margin-bottom: 4px;
+  color: #0084ff;
+  font-weight: bold;
+  margin: 0 0 6px 0;
+  font-size: 14px;
 }
 
 .RepAJob-timestamp {
-  font-size: 12px;
-  color: #64748b;
+  color: #888888;
+  font-size: 13px;
   margin: 0;
 }
 
-/* Right layout metadata columns */
+/* Right Meta Block */
 .RepAJob-card-right {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 220px;
+  min-width: 200px;
 }
 
 .RepAJob-meta-row {
   display: flex;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 500;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .meta-label {
+  color: #888888;
   width: 90px;
-  color: black;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  
-}
-
-.meta-inline-icon {
-  width: 14px;
-  height: 14px;
-  opacity: 0.6;
 }
 
 .meta-separator {
-  width: 20px;
-  color: #64748b;
+  color: #888888;
+  margin-right: 8px;
 }
 
 .meta-value-priority {
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: 500;
 }
 
-.meta-value-priority[data-priority="high"] {
-  color: #ef4444;
-}
-
-.meta-value-priority[data-priority="medium"] {
-  color: #f59e0b;
-}
-
-.meta-value-priority[data-priority="low"] {
-  color: #22c55e;
-}
+.meta-value-priority[data-priority="high"] { color: #b91c1c; }
+.meta-value-priority[data-priority="medium"] { color: #f57c00; }
+.meta-value-priority[data-priority="low"] { color: #166534; }
 
 .status-text {
-  font-weight: 600;
-  color: #0f172a;
+  color: #222222;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
 }
 
-/* Information Segment Dual Column Grids */
+/* Content Dynamic Grid Layout Panels */
 .RepAJob-grid-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 350px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-.RepAJob-section h4 {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0 0 14px 0;
-  color: #0f172a;
+.RepAJob-user-section {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 
-.RepAJob-description-text {
-  font-size: 13px;
-  line-height: 1.6;
-  color: #334155;
-  margin: 0;
+.RepAJob-section-title {
+  font-size: 18px;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
-/* User Profile specific information table sheets */
-.RepAJob-user-info-table {
+.RepAJob-user-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.user-row {
+.RepAJob-grid-row {
   display: flex;
   align-items: center;
+}
+
+.RepAJob-grid-label {
+  color: #777777;
+  width: 140px;
+  font-size: 14px;
+}
+
+.RepAJob-user-grid input {
+  width: 50%;
+  height: 35px; /* input match and proper height adjustment */
+  color: #0084ff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0 12px;
+  background-color: #f9fafb;
+  font-size: 14px;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+.RepAJob-user-grid input:disabled {
+  cursor: not-allowed;
+}
+
+/* Bottom Report Details Section Box */
+.RepAJob-section {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.RepAJob-section h4 {
+  font-size: 16px;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+
+.RepAJob-description-text {
+  color: #4a4a4a;
+  line-height: 1.6;
+  font-size: 15px;
+  margin: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 25px 15px;
+  background: #ffffff;
+  min-height: 80px;
+}
+
+
+
+.RepAJob-status-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* background dimming match */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.RepAJob-status-modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 290px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.RepAJob-status-modal-content h3 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.RepAJob-status-modal-options {
+  display: flex;
+  gap: 8px;
+  margin: 15px 0;
+  justify-content: center;
+}
+
+.RepAJob-status-modal-options button {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  background: #fdfdfd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.RepAJob-status-modal-options button:hover {
+  background: #eeeeee;
+}
+
+.RepAJob-status-modal-cancel {
+  background: none;
+  border: none;
+  color: #888;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 5px;
   font-size: 13px;
 }
 
-.user-label {
-  width: 110px;
-  color: #64748b;
-}
-
-.user-sep {
-  width: 20px;
-  color: #64748b;
-}
-
-.user-value {
-  color: #0f172a;
-  font-weight: 500;
-}
-
-.highlight-name {
-  color: #2563eb;
-  font-weight: 500;
-}
-
-.highlight-email {
-  font-weight: 500;
-  color: #0f172a;
-}
-
-.no-reports-cell {
-  text-align: center;
-  padding: 30px;
-  color: #64748b;
+.RepAJob-status-modal-cancel:hover {
+  color: #4b5563;
 }

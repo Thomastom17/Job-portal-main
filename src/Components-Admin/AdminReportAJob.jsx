@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import './AdminReportAJob.css';
 import { useJobs } from '../JobContext';
 import pencil from '../assets/ic_outline-edit.png';
-import backIcon from '../assets/ic_round-arrow-back.png';
 import victor from '../assets/victor.png'; 
 import docIcon from '../assets/ri_progress-5-line.png'; 
 import deleteIcon from '../assets/lsicon_delete-outline.png';
-import eye from '../assets/mdi-light_eye.png';
+import Priority from '../assets/AdminAssets/Priority.png';
+import AdminStatus from '../assets/AdminAssets/AdminStatus.png';
 
 export const AdminReportAJob = () => {
     const { reports, setReports } = useJobs();
     const [selectedReport, setSelectedReport] = useState(null);
-    const [isEditingStatus, setIsEditingStatus] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleStatusChange = (ticketId, value) => {
         setReports((prev) =>
@@ -20,18 +20,18 @@ export const AdminReportAJob = () => {
         if (selectedReport && selectedReport.id === ticketId) {
             setSelectedReport((prev) => ({ ...prev, status: value }));
         }
-        setIsEditingStatus(false);
+        setIsModalOpen(false);
     };
 
     const handleDeleteReport = (ticketId) => {
         if (window.confirm("Are you sure you want to delete this report?")) {
             setReports((prev) => prev.filter((item) => item.id !== ticketId));
             setSelectedReport(null);
-            setIsEditingStatus(false);
+            setIsModalOpen(false);
         }
     };
 
-    // 1. DETAIL VIEW SCREEN
+
     if (selectedReport) {
         const currentStatus = selectedReport.status || 'In Progress';
         const currentPriority = selectedReport.priority || 'Medium';
@@ -41,39 +41,11 @@ export const AdminReportAJob = () => {
                 <h2 className="RepAJob-main-title">Report Information</h2>
 
                 <div className="RepAJob-detail-actions">
-                    <button className="RepAJob-btn-back" onClick={() => { setSelectedReport(null); setIsEditingStatus(false); }}>
-                        <img src={backIcon} alt="back" className="btn-icon-img" />
+                    <button className="RepAJob-btn-back" onClick={() => { setSelectedReport(null); setIsModalOpen(false); }}>
                         Back to Reports
                     </button>
                     
-                    <div className="RepAJob-action-group">
-                        {isEditingStatus ? (
-                            <select 
-                                value={currentStatus} 
-                                onChange={(e) => handleStatusChange(selectedReport.id, e.target.value)}
-                                className="RepAJob-status-dropdown-select"
-                            >
-                                <option value="Pending">Pending</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
-                        ) : (
-                            <div className="RepAJob-status-pill" data-status={currentStatus.toLowerCase().replace(" ", "")}>
-                                <img src={docIcon} alt="status-doc" className="status-pill-icon" /> 
-                                {currentStatus}
-                            </div>
-                        )}
-
-                        <button className="RepAJob-btn-secondary" onClick={() => setIsEditingStatus(!isEditingStatus)}>
-                            <img src={pencil} alt="edit-icon" className="btn-icon-img" />
-                            Edit Status
-                        </button>
-
-                        <button className="RepAJob-btn-secondary RepAJob-delete" onClick={() => handleDeleteReport(selectedReport.id)}>
-                            <img src={deleteIcon} alt="delete-icon" className="btn-icon-img" />
-                            Delete
-                        </button>
-                    </div>
+                    
                 </div>
 
                 <div className="RepAJob-detail-card">
@@ -90,60 +62,91 @@ export const AdminReportAJob = () => {
 
                     <div className="RepAJob-card-right">
                         <div className="RepAJob-meta-row">
-                            <span className="meta-label">
-                             Priority
-                            </span>
+                            <img src={Priority} width={15} height={15} alt="Priority" />
+                            <span style={{ paddingLeft: "15px" }} className="meta-label">Priority</span>
                             <span className="meta-separator">:</span>
                             <span className="meta-value-priority" data-priority={currentPriority.toLowerCase()}>
                                 {currentPriority}
                             </span>
                         </div>
                         <div className="RepAJob-meta-row">
-                            <span className="meta-label">
-                             Status
-                            </span>
+                            <img src={AdminStatus} width={15} height={15} alt="AdminStatus" />
+                            <span style={{ paddingLeft: "15px" }} className="meta-label">Status</span>
                             <span className="meta-separator">:</span>
-                            <span className="meta-value status-text">Opened</span>
+                            <span className="meta-value status-text">
+                                <img src={docIcon} alt="status-doc" style={{ width: '14px', marginRight: '6px', verticalAlign: 'middle' }} />
+                                {currentStatus}
+                            </span>
                         </div>
                     </div>
                 </div>
 
                 <div className="RepAJob-grid-details">
-                    <div className="RepAJob-section">
-                        <h4>Report details</h4>
-                        <p className="RepAJob-description-text">
-                            An online job profile is like your own shop window. You can show employers what you have to offer, and make it easy for them to find you.
-                        </p>
-                    </div>
-
-                    <div className="RepAJob-section">
-                        <h4>User Information</h4>
-                        <div className="RepAJob-user-info-table">
-                            <div className="user-row">
-                                <span className="user-label">Name</span>
-                                <span className="user-sep">:</span>
-                                <span className="user-value highlight-name">
-                                    {selectedReport.firstName} {selectedReport.lastName}
-                                </span>
+                    <div className="RepAJob-user-section">
+                        <h2 className="RepAJob-section-title">User Information</h2>
+                        <div className="RepAJob-user-grid">
+                            <div className="RepAJob-grid-row">
+                                <span className="RepAJob-grid-label">Name :</span> 
+                                <input type="text" disabled value={`${selectedReport.firstName} ${selectedReport.lastName}`} />
                             </div>
-                            <div className="user-row">
-                                <span className="user-label">Mobile number</span>
-                                <span className="user-sep">:</span>
-                                <span className="user-value">{selectedReport.mobile || '+91 9876543210'}</span>
+                            <div className="RepAJob-grid-row">
+                                <span className="RepAJob-grid-label">Mobile number :</span>
+                                <input type='text' disabled value={selectedReport.mobile || '+91 9876543210'} />
                             </div>
-                            <div className="user-row">
-                                <span className="user-label">Mail ID</span>
-                                <span className="user-sep">:</span>
-                                <span className="user-value highlight-email">{selectedReport.email || 'jobportal@gmail.com'}</span>
+                            <div className="RepAJob-grid-row">
+                                <span className="RepAJob-grid-label">Mail ID :</span>
+                                <input type='text' disabled value={selectedReport.email || 'jobportal@gmail.com'} />
+                            </div>
+                            <div className="RepAJob-grid-row">
+                                <span className="RepAJob-grid-label">User :</span>
+                                <input type='text' disabled value={selectedReport.category || 'Report'} />
                             </div>
                         </div>
                     </div>
+
+                  
                 </div>
+
+                  <div className="RepAJob-section">
+                        <h4>Report details</h4>
+                        <p className="RepAJob-description-text">
+                            {selectedReport.description || "An online job profile is like your own shop window. You can show employers what you have to offer, and make it easy for them to find you."}
+                        </p>
+                    </div>
+                <div className="RepAJob-top-actions">
+                        <button onClick={() => setIsModalOpen(!isModalOpen)} className="RepAJob-btn-action">
+                            <img src={pencil} alt="edit-icon" className="RepAJob-btn-icon-img" style={{ marginRight: '6px' }} />
+                            Edit Status
+                        </button>
+                        <button onClick={() => handleDeleteReport(selectedReport.id)} className="RepAJob-btn-action RepAJob-btn-delete">
+                            <img src={deleteIcon} alt="delete-icon" className="RepAJob-btn-icon-img" style={{ marginRight: '6px' }} />
+                            Delete
+                        </button>
+                    </div>
+
+                
+                {isModalOpen && (
+                    <div className="RepAJob-status-modal-overlay">
+                        <div className="RepAJob-status-modal-content">
+                            <h3>Select Status</h3>
+
+                            <div className="RepAJob-status-modal-options">
+                                <button onClick={() => handleStatusChange(selectedReport.id, "Pending")}>Pending</button>
+                                <button onClick={() => handleStatusChange(selectedReport.id, "In Progress")}>In Progress</button>
+                                <button onClick={() => handleStatusChange(selectedReport.id, "Resolved")}>Resolved</button>
+                            </div>
+
+                            <button className="RepAJob-status-modal-cancel" onClick={() => setIsModalOpen(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
 
-    // 2. MAIN TABLE SCREEN
+
     return (
         <div className="RepAJob-container">
             <div className="RepAJob-header">
@@ -156,12 +159,14 @@ export const AdminReportAJob = () => {
                 <table className="RepAJob-table">
                     <thead>
                         <tr>
-                            <th>Report ID</th>
-                            <th>Subject</th>
-                            <th>User</th>
-                            <th>Priority</th>
-                            <th>Received at</th>
-                            <th>Action</th>
+                            <th>REPORT ID</th>
+                            <th>SUBJECT</th>
+                            <th>USER</th>
+                            <th>CATEGORY</th>
+                            <th style={{ paddingLeft: "40px" }}>PRIORITY</th>
+                            <th>RECEIVED AT</th>
+                            <th>STATUS / TIME</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -170,22 +175,34 @@ export const AdminReportAJob = () => {
                                 const itemPriority = item.priority || 'Medium';
                                 return (
                                     <tr key={item.id || index}>
-                                        <td className="bold-id">{item.id}</td>
-                                        <td className="subject-cell">{item.reason || "Progress, project & status reports"}</td>
-                                        <td className="user-name-cell">{item.firstName} {item.lastName}</td>
+                                        <td>{item.id}</td>
+                                        <td>{item.reason || "Progress, project & status reports"}</td>
+                                        <td>{item.firstName} {item.lastName}</td>
+                                        <td>Report</td>
                                         <td>
-                                            <span className="RepAJob-priority-badge" data-priority={itemPriority.toLowerCase()}>
+                                            <span 
+                                                style={{ display: "flex", justifyContent: "center" }} 
+                                                className={`Escalation-priority ${itemPriority}`}
+                                            >
                                                 {itemPriority}
                                             </span>
                                         </td>
-                                        <td className="date-cell">
-                                            <div>{item.date?.split(',')[0] || "May 15, 2026"}</div>
-                                            <div className="time-subtext">{item.date?.split(',')[1] || "12:15 PM"}</div>
-                                        </td>
+                                        <td>{item.date?.split(',')[0] || "May 15, 2026"}</td>
+                                        <td>{item.resolvedon ? item.resolvedon : (item.status || "Opened")}</td>
                                         <td>
-                                            <button className="RepAJob-btn-view" onClick={() => setSelectedReport(item)}>
-                                                <img src={eye} alt="eye-icon" className="view-btn-icon" />
-                                                View
+                                            <button 
+                                                style={{
+                                                    background: "#1E88E5", 
+                                                    color: "white", 
+                                                    borderRadius: "5px",
+                                                    padding: "7px 10px", 
+                                                    outline: "none", 
+                                                    border: "none",
+                                                    cursor: "pointer"
+                                                }} 
+                                                onClick={() => setSelectedReport(item)}
+                                            >
+                                                View Details
                                             </button>
                                         </td>
                                     </tr>
@@ -193,7 +210,7 @@ export const AdminReportAJob = () => {
                             })
                         ) : (
                             <tr>
-                                <td colSpan="6" className="no-reports-cell">
+                                <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: "#6b7280" }}>
                                     No Reports Found
                                 </td>
                             </tr>

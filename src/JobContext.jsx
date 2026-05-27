@@ -108,7 +108,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "05/01/2026"
+            joinDate: "05/01/2026",
+            lastseen:"10 days ago"
         },
         {
             id: "2",
@@ -125,7 +126,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "15/11/2025"
+            joinDate: "15/11/2025",
+            lastseen:"1 days ago"
         },
         {
             id: "3",
@@ -142,7 +144,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "25/08/2024"
+            joinDate: "25/08/2024",
+            lastseen:"3 days ago"
         },
         {
             id: "4",
@@ -159,7 +162,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "03/03/2026"
+            joinDate: "03/03/2026",
+            lastseen:"20 days ago"
         },
         {
             id: "5",
@@ -176,7 +180,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "01/12/2023"
+            joinDate: "01/12/2023",
+            lastseen:"1 hour ago"
         },
         {
             id: "6",
@@ -193,7 +198,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "07/07/2024"
+            joinDate: "07/07/2024",
+            lastseen:"10 hours ago"
         },
         {
             id: "7",
@@ -210,7 +216,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "15/06/2024"
+            joinDate: "15/06/2024",
+            lastseen:"12 days ago"
         },
         {
             id: "8",
@@ -227,7 +234,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "24/04/2024"
+            joinDate: "24/04/2024",
+            lastseen:"7 days ago"
         },
         {
             id: "9",
@@ -244,7 +252,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "20/02/2024"
+            joinDate: "20/02/2024",
+            lastseen:"3 days ago"
         },
         {
             id: "10",
@@ -261,7 +270,8 @@ export const JobProvider = ({ children }) => {
             appliedJobs: [],
             savedJobs: [],
             status: "Active",
-            joinDate: "17/05/2023"
+            joinDate: "17/05/2023",
+            lastseen:"1 month ago"   
         }
     ]
     )

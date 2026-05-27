@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './MembershipPlans.css';
 import { useJobs } from '../JobContext';
 
-export const MembershipPlans = ({ onSelectPlan }) => {
+export const MembershipPlans = ({onSelectPlan}) => {
     const [activeTab, setActiveTab] = useState('Monthly');
-    const { allPlans, currentEmployer } = useJobs(); 
+    const { allPlans, currentEmployer,setCurrentEmployer} = useJobs(); 
 
 const getCalculatedTabPlans = () => {
     return (allPlans).map((masterPlan) => {
@@ -64,6 +64,7 @@ const handlePlanSelection = (computedPlan) => {
 
     onSelectPlan({
         ...computedPlan,
+        level: computedPlan.planLevel,
         name: computedPlan.PlanName, 
         subtitle: computedPlan.badge,
         billingCycle: computedPlan.currentBillingCycle,
@@ -75,6 +76,24 @@ const handlePlanSelection = (computedPlan) => {
         totalWithTax: parseFloat(totalWithTax.toFixed(2)),
         status: 'active'
     });
+
+    setCurrentEmployer(prev => ({
+            ...prev,
+            membership: {
+                planLevel: computedPlan.level,
+                planName: computedPlan.name,
+                startDate: computedPlan.startDate,
+                expiryDate: computedPlan.expiryDate,
+                billingCycle: computedPlan.billingCycle,
+                status: computedPlan.status,
+                paymentDetails: {
+                    subtotal: computedPlan.subtotal,
+                    tax: computedPlan.cgst + computedPlan.sgst,
+                    total: computedPlan.totalWithTax
+                }
+            }
+        }));
+
 };
 
 const dynamicPlansToRender = getCalculatedTabPlans();
@@ -150,7 +169,7 @@ const dynamicPlansToRender = getCalculatedTabPlans();
                                             <span className="MembershipPlans-icon">
                                                 {feat.isInclude ? '✔' : '✘'}
                                             </span>
-                                            {feat.text}
+                                            {feat.value} {feat.text}
                                         </li>
                                     ))}
                                 </ul>

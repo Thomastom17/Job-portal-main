@@ -5,17 +5,15 @@
     margin-left: 15rem;
 }
 
-/* --- Pagination Container --- */
 .Navigation-job-Tab {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 40px 0;
-    flex-wrap: wrap; /* Ensures wrapping on smaller screens */
-    gap: 15px; /* Adds space between elements when they wrap */
+    flex-wrap: wrap;
+    gap: 15px; 
 }
 
-/* --- Next / Prev Buttons --- */
 .Navigation-btn {
     background-color: #1E88E5; 
     color: white;
@@ -23,18 +21,18 @@
     min-width: 100px; 
     padding: 10px 20px;
     cursor: pointer; 
-    border-radius: 6px; /* Slightly softer corners */
+    border-radius: 6px; 
     font-weight: 600; 
     font-size: 14px;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 6px rgba(30, 136, 229, 0.2); /* Adds depth */
+    box-shadow: 0 4px 6px rgba(30, 136, 229, 0.2); 
     transition: all 0.3s ease;
 }
 
 .Navigation-btn:hover:not(:disabled) {
-    background-color: #1565C0; /* Slightly darker shade on hover for effect */
+    background-color: #1565C0; 
     border-color: #1565C0;
-    transform: translateY(-2px); /* Lifts button slightly */
+    transform: translateY(-2px); 
     box-shadow: 0 6px 8px rgba(30, 136, 229, 0.3);
 }
 
@@ -52,15 +50,13 @@
     transform: none;
 }
 
-/* --- Page Numbers Area --- */
 .page-numbers {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap; /* Ensures numbers wrap to next row if there are many */
+  flex-wrap: wrap; 
   justify-content: center;
 }
 
-/* --- Individual Page Circles --- */
 .page-btn {
   background: transparent;
   border: 1px solid transparent;
@@ -77,11 +73,10 @@
 }
 
 .page-btn:hover {
-    background-color: #e3f2fd; /* Very light blue hover */
+    background-color: #e3f2fd; 
     color: #1E88E5;
 }
 
-/* Active State */
 .page-btn.active {
   background: #007bff;
   color: #fff;
@@ -90,7 +85,6 @@
   font-weight: 600;
 }
 
-/* Ellipsis (...) Styling */
 .dots {
     display: flex;
     align-items: flex-end;

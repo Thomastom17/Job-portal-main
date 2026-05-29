@@ -32,8 +32,8 @@ import { UserManagement } from './UserManagement'
 import { ActivityMonitor } from './ActivityMonitor'
 import { AdminReports } from './AdminReports'
 import { JobMonitoring } from './JobMonitoring'
-// import { RolePermission } from './RolePermission'
-// import { RoleManagement } from './RoleManagement'
+//import { RolePermission } from './RolePermission'
+//import { RoleManagement } from './RoleManagement'
 import { Membership } from './Membership'
 import { AdminSettings } from './AdminSettings'
 import { useNavigate } from 'react-router-dom'
@@ -49,25 +49,26 @@ import {LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XA
 } from 'recharts';
 import { display } from '@mui/system'
 import { AdminHeader } from './AdminHeader'
-import { HighligtedJobs } from './HighligtedJobs'
+import {HighlightedJobs} from './HighligtedJobs'
 import { PublishedPlans } from './PublishedPlans'
 import { SupportHub } from './SupportHub'
-
+ 
 export const AdminDashboard = () => {
     const { jobs, Alluser, currentEmployer } = useJobs();
     const [activetab, setActiveTab] = useState('Dashboard');
     const [subTab, setSubTab] = useState('AdminMonitor')
     const navigate = useNavigate();
-
+    const [showHighlightedJobs, setShowHighlightedJobs] = useState(false);
+ 
     const overviewStats = [
         { label: 'All Jobs', count: jobs.length, icon: TotalJobs, tabName: 'Job Monitoring' },
         { label: 'Total Companies', count: 50, icon: TotalCompanies, tabName: 'Activity Monitoring', },
         { label: 'Total Employers', count: 50, icon: TotalEmployers, query: "Employers" },
         { label: 'Total Jobseekers', count: Alluser.length, icon: TotalJobseekers, query: "Jobseeker" },
     ];
-
+ 
     const jobAds = jobs.filter(job => job.isHighlighted === true)
-
+ 
     // const jobAds = [
     //     { title: "Investment ESG Analyst", code: "W1", new: 185, waiting: 0, total: 250 },
     //     { title: "Finance Analyst", code: "W1", new: 120, waiting: 20, total: 180 },
@@ -103,35 +104,35 @@ export const AdminDashboard = () => {
     { name: 'Mar', postings: 330 },
     { name: 'Apr', postings: 400 },
   ];
-
+ 
   const Activities = [
     { name: 'Jan', newUsers: 300, jobsPosted: 200, subscribers: 400 },
     { name: 'Feb', newUsers: 300, jobsPosted: 200, subscribers: 400 },
     { name: 'Mar', newUsers: 300, jobsPosted: 200, subscribers: 400 },
     { name: 'Apr', newUsers: 300, jobsPosted: 200, subscribers: 400 },
   ];
-
+ 
   const LegendItem = ({ color, label }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: color }} />
       <span style={{ fontSize: '12px', color: '#666' }}>{label}</span>
     </div>
   );
-
+ 
     const handleViewMore = (stat) => {
         if (stat.label === 'Total Companies') {
             setSubTab('CompanyApproval');
             setActiveTab('Activity Monitoring');
             return;
         }
-
+ 
         if (stat.query) {
             let roleQuery = stat.query === "Employers" ? 'employer' : 'candidate';
             setActiveTab('User Management');
             navigate('/Job-portal/admin/Dashboard', { state: { filterRole: roleQuery } });
         }
-
-
+ 
+ 
         else if (stat.tabName) {
             setActiveTab(stat.tabName);
         }
@@ -143,7 +144,7 @@ export const AdminDashboard = () => {
                 <div className='Admin-Sidebar'>
                     <h2 style={{ textAlign: "center", marginTop: "35px" }}>Adminstrator</h2>
                     <div className='Admin-Sidebar-list'>
-
+ 
                         <div onClick={() => setActiveTab('Dashboard')} className={activetab === 'Dashboard' ? "Admin-Active" : 'Admin-Navbar'}>
                             <div className='Admin-Navbox'>
                                 {activetab === 'Dashboard' ? <img src={Dashboard} width={15} height={15} alt="dashboard" />
@@ -179,7 +180,7 @@ export const AdminDashboard = () => {
                                 <div className='Enav-item'>Role Management</div>
                             </div>
                         </div> */}
-
+ 
                         <div onClick={() => setActiveTab('Membership')} className={activetab === "Membership" ? "Admin-Active" : 'Admin-Navbar'}>
                             <div className='Admin-Navbox'>
                                 {activetab === "Membership" ? <img src={MembershipsAct} width={15} height={15} alt="dashboard" />
@@ -209,18 +210,18 @@ export const AdminDashboard = () => {
                             </div>
                         </div>
                     </div>
-
+ 
                 </div>
                 <div className='Admin-MainSec'>
-                    {activetab === 'Dashboard' && (
+                    {activetab === 'Dashboard' && !showHighlightedJobs && (
                         <div>
                             <div className='Admin-Welcome-Container'>
                             <p className='Admin-Welcome-Note'>Welcome Back, Admin</p>
                             <p className='Admin-Welcome-para'>Your team’s success start here. lets make progress together!</p>
                         </div>
-                        
-
-
+                       
+ 
+ 
                             <div className='Admin-Overview'>
                                 {overviewStats.map((stat, index) => (
                                     <div className='Admin-Overview-Container' key={index}>
@@ -240,19 +241,19 @@ export const AdminDashboard = () => {
                                     </div>
                                 ))}
                             </div>
-
-
+ 
+ 
                             <div style={{ display: "grid", gridTemplateColumns:"1fr 1fr" ,gap: "10px", marginTop: "20px" }}>
                                 <div style={{ boxShadow:" 0px 2px 6px 2px rgba(0, 0, 0, 0.15)", borderRadius: "15px" }}>
                                           <div style={{
                                             width: '100%',
                                             height: 400,
                                             borderRadius: '15px',
-                                            // boxShadow: '0px 0px 15px rgba(0,0,0,0.05)' 
+                                            // boxShadow: '0px 0px 15px rgba(0,0,0,0.05)'
                                             // border: '1px solid black'
                                           }}>
                                             <h2 style={{ fontFamily: 'sans-serif', color: '#333', marginBottom: '20px', paddingLeft: "40px" }}>Job Postings</h2>
-                                
+                               
                                             <div style={{ width: '100%', height: '70%' }}>
                                               <ResponsiveContainer width="100%" height="100%">
                                                 <BarChart
@@ -275,7 +276,7 @@ export const AdminDashboard = () => {
                                                     domain={[0, 500]}
                                                     ticks={[0, 100, 200, 300, 400, 500,600]}
                                                   />
-                                
+                               
                                                   {/* background "track" effect using background property */}
                                                   <Bar
                                                     dataKey="postings"
@@ -295,7 +296,7 @@ export const AdminDashboard = () => {
                                          <img src={Highlight} width={22} alt="" />
                                         </div>
                                         <div className="Admin-jobads-buttons">
-                                            <button onClick={()=>setActiveTab('Highlighted Jobs')} className="Admin-create-btn">VIEW ALL</button>
+                                            <button onClick={()=>setShowHighlightedJobs(true)} className="Admin-create-btn">VIEW ALL</button>
                                         </div>
                                     </div>
                                     <div style={{display:"flex",flexDirection:"column",padding:"15px"}}>
@@ -320,13 +321,13 @@ export const AdminDashboard = () => {
                                                     <p className="Ads-Count">{job.total}</p>
                                                     <span>Total</span>
                                                 </div> */}
-                                                
+                                               
                                             </div>
                                         </div>
                                     ))}
                                     </div>
                                 </div>
-                                
+                               
                             </div>
                             <div >
                             <h2 style={{ marginTop:"30px"}}> Analytical Reports</h2>
@@ -338,15 +339,15 @@ export const AdminDashboard = () => {
                                             <img src={stat.icon} width={30} alt={stat.title} />
                                             <h3 className="admin-card-title">{stat.title}</h3>
                                         </div>
-
+ 
                                         <hr className="admin-divider" />
-
+ 
                                         <div className="admin-dash-stats-row">
                                             <div className="admin-dash-stat-value-group">
                                                 <span style={{ fontSize: "16px" }}>{stat.value}</span>
                                                 <span style={{ fontSize: "14px" }}>Today</span>
                                             </div>
-
+ 
                                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <img
                                                     src={stat.isUp ? CensusUp : CensusDown}
@@ -379,19 +380,19 @@ export const AdminDashboard = () => {
                                             <h2 style={{ fontFamily: 'sans-serif', color: '#333', marginBottom: '20px', paddingLeft: "40px" }}>
                                               User Growth
                                             </h2>
-                                
+                               
                                             <ResponsiveContainer width="100%" height="70%">
                                               <AreaChart data={UserGrowth} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                                                 <defs>
-                                
+                               
                                                   <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
                                                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
                                                     <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                                                   </linearGradient>
                                                 </defs>
-                                
+                               
                                                 <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#eee" />
-                                
+                               
                                                 <XAxis
                                                   dataKey="name"
                                                   axisLine={false}
@@ -399,15 +400,15 @@ export const AdminDashboard = () => {
                                                   tick={{ fill: '#888', fontSize: 12 }}
                                                   dy={10}
                                                 />
-                                
+                               
                                                 <YAxis
                                                   axisLine={false}
                                                   tickLine={false}
                                                   tick={{ fill: '#888', fontSize: 12 }}
                                                 />
-                                
+                               
                                                 <Tooltip />
-                                
+                               
                                                 <Area
                                                   type="monotone"
                                                   dataKey="users"
@@ -426,13 +427,13 @@ export const AdminDashboard = () => {
                                         height: 400,
                                         backgroundColor: '#fff',
                                         borderRadius: '12px',
-                            
+                           
                                         fontFamily: 'sans-serif'
                                       }}>
                                         <h2 style={{ fontFamily: 'sans-serif', color: '#333', marginBottom: '20px', paddingLeft: "40px" }}>
                                           Activities
                                         </h2>
-                            
+                           
                                         <ResponsiveContainer width="100%" height="70%">
                                           <AreaChart data={Activities} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                             <defs>
@@ -449,7 +450,7 @@ export const AdminDashboard = () => {
                                                 <stop offset="95%" stopColor="#D946EF" stopOpacity={0} />
                                               </linearGradient>
                                             </defs>
-                            
+                           
                                             <CartesianGrid vertical={false} stroke="#eee" />
                                             <XAxis
                                               dataKey="name"
@@ -466,7 +467,7 @@ export const AdminDashboard = () => {
                                               ticks={[0, 100, 200, 300, 400, 500]}
                                             />
                                             <Tooltip />
-                            
+                           
                                             <Area
                                               type="monotone"
                                               dataKey="newUsers"
@@ -493,27 +494,27 @@ export const AdminDashboard = () => {
                                             />
                                           </AreaChart>
                                         </ResponsiveContainer>
-                            
+                           
                                         {/* Custom Legend */}
                                         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
                                           <LegendItem color="#0095FF" label="New Users" />
                                           <LegendItem color="#FF4D4D" label="Jobs Posted" />
                                           <LegendItem color="#D946EF" label="Subscribers" />
                                         </div>
-                            
+                           
                                       </div>
                                     </div>
                             </div>
                             </div>
                             </div>
-
+ 
                             <div style={{ display: "grid",gridTemplateColumns:"1fr 1fr", gap: "40px", marginTop: "50px" }}>
                                 <div className='Admin-Experience'><AdminExperience /></div>
                                 <div className='Admin-overview-cont'><TotalOverview /></div>
                             </div>
                         </div>
                     )}
-
+ 
                     {activetab === 'Job Monitoring' && <JobMonitoring />}
                     {activetab === 'Activity Monitoring' && (<ActivityMonitor initialTab={subTab} />)}
                     {activetab === 'User Management' && (<UserManagement />)}
@@ -523,7 +524,7 @@ export const AdminDashboard = () => {
                     {activetab === 'SupportHub' && (<SupportHub/> )}
                     {/* {activetab === 'Reports' && (<AdminReports />)} */}
                     {activetab === 'settings' && (<AdminSettings />)}
-                    {activetab === 'Highlighted Jobs' && (<HighligtedJobs />)}
+                    {showHighlightedJobs && (<HighlightedJobs setShowHighlightedJobs={setShowHighlightedJobs} />)}
                 </div>
             </div>
         </>

@@ -2,11 +2,10 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import './JobMonitoring.css';
 import { JobPreviewModal } from './JobPreviewModal';
 import { useJobs } from '../JobContext';
-
 import { JobMonitorOverview } from './JobMonitorOverview';
 
 export const JobMonitoring = () => {
-    const {jobs, setJobs, deleteJob} = useJobs();
+    const { jobs, setJobs, deleteJob } = useJobs();
     const [activeMenu, setActiveMenu] = useState(null);
     const menuRef = useRef(null);
     const [filterType, setFilterType] = useState('Newest');
@@ -26,11 +25,9 @@ export const JobMonitoring = () => {
         };
     }, [activeMenu]);
 
-    // --- PAGINATION LOGIC ---
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 10;
 
-    // --- LOGIC: FILTERING & SORTING  ---
     const filteredJobs = useMemo(() => {
         let result = [...jobs];
         const now = new Date();
@@ -47,10 +44,10 @@ export const JobMonitoring = () => {
             case 'Last 10': result = result.slice(0, 10); break;
             case 'Last 20': result = result.slice(0, 20); break;
             case 'Flagged': result = result.filter(j => j.isFlagged); break;
-            case 'Rejected': result = result.filter(j => j.status === 'Rejected'); break;
-            case 'Approved': result = result.filter(j => j.status === 'Approved'); break;
-            case 'Posted': result = result.filter(j => j.status === 'Posted'); break;
-            case 'Updated': result = result.filter(j => j.status === 'Updated'); break;
+            case 'Rejected': result = result.filter(j => j.status?.toLowerCase() === 'rejected'); break;
+            case 'Approved': result = result.filter(j => j.status?.toLowerCase() === 'approved'); break;
+            case 'Posted': result = result.filter(j => j.status?.toLowerCase() === 'posted'); break;
+            case 'Updated': result = result.filter(j => j.status?.toLowerCase() === 'updated'); break;
             case '1 Day': result = result.filter(j => getDaysDiff(j.date) <= 1); break;
             case '1 Week': result = result.filter(j => getDaysDiff(j.date) <= 7); break;
             case '2 Week': result = result.filter(j => getDaysDiff(j.date) <= 8); break;
@@ -77,12 +74,14 @@ export const JobMonitoring = () => {
 
     const handleApprove = (id) => {
         setJobs(prev => prev.map(j => j.id === id ? { ...j, status: 'Approved' } : j));
+        setActiveMenu(null); // Instantly closes control drop context
     };
 
     const handleReject = (id) => {
         if (window.confirm("Reject this job?")) {
             setJobs(prev => prev.map(j => j.id === id ? { ...j, status: 'Rejected' } : j));
         }
+        setActiveMenu(null);
     };
 
     const handleToggleFlag = (id) => {
@@ -90,10 +89,21 @@ export const JobMonitoring = () => {
         setActiveMenu(null);
     };
 
-    const handleDelete = (id) => {
+    const handleDeleteRow = (id) => {
         if (window.confirm("Permanent delete?")) {
-            setJobs(prev => prev.filter(j => j.id !== id));
+            if (deleteJob) {
+                deleteJob(id); // Connecting to your global Context implementation
+            } else {
+                setJobs(prev => prev.filter(j => j.id !== id));
+            }
         }
+        setActiveMenu(null);
+    };
+
+    const toggleMenu = (id, e) => {
+        e.stopPropagation();
+        // If same clicked -> close, else shift menu container reference to target row item
+        setActiveMenu(prev => prev === id ? null : id);
     };
 
     return(
@@ -105,6 +115,7 @@ export const JobMonitoring = () => {
                     <h1 className="main-title">Job Monitoring</h1>
                     <p className="sub-title">Monitor and manage all job postings, application activity, and overall platform performance</p>
                 </div>
+            
             </div>
 
             <div className="monitoring-container">
@@ -118,35 +129,43 @@ export const JobMonitoring = () => {
                 </div>
 
                 {currentPosts.length > 0 ? (
-                    currentPosts.map((job) => (
-                        <div key={job.id} className={`job-row ${job.isFlagged ? 'flagged-row' : ''}`}>
-                            
-                            
-                            <div className="cell id-col text-id">
-                                {job.id}
-                            </div>
+                    currentPosts.map((job) => {
+                        const currentStatus = (job.status || 'posted').toLowerCase();
+                        return (
+                            <div key={job.id} className={`job-row ${job.isFlagged ? 'flagged-row' : ''}`}>
+                                <div className="cell id-col text-id">
+                                    {job.id}
+                                </div>
 
-                            <div className="cell role-col">
-                                <span className="text-company">{job.title}</span>
-                                {job.isFlagged && <span className="flag-indicator">🚩</span>}
-                            </div>
-                            <div className="cell company-col text-company">{job.company}</div>
-                            <div className="cell status-col">
-                                <span className={`status-pill posted`}>{job.status || 'posted'}</span>
-                            </div>
-                            <div className="cell date-col text-date">{job.posted}</div>
-                            <div className="cell actions-col">
-                                <div className="action-icons-container">
-                                    <div className="more-component" ref={activeMenu === job.id ? menuRef : null}>
+                                <div className="cell role-col">
+                                    <span className="text-role">{job.title}</span>
+                                    {job.isFlagged && <span className="flag-indicator" style={{ marginLeft: '6px' }}>🚩</span>}
+                                </div>
+                                <div className="cell company-col text-company">{job.company}</div>
+                                
+                                <div className="cell status-col">
+                                    
+                                    <span className={`status-pill ${currentStatus}`}>
+                                        {currentStatus}
+                                    </span>
+                                </div>
+                                
+                                <div className="cell date-col text-date">{job.posted}</div>
+                                
+                                <div className="cell actions-col">
+                                    <div className="action-icons-container" style={{ gap: '8px', position: 'relative' }}>
                                         <button 
-                                            style={{ padding: '6px 12px', cursor: 'pointer', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}
+                                            style={{ padding: '6px 12px', cursor: 'pointer', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', fontWeight: '600', fontSize: '13px' }}
                                             onClick={() => setSelectedJobId(job.id)}
-                                        >View Detail</button>
+                                        >
+                                            View Detail
+                                        </button>
+                                        
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        );
+                    })
                 ) : (
                     <div className="no-results">No jobs match this filter.</div>
                 )}
@@ -181,11 +200,11 @@ export const JobMonitoring = () => {
         </div>
         ) : (
             <>
-                <div style={{ display: 'flex', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', marginBottom: '10px', padding: '0 30px' }}>
                     <button 
                         onClick={() => setSelectedJobId(null)} 
-                        style={{ background: '#a09f9f', borderRadius:"5px", padding:"7px 11px", border: 'none', fontSize: '16px', cursor: 'pointer', fontWeight: 'bold', color: '#fff' }}
-                    >Back</button>
+                        style={{ background: '#64748b', borderRadius:"6px", padding:"8px 16px", border: 'none', fontSize: '14px', cursor: 'pointer', fontWeight: '600', color: '#fff', transition: 'background 0.2s' }}
+                    >← Back to Monitoring</button>
                 </div>
                 <JobMonitorOverview jobId={selectedJobId} setSelectedJobId={setSelectedJobId} />
             </>

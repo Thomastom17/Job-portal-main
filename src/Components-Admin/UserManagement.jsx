@@ -35,6 +35,12 @@ export const UserManagement = () => {
           role: "employer",
           status: currentEmployer.status || "Active",
           profile: { fullName: currentEmployer.hrName },
+          companyDetails: {
+            companyName: currentEmployer.company,
+            companyId: currentEmployer.companyId,
+            planName: currentEmployer.membership?.planName || "Free Plan",
+            planLevel: currentEmployer.membership?.planLevel || "1"
+          },
           contact: { email: currentEmployer.email, city: "Chennai", mobile: "9876543210" },
           joinDate: currentEmployer.joinDate,
           lastseen: "Active Now"
@@ -45,11 +51,9 @@ export const UserManagement = () => {
 
 
   const handleStatusChange = (id, newStatus) => {
-    // 1. Local State Update
     setUsersList(prev => prev.map(u => u.id === id ? { ...u, status: newStatus } : u));
     setSelectedUser(prev => prev && prev.id === id ? { ...prev, status: newStatus } : prev);
     
-    // 2. Global Context / Database Save call
     if (updateUserStatus) {
       updateUserStatus(id, newStatus);
     }
@@ -100,11 +104,15 @@ export const UserManagement = () => {
   };
 
   if (isDetailView && selectedUser) {
+    const isEmployer = selectedUser.role === 'employer';
+
     return (
       <div className="detail-page-wrapper">
         <div className="detail-section-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 className="detail-section-title" style={{ margin: 0 }}>User Information</h3>
+            <h3 className="detail-section-title" style={{ margin: 0 }}>
+              {isEmployer ? "Employer Information" : "User Information"}
+            </h3>
             <button onClick={() => setIsDetailView(false)} className="detail-btn-action" style={{ background: '#f1f5f9' }}>
               Back to List
             </button>
@@ -118,7 +126,7 @@ export const UserManagement = () => {
             </div>
 
             <div className="detail-field-row">
-              <label>Name :</label>
+              <label>{isEmployer ? "HR Name :" : "Name :"}</label>
               <input type="text" readOnly value={selectedUser.profile?.fullName || ""} />  
             </div>
 
@@ -132,25 +140,59 @@ export const UserManagement = () => {
               <input type="text" readOnly value={selectedUser.contact?.email || ""} />
             </div>
 
-            <div className="detail-field-row">
-              <label>User :</label>
-              <input type="text" readOnly value={selectedUser.role === 'employer' ? 'Employer' : 'Candidate'} />
-            </div>
+            {/* <div className="detail-field-row">
+              <label>User Type :</label>
+              <input type="text" readOnly value={isEmployer ? "Employer" : "Jobseeker"} />
+            </div> */}
+            
+            
+            {isEmployer ? (
+              <>
+                <div className="detail-field-row">
+                  <label>Company ID :</label>  
+                  <input type="text" readOnly value={selectedUser.companyDetails.companyId || "N/A"} />
+                </div>
 
-            <div className="detail-field-row">
-              <label>Current Details :</label>  
-              <input type="text" readOnly value={selectedUser.currentDetails?.currentLocation || "Chennai"} />
-            </div>
+                <div className="detail-field-row">
+                  <label>Company Name :</label>  
+                  <input type="text" readOnly value={selectedUser.companyDetails.companyName || "N/A"} />
+                </div>
+               
+                <div className="detail-field-row">
+                  <label>Join Date :</label>  
+                  <input type="text" readOnly value={selectedUser.joinDate || "N/A"} />
+                </div>
 
-             <div className="detail-field-row"> 
-               <label>Education :</label>
-               <input type="text" readOnly value={selectedUser.education?.highestQual || "B.E / B.Tech / Graduate"} />
-             </div>
 
-            <div className="detail-field-row">
-              <label>Skills :</label>
-              <input type="text" readOnly value={Array.isArray(selectedUser.skills) ? selectedUser.skills.join(", ") : selectedUser.skills || "React, Node.js, JavaScript, CSS"} />
-            </div>
+                <div className="detail-field-row">
+                  <label>Membership Plan :</label>  
+                  <input type="text" readOnly value={selectedUser.companyDetails?.planName || "Basic Plan"} />
+                </div>
+              </>
+            ) : (
+              <>
+
+                <div className="detail-field-row">
+                  <label>Preferred Role :</label>
+                  <input type="text" readOnly value={selectedUser.preferences?.[0]?.role || "Candidate"} />
+                </div>
+
+                <div className="detail-field-row">
+                  <label>Current Details :</label>  
+                  <input type="text" readOnly value={selectedUser.currentDetails?.currentLocation || "Chennai"} />
+                </div>
+
+                <div className="detail-field-row"> 
+                   <label>Education :</label>
+                   <input type="text" readOnly value={selectedUser.education?.highestQual || "B.E / B.Tech / Graduate"} />
+                </div>
+
+                <div className="detail-field-row">
+                  <label>Skills :</label>
+                  <input type="text" readOnly value={Array.isArray(selectedUser.skills) ? selectedUser.skills.join(", ") : selectedUser.skills || "React, Node.js, JavaScript, CSS"} />
+                </div>
+              </>
+            )}
 
             <div className="detail-field-row">
               <label>Current Status :</label>
@@ -162,8 +204,8 @@ export const UserManagement = () => {
         <div className="detail-section-card">
           <h3 className="detail-section-title">Details</h3>
           <div className="detail-report-textbox">
-            {selectedUser.role === 'employer' ? (
-              `This employer registered on ${selectedUser.joinDate}.`
+            {isEmployer ? (
+              `This employer registered on ${selectedUser.joinDate} and is currently managing corporate postings.`
             ) : (
               `An online job profile is like your own shop window. You can show employers what you have to offer, and make it easy for them to find you.`
             )}
@@ -183,13 +225,11 @@ export const UserManagement = () => {
           <div className="detail-status-modal-overlay">
             <div className="detail-status-modal-content">
               <h3>Select Status</h3>
-
               <div className="detail-status-modal-options">
                 <button onClick={() => handleStatusChange(selectedUser.id, "Active")}>Active</button>
                 <button onClick={() => handleStatusChange(selectedUser.id, "Hold")}>Hold</button> 
                 <button onClick={() => handleStatusChange(selectedUser.id, "Deactivated")}>Deactivated</button>
               </div>
-
               <button className="detail-status-modal-cancel" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>

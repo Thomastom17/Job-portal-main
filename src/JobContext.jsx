@@ -278,8 +278,8 @@ export const JobProvider = ({ children }) => {
     const currentUserId = "5";
     const currentUser = Alluser.find(user => user.id === currentUserId);
     const isUserAccessible = currentUser && currentUser.status === "Active";
-    const savedJobs = currentUser.savedJobs;  //created to show the data in Myjobs.jsx
-    const appliedJobs = currentUser.appliedJobs; //created to show the data in Myjobs.jsx
+    const savedJobs = currentUser.savedJobs; 
+    const appliedJobs = currentUser.appliedJobs;
     const defaultPlan = allPlans.find(plan => plan.id === 'starter');
 
     const [currentEmployer, setCurrentEmployer] = useState({

@@ -150,6 +150,7 @@
   font-size: 14px;
   padding: 9px 0;
   display: flex;
+  justify-content: left;
   align-items: center;
   line-height: 1.4;
 }
@@ -228,6 +229,31 @@
 
 .MembershipPlans-btn-start.purple:hover {
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.MembershipPlans-amount-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* space between old price, new price and month tag */
+}
+
+.original-strike-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.MembershipPlans-amount {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.per-month-text {
+    font-size: 0.9rem;
+    color: #666;
 }
 
 /* Responsive Adjustments */

@@ -74,7 +74,7 @@ export const JobMonitoring = () => {
 
     const handleApprove = (id) => {
         setJobs(prev => prev.map(j => j.id === id ? { ...j, status: 'Approved' } : j));
-        setActiveMenu(null); // Instantly closes control drop context
+        setActiveMenu(null); 
     };
 
     const handleReject = (id) => {
@@ -92,7 +92,7 @@ export const JobMonitoring = () => {
     const handleDeleteRow = (id) => {
         if (window.confirm("Permanent delete?")) {
             if (deleteJob) {
-                deleteJob(id); // Connecting to your global Context implementation
+                deleteJob(id); 
             } else {
                 setJobs(prev => prev.filter(j => j.id !== id));
             }
@@ -102,7 +102,6 @@ export const JobMonitoring = () => {
 
     const toggleMenu = (id, e) => {
         e.stopPropagation();
-        // If same clicked -> close, else shift menu container reference to target row item
         setActiveMenu(prev => prev === id ? null : id);
     };
 
@@ -150,7 +149,7 @@ export const JobMonitoring = () => {
                                     </span>
                                 </div>
                                 
-                                <div className="cell date-col text-date">{job.posted}</div>
+                                <div className="cell date-col text-date  ">{job.posted}</div>
                                 
                                 <div className="cell actions-col">
                                     <div className="action-icons-container" style={{ gap: '8px', position: 'relative' }}>

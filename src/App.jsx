@@ -12,7 +12,6 @@ import { Esignup } from './Components-EmployerSignup/Esignup'
 import { Eforgotpassword } from './Components-EmployerSignup/Eforgotpassword'
 import { Ecreatepassword } from './Components-EmployerSignup/Ecreatepassword'
 import { OpportunityOverview } from './Components-Jobseeker/OpportunityOverview'
-import { ReportAJob } from './Components-Jobseeker/ReportAJob'
 import { MyJobs } from './Components-Jobseeker/MyJobs'
 import { JobsTab } from './Components-Jobseeker/JobsTab'
 import { CompaniesTab } from './Components-Jobseeker/CompaniesTab'
@@ -27,7 +26,7 @@ import { AppliedJobsOverview } from './Components-Jobseeker/AppliedJobsOverview'
 import { Revoked } from './Components-Jobseeker/Revoked'
 import { Settings } from './Components-Jobseeker/Settings'
 import { Blogpage } from './Components-LandingPage/BlogPage'
-import { BlogCategory } from './Components-LandingPage/BlogCategory'
+import BlogCategory from './Components-LandingPage/BlogCategory'
 import { TechnologyBlog } from './Components-LandingPage/TechnologyBlog'
 import { ContactUs } from './Components-LandingPage/ContactUs'
 import { FAQ } from './Components-LandingPage/FAQ'
@@ -48,7 +47,7 @@ import { FileUploadHelp } from './Components-Jobseeker/FileUploadHelp'
 import { EmployerDashboard } from './Components-Employer/EmployerDashboard'
 import { JMessenger } from './Components-Jobseeker/JMessenger'
 import { EMessenger } from './Components-Employer/EMessenger'
-import { FindTalent } from './Components-Employer/FindTalent'
+import {FindTalent} from './Components-Employer/FindTalent'
 import { AboutYourCompany } from './Components-Employer/AboutYourCompany'
 import { CompanyVerify } from './Components-Employer/CompanyVerify'
 import { PostJobForm } from './Components-Employer/PostJobForm'
@@ -57,13 +56,11 @@ import { PostedJobs } from './Components-Employer/PostedJobs'
 import { EditJob } from './Components-Employer/EditJob'
 import { JsProfileOverview } from './Components-Employer/JsProfileOverview'
 import { OtpVerification } from './Components-JobseekerSignup/OtpVerification'
+import { ReportAJob } from './Components-Jobseeker/ReportAJob'
 import { AdminLogin } from './Components-Admin/AdminLogin'
 import { AdminDashboard } from './Components-Admin/AdminDashboard'
-import { AllJobsPage } from './Components-Admin/AllJobsPage'
-
-
-
-
+import { ViewAllBlogs } from './Components-LandingPage/ViewallBlogs'
+import { BlogDatas } from './Components-LandingPage/BlogDatas'
 
 const router = createBrowserRouter([{
   path: '/Job-portal',
@@ -114,7 +111,7 @@ const router = createBrowserRouter([{
   element: <OpportunityOverview />,
 },
 {
-  path: '/Job-portal/jobseeker/ReportAJob',
+  path: '/Job-portal/jobseeker/ReportAJob/:id',
   element: <ReportAJob />,
 },
 {
@@ -278,6 +275,10 @@ const router = createBrowserRouter([{
   element: <JMessenger/>
 },
 {
+  path: '/Job-portal/jobseeker/Chat/:id',
+  element: <JMessenger/>
+},
+{
   path: '/Job-portal/employer-chat/:id',
   element: <EMessenger/>
 },
@@ -306,10 +307,13 @@ const router = createBrowserRouter([{
   element: <AdminDashboard />,
 },
 {
-  path: '/Job-portal/admin/all-jobs',
-  element: <AllJobsPage />,
-}
-
+    path: '/Job-portal/jobseeker/Blogs/BlogDatas/:slug', 
+    element: <BlogDatas/>
+  },
+  { 
+    path: "/Job-portal/jobseeker/Blogs/view-all/:categorySlug",
+    element: <ViewAllBlogs />
+  }
 
 ])
 

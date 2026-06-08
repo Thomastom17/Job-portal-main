@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import './ReportAJob.css';
 import { Header } from '../Components-LandingPage/Header';
 import { Footer } from '../Components-LandingPage/Footer';
 import { useJobs } from '../JobContext';
 
-// Named export to match your App.jsx import
 export const ReportAJob = () => {
+   const { jobs, setReports } = useJobs();
     const navigate = useNavigate();
-    const {setReports}=useJobs();
+    const { id } = useParams();
     const initialValues = {
+        jobId: id,
         firstName: "",
         lastName: "",
         mobile: "",
@@ -17,6 +18,7 @@ export const ReportAJob = () => {
         reason: "",
         explanation: ""
     };
+    console.log(initialValues)
 
     const [formValues, setFormValues] = useState(initialValues);
     const [errors, setErrors] = useState({});
@@ -63,20 +65,11 @@ export const ReportAJob = () => {
         if (errors[name]) setErrors({ ...errors, [name]: "" });
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     if (validate()) {
-    //         alert("Report submitted successfully!");
-    //         setFormValues(initialValues);
-    //         navigate("/Job-portal/jobseeker");
-    //     }
-    // };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
             const newReport = {
-                id: `#ES${Date.now().toString().slice(-6)}`,
+                RepId: `#ES${Date.now().toString().slice(-6)}`,
                 firstName: formValues.firstName,
                 lastName: formValues.lastName,
                 mobile: formValues.mobile,
@@ -85,11 +78,12 @@ export const ReportAJob = () => {
                 explanation: formValues.explanation,
                 status: "Pending",
                 priority: "High",
-                date: new Date().toLocaleDateString('en-GB')
+                date: new Date().toLocaleDateString('en-GB'),
+                jobId: id
             };
- 
+
             setReports((prevReports) => [...prevReports, newReport]);
- 
+
             alert("Report submitted successfully!");
             setFormValues(initialValues);
             navigate("/Job-portal/jobseeker");
@@ -100,7 +94,7 @@ export const ReportAJob = () => {
         <>
             <Header />
             <div className="report-container">
-                <h2 className="report-title">“Complaint Form”</h2>
+                <h2 className="report-title">Escalation</h2>
                 <form className="report-card" onSubmit={handleSubmit}>
                     <div className="report-row">
                         <label>Name</label>
@@ -169,7 +163,7 @@ export const ReportAJob = () => {
                         </div>
                     </div>
                     <div className="report-actions">
-                        <button type="button" className="btn-cancel" onClick={() => navigate(-1)}>Cancel</button>
+                        <button type="button" className="btn-tocancel" onClick={() => navigate(-1)}>Cancel</button>
                         <button type="submit" className="btn-submit">Submit</button>
                     </div>
                 </form>

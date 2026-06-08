@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { Footer } from '../Components-LandingPage/Footer'
-import "./HelpCenter.css";
+import "./EmpHelpCenter.css";
 import Helpcenterimg from "../assets/Helpcenter.png";
 import search from '../assets/icon_search.png'
 import { Link, useNavigate } from 'react-router-dom';
-import { Header } from '../Components-LandingPage/Header';
 
 
-export const HelpCenter = () => {
+export const EmpHelpCenter = () => {
 
     const [searchText, setSearchText] = useState("");
     const [showResults, setShowResults] = useState(false);
@@ -95,28 +93,24 @@ export const HelpCenter = () => {
         ...supportLinks
     ];
 
-
-
-
     const filteredLinks = allSearchLinks.filter(link =>
         link.title.toLowerCase().includes(searchText.toLowerCase())
     );
 
     const [activeIndex, setActiveIndex] = useState(-1);
-
     const [openIndex, setOpenIndex] = useState(null);
 
     const toggleItem = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
+
     return (
         <>
-         <Header />
-            <div className='Helpcenter-page'>
-                <div className="helpcenter-container">
-                    <img src={Helpcenterimg} alt="helpcenter" className="Helpcenter-Img" />
+            <div className='Emp-Helpcenter-page'>
+                <div className="Emp-helpcenter-container">
+                    <img src={Helpcenterimg} alt="helpcenter" className="Emp-Helpcenter-Img" />
 
-                    <div className="Helpcenter-Img-content">
+                    <div className="Emp-Helpcenter-Img-content">
                         <h2>Hello, how can we support you?</h2>
                         <p>
                             Welcome to our help center! Here, you'll find answers to frequently asked
@@ -124,9 +118,8 @@ export const HelpCenter = () => {
                             most out of our platform.
                         </p>
 
-                        <div className="helpcenter-search-wrapper">
-                            <div className="Helpcenter-search-box">
-
+                        <div className="Emp-helpcenter-search-wrapper">
+                            <div className="Emp-Helpcenter-search-box">
                                 <input
                                     type="text"
                                     placeholder="Enter a keyword search"
@@ -182,15 +175,14 @@ export const HelpCenter = () => {
                             </div>
 
                             {showResults && searchText && (
-                                <div className="helpcenter-search-dropdown">
+                                <div className="Emp-helpcenter-search-dropdown">
                                     {filteredLinks.length > 0 ? (
                                         filteredLinks.map((item, index) => (
                                             <Link
                                                 key={index}
                                                 to={item.path}
                                                 state={item.state}
-                                                className={`helpcenter-search-item ${index === activeIndex ? "active" : ""
-                                                    }`}
+                                                className={`Emp-helpcenter-search-item ${index === activeIndex ? "Emp-active" : ""}`}
                                                 onMouseEnter={() => setActiveIndex(index)}
                                                 onClick={() => {
                                                     setShowResults(false);
@@ -202,119 +194,106 @@ export const HelpCenter = () => {
                                             </Link>
                                         ))
                                     ) : (
-                                        <div className="helpcenter-search-no-result">
+                                        <div className="Emp-helpcenter-search-no-result">
                                             No results found
                                         </div>
                                     )}
                                 </div>
                             )}
                         </div>
-
-
                     </div>
                 </div>
 
-                <div className="Helpcenter-section">
-                    <h2 className="Helpcenter-section-title">Categories</h2>
+                <div className="Emp-Helpcenter-section">
+                    <h2 className="Emp-Helpcenter-section-title">Categories</h2>
 
-                    <div className="Helpcenter-layout">
-
-                        <div className="Helpcenter-sidebar">
+                    <div className="Emp-Helpcenter-layout">
+                        <div className="Emp-Helpcenter-sidebar">
 
                             {/* JOB SEEKERS */}
                             <div
-                                className={`helpcenter-main-item ${openIndex === 0 ? "active-main open" : ""
-                                    }`}
+                                className={`Emp-helpcenter-main-item ${openIndex === 0 ? "Emp-active-main Emp-open" : ""}`}
                                 onClick={() => toggleItem(0)}
                             >
                                 <span>For Job Seekers</span>
-                                <i className="helpcenter-arrow"></i>
+                                <i className="Emp-helpcenter-arrow"></i>
                             </div>
 
                             {openIndex === 0 && (
-                                <div className="helpcenter-submenu">
-                                    <Link to='/Job-portal/jobseeker/help-center/profile-creation-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Profile creation</div>
+                                <div className="Emp-helpcenter-submenu">
+                                    <Link to='/Job-portal/jobseeker/help-center/profile-creation-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Profile creation</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/resume-upload-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Resume upload</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/resume-upload-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Resume upload</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/job-apply-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Job apply issues</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/job-apply-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Job apply issues</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/interview-scheduling-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Interview scheduling</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/interview-scheduling-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Interview scheduling</div>
                                     </Link>
                                 </div>
                             )}
 
                             {/* EMPLOYERS */}
                             <div
-                                className={`helpcenter-main-item ${openIndex === 1 ? "active-main open" : ""
-                                    }`}
+                                className={`Emp-helpcenter-main-item ${openIndex === 1 ? "Emp-active-main Emp-open" : ""}`}
                                 onClick={() => toggleItem(1)}
                             >
                                 <span>For Employers</span>
-                                <i className="helpcenter-arrow"></i>
+                                <i className="Emp-helpcenter-arrow"></i>
                             </div>
 
                             {openIndex === 1 && (
-                                <div className="helpcenter-submenu">
-                                    <Link to='/Job-portal/jobseeker/help-center/job-posting-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Job posting</div>
+                                <div className="Emp-helpcenter-submenu">
+                                    <Link to='/Job-portal/jobseeker/help-center/job-posting-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Job posting</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/candidate-search-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Candidate search</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/candidate-search-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Candidate search</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/subscription-issue-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Subscription issues</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/subscription-issue-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Subscription issues</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/invoice-payment-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Invoice & payment</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/invoice-payment-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Invoice & payment</div>
                                     </Link>
                                 </div>
                             )}
 
                             {/* TECHNICAL */}
                             <div
-                                className={`helpcenter-main-item ${openIndex === 2 ? "active-main open" : ""
-                                    }`}
+                                className={`Emp-helpcenter-main-item ${openIndex === 2 ? "Emp-active-main Emp-open" : ""}`}
                                 onClick={() => toggleItem(2)}
                             >
                                 <span>Technical issue</span>
-                                <i className="helpcenter-arrow"></i>
+                                <i className="Emp-helpcenter-arrow"></i>
                             </div>
 
                             {openIndex === 2 && (
-                                <div className="helpcenter-submenu">
-                                    <Link to='/Job-portal/jobseeker/help-center/login-issue-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Login issues</div>
+                                <div className="Emp-helpcenter-submenu">
+                                    <Link to='/Job-portal/jobseeker/help-center/login-issue-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Login issues</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/page-error-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">Page errors</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/page-error-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">Page errors</div>
                                     </Link>
-                                    <Link to='/Job-portal/jobseeker/help-center/file-upload-help' className="helpcenter-submenu-link" >
-                                        <div className="helpcenter-submenu-item">File upload problems</div>
+                                    <Link to='/Job-portal/jobseeker/help-center/file-upload-help' className="Emp-helpcenter-submenu-link" >
+                                        <div className="Emp-helpcenter-submenu-item">File upload problems</div>
                                     </Link>
                                 </div>
                             )}
-
                         </div>
 
-                        <div className="helpcenter-support-options">
-                            <Link to='/Job-portal/jobseeker/help-center/help-FAQs' className="helpcenter-support-item" ><div >Popular Articles / FAQs</div></Link>
-                            <Link to='/Job-portal/jobseeker/help-center/raise-a-ticket' className="helpcenter-support-item" ><div >Raise a Ticket</div></Link>
-                            <Link to='/Job-portal/jobseeker/help-center/live-chat' className="helpcenter-support-item" ><div >Live Chat</div></Link>
-
+                        <div className="Emp-helpcenter-support-options">
+                            <Link to='/Job-portal/jobseeker/help-center/help-FAQs' className="Emp-helpcenter-support-item"><div>Popular Articles / FAQs</div></Link>
+                            <Link to='/Job-portal/jobseeker/help-center/raise-a-ticket' className="Emp-helpcenter-support-item"><div>Raise a Ticket</div></Link>
+                            <Link to='/Job-portal/jobseeker/help-center/live-chat' className="Emp-helpcenter-support-item"><div>Live Chat</div></Link>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
-            <Footer />
         </>
     )
 }

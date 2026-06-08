@@ -88,6 +88,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  
 }
 
 
@@ -142,6 +143,13 @@
   align-items: center !important;
   text-align: center !important;
   width: 100%;
+}
+
+
+.text-date, 
+.table-header div:nth-child(5) {
+  justify-content: center !important; 
+  text-align: center !important;
 }
 
 

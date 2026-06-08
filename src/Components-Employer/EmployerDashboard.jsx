@@ -35,9 +35,9 @@ import { AboutYourCompany } from './AboutYourCompany'
 import place from '../assets/opportunity_location.png'
 import { AnalyticsPage } from './AnalyticsPage'
 import { LogoutModal } from '../Components-JobseekerSignup/LogoutModal'
-import { BillingSec } from './BillingSec'
 import { PlansBilling } from './PlansBilling'
-
+import helpIconAct from '../assets/Employer/Icon-helpact.png'
+import { EmpHelpCenter } from "../Components-Employer/EmpHelpCenter";
 
 
 export const EmployerDashboard = () => {
@@ -98,7 +98,8 @@ export const EmployerDashboard = () => {
     };
     return (
         <>
-            <EHeader />
+        
+        <EHeader />
             <div className='container1'>
                 {isSidebarOpen ? (
                     <div className='EAside'>
@@ -120,7 +121,7 @@ export const EmployerDashboard = () => {
                                         setActiveTab('Post a Job')
                                     )}
                                     className={activetab === 'Post a Job' ? "Active" : 'Navbox'}
-                                >
+                                lock={activetab === 'Post a Job'}>
                                     {activetab === 'Post a Job' ? <img src={PostJobsAct} height={25} width={25} alt="Post a Job" /> : <img src={PostJobs} height={20} width={20} alt="Post a Job" />}
                                     <div className='Enav-item'>Post a Job</div>
                                 </div>
@@ -149,8 +150,14 @@ export const EmployerDashboard = () => {
                                     <div className='Enav-item'>My Profile</div>
                                 </div>
 
+                                <div onClick={() => !isVerifying && setActiveTab('Help Center')} className={activetab === 'Help Center' ? "Active" : 'Navbox'} >
+                                    {activetab === 'Help Center' ? <img src={helpIconAct} height={15} width={15} alt="Help Center" /> : <img src={helpIconAct} height={15} width={15} alt="Help Center" />}
+                                    <div className='Enav-item'>Help Center</div>
+                                </div>  
+                                
+
                                 <div onClick={() => !isVerifying && setShowLogoutModal(true)} className={activetab === 'Logout' ? "Active" : 'Navbox'}>
-                                    {activetab === 'Logout' ? <img src={LogoutAct} height={15} width={15} alt="Logout" /> : <img src={Logout} height={15} width={15} alt="Logout" />}
+                                    {activetab === 'Logout' ? <img src={Logout  } height={15} width={15} alt="Logout" /> : <img src={Logout} height={15} width={15} alt="Logout" />}
                                     <div className='Enav-item'>Logout</div>
                                 </div>
                             </div>
@@ -187,6 +194,9 @@ export const EmployerDashboard = () => {
                                     </div>
                                     <div onClick={() => !isVerifying && setActiveTab('My Profile')} className={activetab === 'My Profile' ? "Active1" : 'Navbox1'} >
                                         {activetab === 'My Profile' ? <img src={ProfileAct} height={15} width={15} alt="My Profile" /> : <img src={Profile} height={15} width={15} alt="My Profile" />}
+                                    </div>
+                                    <div onClick={() => !isVerifying && setActiveTab('Help Center')} className={activetab === 'Help Center' ? "Active1" : 'Navbox1'} >
+                                        {activetab === 'Help Center' ? <img src={helpIconAct} height={15} width={15} alt="Help Center" /> : <img src={helpIconAct} height={15} width={15} alt="Help Center" />}
                                     </div>
                                     <div onClick={() => !isVerifying && setShowLogoutModal(true)} className={activetab === 'Logout' ? "Active1" : 'Navbox1'} style={{ cursor: 'pointer' }}>
                                         {activetab === 'Logout' ? <img src={LogoutAct} height={15} width={15} alt="Logout" /> : <img src={Logout} height={15} width={15} alt="Logout" />}
@@ -249,7 +259,7 @@ export const EmployerDashboard = () => {
                                     {/* Recently posted jobs */}
                                     <div>
                                         <div className='ERecent-Post-Cont'>
-                                            <h3 style={{ marginleft: "40px" }}>Recently Posted Jobs</h3>
+                                            <h3 style={{ marginLeft: "40px" }}>Recently Posted Jobs</h3>
                                             <div className='ERecent-Post-Table-Container'>
                                                 {PostedJob.length > 0 ? <>
                                                     <div className="postedjobs-grid-layout postedjobs-table-header">
@@ -321,17 +331,17 @@ export const EmployerDashboard = () => {
                     {activetab === 'Analytics' && (<AnalyticsPage />)}
 
                     {activetab === 'Billing' && ( <PlansBilling/>)}
-                    {/* {activetab === 'Billing' && ( <BillingSec/>)}     */}
                     
-
                     {activetab === 'My Profile' && (<AboutYourCompany hideNavigation={true} setActiveTab={setActiveTab} />)}
 
-                </div>
+                    {/* இங்கிருந்த பழைய பிழையான <HelpCenter /> மாற்றப்பட்டு, <EmpHelpCenter /> சரியாக இணைக்கப்பட்டுள்ளது */}
+                    {activetab === 'Help Center' && ( <EmpHelpCenter />)}
+
+                </div>  
 
             </div>
             <LogoutModal show={showLogoutModal} onClose={() => setShowLogoutModal(false)} onConfirm={handleLogoutConfirm}
             />
-            {/* <Footer /> */}
         </>
     );
 };

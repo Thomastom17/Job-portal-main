@@ -1,4 +1,4 @@
-/* Screen full-ah cover panna overlay */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -10,14 +10,14 @@
   justify-content: center; /* Horizontally center */
   align-items: center;     /* Vertically center */
   z-index: 1000;
-  backdrop-filter: blur(4px); /* Overlay-ku pinnala soft blur effect (Super-ah irukum) */
+  backdrop-filter: blur(4px); 
 }
 
 /* Center-la irukura Modal Box */
 .modal-container {
   background-color: #ffffff;
-  padding: 32px; /* Enna konjam space thandhuruken */
-  border-radius: 12px; /* Safe and smooth corners */
+  padding: 32px; 
+  border-radius: 12px;
   max-width: 440px;
   width: 90%; /* Mobile responsive */
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -76,7 +76,7 @@
 
 .btn-primary:hover {
   background-color: #1d4ed8;
-  transform: translateY(-1px); /* Chonnum hover panna mela thookura maari click feel */
+  transform: translateY(-1px); 
 }
 
 .btn-primary:active {
